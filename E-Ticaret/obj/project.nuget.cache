@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "EEtWma3fn/c=",
+  "dgSpecHash": "KATwxpGk1Mo=",
   "success": true,
-  "projectFilePath": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\E-Ticaret\\ETicaret.csproj",
+  "projectFilePath": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\ETicaret.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\omerf\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\omerf\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

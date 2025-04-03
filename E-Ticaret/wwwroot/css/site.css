@@ -94,6 +94,40 @@ body {
     font-weight: 600;
 }
 
+/* Slayt Galerisi */
+.carousel-item img {
+    height: 400px; /* Yüksekliði küçültüldü */
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin: 0 auto; /* Yatayda ortalanmasý için */
+    max-width: 90%; /* Geniþliði küçültüldü */
+}
+
+/* Marka Butonlarý */
+.brand-btn {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: white;
+    border: none;
+    padding: 1rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 50%;
+    height: 100px; /* Kare þeklinde olmasý için sabit yükseklik */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .brand-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+
+
 
 .main-image {
     width: 100%;

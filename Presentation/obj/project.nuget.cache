@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "geVr2MO054o=",
+  "dgSpecHash": "mLv9etaEb3U=",
   "success": true,
-  "projectFilePath": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\Presentation\\Presentation.csproj",
+  "projectFilePath": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\Presentation\\Presentation.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\omerf\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.3\\microsoft.aspnetcore.openapi.9.0.3.nupkg.sha512",
     "C:\\Users\\omerf\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"

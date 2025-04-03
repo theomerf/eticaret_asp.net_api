@@ -17,7 +17,7 @@ namespace ETicaret.Controllers
             _cart = cart;   
         }
 
-        [Authorize]
+        [Authorize()]
         public ViewResult Checkout() => View(new Order());
 
         [HttpPost]
