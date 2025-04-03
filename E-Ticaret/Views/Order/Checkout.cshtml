@@ -1,0 +1,52 @@
+﻿@model Order
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Siparişi Tamamla</h3>
+                </div>
+                <div class="card-body">
+                    <div class="text-danger" asp-validation-summary="All"></div>
+                    <form method="post" asp-action="Checkout">
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label">İsim</label>
+                            <input class="form-control" asp-for="Name" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Line1" class="form-label">Şehir</label>
+                            <input class="form-control" asp-for="Line1" />
+                            <span asp-validation-for="Line1" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Line2" class="form-label">İlçe</label>
+                            <input class="form-control" asp-for="Line2" />
+                            <span asp-validation-for="Line2" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Line3" class="form-label">Sokak ve No</label>
+                            <input class="form-control" asp-for="Line3" />
+                            <span asp-validation-for="Line3" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="City" class="form-label">Şehir</label>
+                            <input class="form-control" asp-for="City" />
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+                        <div class="form-check mb-4">
+                            <input asp-for="GiftWrap" class="form-check-input" />
+                            <label asp-for="GiftWrap" class="form-check-label">Bu ürünleri hediye paketi olarak gönder</label>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                Siparişi Tamamla <i class="fa fa-check-circle"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

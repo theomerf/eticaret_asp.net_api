@@ -1,0 +1,2 @@
+C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\Presentation\obj\Debug\net9.0\staticwebassets.build.json
+C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\Presentation\obj\Debug\net9.0\staticwebassets.build.json

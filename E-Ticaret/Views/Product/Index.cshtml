@@ -1,0 +1,66 @@
+@model ProductListViewModel
+
+<div class="row">
+    <div class="col-md-3 my-3">
+        <div class="accordion" id="filterAccordion">
+            <!-- Categories Bölümü -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingCategories">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCategories" aria-expanded="true" aria-controls="collapseCategories">
+                        <i class="fa-solid fa-bars text-secondary me-2"></i> Kategori Seç
+                    </button>
+                </h2>
+                <div id="collapseCategories" class="accordion-collapse collapse show" aria-labelledby="headingCategories" data-bs-parent="#filterAccordion">
+                    <div class="accordion-body p-2">
+                        @await Component.InvokeAsync("CategoriesMenu")
+                    </div>
+                </div>
+            </div>
+            <!-- Filters Bölümü -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFilters">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters">
+                        <i class="fa-solid fa-filter text-secondary me-2"></i> Filtrele
+                    </button>
+                </h2>
+                <div id="collapseFilters" class="accordion-collapse collapse" aria-labelledby="headingFilters" data-bs-parent="#filterAccordion">
+                    <div class="accordion-body p-2">
+                        @await Component.InvokeAsync("ProductFilterMenu")
+                    </div>
+                </div>
+            </div>
+            <!-- Latest Products Bölümü -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingLatest">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLatest" aria-expanded="false" aria-controls="collapseLatest">
+                        <i class="fa fa-box text-secondary me-2"></i> Son Eklenen Ürünler
+                    </button>
+                </h2>
+                <div id="collapseLatest" class="accordion-collapse collapse" aria-labelledby="headingLatest" data-bs-parent="#filterAccordion">
+                    <div class="accordion-body p-2">
+                        <div products="" number="3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<div class="col-md-9">
+		<div class="row my-3 ">
+			@foreach (Product prd in Model.Products)
+			{
+				<partial name="_ProductCard" model="@prd" />
+			}
+		</div>
+		<div class="text-center">
+			<div page-model="@Model?.Pagination"
+				 page-action="Index"
+				 page-classes-enabled="true"
+				 page-class="btn"
+				 page-class-normal="btn-outline-dark"
+				 page-class-selected="btn-primary"
+				 class="btn-group">
+			</div>
+		</div>
+	</div>
+</div>

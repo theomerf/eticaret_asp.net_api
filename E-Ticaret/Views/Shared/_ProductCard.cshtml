@@ -1,0 +1,27 @@
+@model Product
+<div class="d-flex align-items-center justify-content-center col-sm-12 col-md-4 my-2">
+	<div class="card fixed-card shadow rounded-4 my-3">
+		<a asp-action="Get" asp-controller="Product" asp-route-id="@Model?.ProductId" class="text-decoration-none text-reset">
+			<div class="card-header">
+				@Model?.ProductName
+			</div>
+			<img src="/images/@Model?.ImageUrl" class="card-img-top" alt="@Model?.ProductName">
+			<div class="card-body text-center">
+				<div class="price-badge mb-2">
+					@Model?.ActualPrice.ToString("c")
+				</div>
+			</div>
+		</a>
+		<div class="card-footer bg-white text-center">
+			<form asp-controller="Cart" asp-action="AddToCart" method="post" class="d-inline">
+				<input type="hidden" name="productId" value="@Model.ProductId" />
+				<input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+				<button type="submit" class="btn add-cart-btn rounded-2">
+					<i class="fa fa-cart-plus"></i> Sepete Ekle
+				</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+

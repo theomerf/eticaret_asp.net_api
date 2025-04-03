@@ -1,0 +1,373 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+.img-thumbnail {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+}
+
+/* Navbar Genel Stil */
+.custom-navbar {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    padding: 10px 0;
+}
+
+/* Navbar metin rengi ve animasyonlarý */
+.navbar-dark .navbar-nav .nav-link {
+    color: white;
+    transition: color 0.3s, transform 0.3s;
+}
+
+    /* Navbar menü öðeleri hover animasyonu */
+    .navbar-dark .navbar-nav .nav-link:hover {
+        color: #ffcc00;
+        transform: scale(1.05);
+    }
+
+/* Dropdown menüsü stili */
+.navbar-nav .dropdown-menu {
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-width: 160px;
+    font-size: 1rem;
+}
+
+    .navbar-nav .dropdown-menu .dropdown-item {
+        color: #333;
+        padding: 10px 15px;
+        border-radius: 6px;
+        transition: background-color 0.3s;
+    }
+
+        .navbar-nav .dropdown-menu .dropdown-item:hover {
+            background-color: #6a11cb;
+            color: #fff;
+        }
+
+/* Dropdown menüsüne ok iþareti eklemek */
+.navbar-nav .dropdown-toggle::after {
+    content: '\f0d7'; /* FontAwesome icon for dropdown */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    padding-left: 5px;
+}
+
+/* Navbar'ý daha modern hale getirmek için kenarlýk ve renk */
+.navbar {
+    border-bottom: 2px solid #2575fc;
+    border-radius: 8px;
+}
+
+/* Dropdown menüsü baþlýklarýna odaklanma (kullanýcý adý gibi) */
+.nav-item.dropdown > .nav-link {
+    font-weight: 600;
+}
+
+
+.main-image {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.thumbnail-gallery {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.thumbnail {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+}
+
+    .thumbnail:hover {
+        transform: scale(1.1);
+    }
+
+/* Ürün Detaylarý */
+.product-details {
+    padding: 1rem;
+    text-align: left;
+}
+
+.product-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.product-description {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.product-price {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #d80000;
+    margin-bottom: 1rem;
+}
+
+/* Yýldýz Puanlama */
+.product-rating {
+    margin: 1rem 0;
+}
+
+.star-rating i {
+    color: #FFD700;
+}
+
+.rating-text {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Detaylý Özellikler */
+.product-features {
+    margin: 1rem 0;
+}
+
+    .product-features ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .product-features li {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .product-features strong {
+        font-weight: 600;
+    }
+
+/* Sepet Butonu ve Miktar Seçici */
+.quantity-selector {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.add-cart-btn {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 5px;
+    transition: opacity 0.2s ease;
+    margin-top: 10px;
+}
+
+    .add-cart-btn:hover {
+        opacity: 0.9;
+    }
+
+.add-cart-btn2 {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 5px;
+    transition: opacity 0.2s ease;
+    margin-top: 10px;
+    margin-left: 15px;
+}
+
+    .add-cart-btn2:hover {
+        opacity: 0.9;
+    }
+
+.add-to-cart-form {
+    width: 100%;
+}
+
+/* Yorumlar */
+.comments {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+}
+
+.comment {
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+}
+
+.comment-header {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.comment-rating i {
+    color: #FFD700;
+    margin-right: 0.2rem;
+}
+
+.comment-text {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Responsive düzen */
+@media (max-width: 767px) {
+    .product-image-gallery {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .main-image {
+        max-width: 300px;
+    }
+}
+
+/* Kartýn sabit boyut ve modern hover efekti */
+.fixed-card {
+    width: 16rem; /* Kart geniþliði sabit */
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .fixed-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    /* Fotoðraf alaný sabit boyutta ve içerik tam sýðacak þekilde */
+    .fixed-card img {
+        height: 200px; /* Sabit yükseklik */
+        object-fit: contain; /* Fotoðrafýn kesilerek alaný doldurmasý */
+    }
+/* Fiyat bilgisi: daha küçük boyut, hafif kýrmýzý tonlu arka plan */
+.price-badge {
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+    background-color: #ffcccc; /* Yumuþak kýrmýzý */
+    color: #d80000;
+    border-radius: 0.25rem;
+    display: inline-block;
+}
+/* Kart baþlýðý: Temaya uygun mor-mavi geçiþli renk */
+.card-header {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: white;
+    text-align: center;
+    font-weight: 600;
+    padding: 0.5rem;
+}
+/* Sepete ekle butonu: Temaya uyumlu, kartýn alt kýsmýnda */
+.add-cart-btn {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: white;
+    border: none;
+    transition: opacity 0.2s ease;
+}
+
+    .add-cart-btn:hover {
+        opacity: 0.9;
+    }
+/* Kart footer: Kenarlardan biraz boþluk býrakacak þekilde */
+.card-footer {
+    padding: 0.5rem;
+}
+
+.category-card {
+    transition: all 0.3s ease-in-out;
+}
+
+.category-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        background-color: #f8f9fa; /* Hafif gri ton */
+}
+
+.category-card:hover i {
+            color: #0d6efd; /* Bootstrap birincil rengi (Mavi) */
+}
+
+.contact-card {
+    background: #fff;
+    transition: all 0.3s ease-in-out;
+}
+
+    .contact-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+.contact-item i {
+    transition: color 0.3s ease-in-out;
+}
+
+.contact-item:hover i {
+    color: #0d6efd; /* Bootstrap birincil rengi */
+}
+
+hr {
+    width: 60%;
+    margin: auto;
+    opacity: 0.2;
+}
+
+.btn-no-color, .btn-trash {
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
+    transition: background-color 0.3s, color 0.3s;
+}
+    /* + ve - butonlarý için hover rengi: tema rengi (örneðin mavi) ve daire þeklinde görünüm */
+    .btn-no-color:hover {
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 50%;
+    }
+    /* Çöp kutusu butonu için hover rengi: kýrmýzý */
+    .btn-trash:hover {
+        background-color: red;
+        color: #fff;
+    }
+

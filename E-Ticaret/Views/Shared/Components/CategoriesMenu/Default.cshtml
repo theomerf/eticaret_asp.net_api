@@ -1,0 +1,21 @@
+﻿@model IEnumerable<MainCategory>
+
+<div class="card my-3 shadow-sm">
+    <div class="card-header bg-white">
+        <h6 class="mb-0">
+            <i class="fa-solid fa-bars text-secondary me-2"></i>Kategoriler
+        </h6>
+    </div>
+    <div class="card-body p-0">
+        <ul class="list-group list-group-flush">
+            @foreach (var cat in Model)
+            {
+                <li class="list-group-item">
+                    <a asp-action="Index" asp-route-categoryId="@cat.MainCategoryId" class="text-decoration-none">
+                        @cat.CategoryName
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

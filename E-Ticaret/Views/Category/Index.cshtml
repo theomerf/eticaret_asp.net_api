@@ -1,0 +1,21 @@
+﻿@model IEnumerable<MainCategory>
+
+<div class="container mt-4">
+    <h2 class="text-center display-6 fw-bold">Kategoriler</h2>
+    <div class="row mt-4">
+        @foreach (var cat in Model)
+        {
+            <div class="col-md-4 col-lg-3 mb-4">
+                <div class="card category-card shadow-lg border-0 rounded-4 h-100">
+                    <div class="card-body text-center">
+                        <i class="fa-solid fa-layer-group fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title fw-semibold">@cat.CategoryName</h5>
+                        <a href="#" class="btn btn-outline-primary btn-sm mt-2">
+                            Keşfet <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

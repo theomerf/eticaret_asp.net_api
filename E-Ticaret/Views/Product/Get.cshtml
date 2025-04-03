@@ -1,0 +1,88 @@
+﻿@model Product
+
+<div class="container my-5">
+    <div class="row">
+        <!-- Ürün Fotoğrafı ve Galeri -->
+        <div class="col-md-6">
+            <div class="product-image-gallery">
+                <img src="/images/@Model.ImageUrl" class="img-fluid rounded-4 shadow main-image" alt="@Model.ProductName" />
+                <div class="thumbnail-gallery mt-4">
+                    <img src="/images/@Model.ImageUrl" class="img-fluid thumbnail" alt="Thumbnail 1" />
+                    <img src="/images/@Model.ImageUrl" class="img-fluid thumbnail" alt="Thumbnail 2" />
+                    <img src="/images/@Model.ImageUrl" class="img-fluid thumbnail" alt="Thumbnail 3" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Ürün Detayları -->
+        <div class="col-md-6">
+            <div class="product-details">
+                <h3 class="product-title">@Model.ProductName</h3>
+                <p class="product-description">@Model.Summary</p>
+                <p class="product-price text-danger">@Model.ActualPrice.ToString("c")</p>
+
+                <!-- Yıldız Puanlama -->
+                <div class="product-rating">
+                    <span class="star-rating">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <i class="fa fa-star"></i>
+                        }
+                    </span>
+                    <span class="rating-text">( Yorum)</span>
+                </div>
+
+                <!-- Detaylı Özellikler -->
+                <div class="product-features">
+                    <h5>Detaylı Özellikler:</h5>
+                    <ul>
+                        <li><strong>Renk:</strong> </li>
+                        <li><strong>Beden:</strong> </li>
+                        <li><strong>Malzeme:</strong> l</li>
+                        <li><strong>Üretim Yeri:</strong> </li>
+                    </ul>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <div class="quantity-selector">
+                        <button class="btn btn-outline-secondary btn-sm">-</button>
+                        <input type="text" class="form-control text-center" value="1" />
+                        <button class="btn btn-outline-secondary btn-sm">+</button>
+                    </div>
+
+                    <form asp-controller="Cart" asp-action="AddToCart" method="post" class="add-to-cart-form">
+                        <input type="hidden" name="productId" value="@Model.ProductId" />
+                        <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                        <button type="submit" class="btn btn-primary add-cart-btn2 mt-2">
+                            <i class="fa fa-cart-plus"></i> Sepete Ekle
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Yorumlar -->
+    <div class="row my-5">
+        <div class="col-12">
+            <h4>Yorumlar</h4>
+            <div class="comments">
+
+                    <div class="comment">
+                        <div class="comment-header">
+                            <strong>theomerf</strong> -
+                            <span class="text-muted">25/02/2025</span>
+                        </div>
+                        <div class="comment-rating">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <i class="fa fa-star @((i <= 4) ? "text-warning" : "text-muted")"></i>
+                            }
+                        </div>
+                        <p class="comment-text">"Çok iyi"</p>
+                    </div>
+               
+            </div>
+        </div>
+    </div>
+</div>

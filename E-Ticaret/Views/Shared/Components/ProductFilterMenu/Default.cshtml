@@ -1,0 +1,29 @@
+﻿<div class="card mb-3 shadow-sm">
+    <div class="card-header bg-white">
+        <h6 class="mb-0">
+            <i class="fa fa-filter text-secondary me-2"></i>Filtreler
+        </h6>
+    </div>
+    <div class="card-body">
+        <form method="get" asp-action="Index">
+            <input type="hidden" name="categoryId" value="@(Context.Request.Query["categoryId"])" />
+            <div class="mb-3">
+                <label for="searchTerm" class="form-label">Ürün Ara</label>
+                <input type="text" class="form-control" id="searchTerm" name="SearchTerm" placeholder="Ürünleri Ara">
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="minPrice" class="form-label">Min. Fiyat</label>
+                    <input type="number" class="form-control" id="minPrice" name="MinPrice" placeholder="Fiyat Gir">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="maxPrice" class="form-label">Maks. Fiyat</label>
+                    <input type="number" class="form-control" id="maxPrice" name="MaxPrice" placeholder="Fiyat Gir">
+                </div>
+            </div>
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">Filtrele</button>
+            </div>
+        </form>
+    </div>
+</div>

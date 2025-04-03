@@ -1,0 +1,60 @@
+﻿@model ProductDtoForInsertion
+
+<div class="text-center">
+	<div class="display-6 my-4">Create</div>
+</div>
+
+<form method="post" asp-action="Create" enctype="multipart/form-data">
+
+	<div class="text-danger" asp-validation-summary="All"></div>
+
+	<div class="form-group my-3">
+		<label asp-for="MainCategoryId">Kategori</label>
+		<select class="form-control" asp-items="@ViewBag.MainCategories" asp-for="MainCategoryId">
+		</select>
+	</div>
+
+	<div class="form-group my-3">
+		<label asp-for="SubCategoryId">Alt Kategori</label>
+		<select class="form-control" asp-items="@ViewBag.SubCategories" asp-for="SubCategoryId">
+		</select>
+	</div>
+
+	<div class="form-group my-3">
+		<label asp-for="ProductName">Ürün Adı</label>
+		<input asp-for="ProductName" class="form-control"/>
+	</div>
+
+	<div class="form-group my-3">
+		<label asp-for="Summary">Açıklama</label>
+		<input asp-for="Summary" class="form-control" />
+	</div>
+
+	<div class="form-group my-3">
+		<label asp-for="ImageUrl">Fotoğraf</label>
+		<input name="file" type="file" class="form-control" />
+	</div>
+
+	<div class="form-group my-3">
+		<label asp-for="ActualPrice">Fiyat</label>
+		<input asp-for="ActualPrice" class="form-control" />
+	</div>
+	<div class="form-group my-3">
+		<label asp-for="DiscountPrice">İndirim Fiyatı(Varsa)</label>
+		<input asp-for="DiscountPrice" class="form-control" />
+	</div>
+
+	<div class="form-group my-3">
+		<div class="btn-group">
+			<button class="btn btn-primary" type="submit">
+				<i class="fa fa-save"></i>
+				Oluştur
+			</button>
+			<a asp-action="Index" class="btn btn-outline-primary">
+				<i class="fa fa-list"></i>
+				Ürünler
+			</a>
+		</div>
+
+	</div>
+</form>
