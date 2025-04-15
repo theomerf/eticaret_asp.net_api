@@ -1,119 +1,250 @@
 ﻿@model Cart
 
-<div class="container my-4">
-    <div class="row">
-        <!-- Sol Bölüm: Sepetteki Ürünler -->
-        <div class="col-lg-8">
-            @if (Model.Lines != null && Model.Lines.Any())
-            {
-                foreach (var line in Model.Lines)
+<div class="cart-container my-5">
+    <div class="container">
+        <h2 class="cart-section-title mb-4">Alışveriş Sepetim</h2>
+        <div class="row">
+            <!-- Sol Bölüm: Sepetteki Ürünler -->
+            <div class="col-lg-8 mb-4">
+                @if (Model.Lines != null && Model.Lines.Any())
                 {
-                    <div class="card mb-3">
-                        <div class="row g-0 align-items-center">
-                            <!-- Ürün Fotoğrafı (Küçültülmüş Boyutta) -->
-                            <div class="col-md-3 text-center">
-                                <img src="/images/@line.Product.ImageUrl" class="img-fluid rounded-start" style="max-width: 100px;" alt="@line.Product.ProductName" onerror="this.onerror=null;this.src='https://via.placeholder.com/100';">
-                            </div>
-                            <!-- Ürün Detayları -->
-                            <div class="col-md-9">
-                                <div class="card-body">
-                                    <h5 class="card-title">@line.Product.ProductName</h5>
-                                    <!-- Adet Kontrol Grubu -->
-                                    <div class="d-flex align-items-center">
-                                        @if (line.Quantity == 1)
-                                        {
-                                            <!-- Adet kontrolü: Adedi 1 iken, artı butonu yuvarlak siyah kenarlıklı konteyner içinde, yanında çöp kutusu -->
-                                            <div class="d-inline-flex align-items-center" style="border: 1px solid #000; border-radius: 50px; overflow: hidden;">
-                                                <span class="px-3 py-1" style="min-width: 40px; text-align: center;">@line.Quantity</span>
-                                                <form asp-action="IncreaseQuantity" method="post" class="m-0">
-                                                    <input type="hidden" name="id" value="@line.Product.ProductId" />
-                                                    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
-                                                    <button type="submit" class="btn-no-color btn-sm">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                            <form asp-action="RemoveFromCart" method="post" class="ms-2">
-                                                <input type="hidden" name="id" value="@line.Product.ProductId" />
-                                                <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
-                                                <button type="submit" class="btn-trash btn-sm" title="Ürünü Sil">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        }
-                                        else
-                                        {
-                                            <!-- Adedi 2 ve üzeri: - ve + butonları yuvarlak siyah kenarlıklı konteyner içinde, yanında çöp kutusu -->
-                                            <div class="d-inline-flex align-items-center" style="border: 1px solid #000; border-radius: 50px; overflow: hidden;">
-                                                <form asp-action="DecreaseQuantity" method="post" class="m-0">
-                                                    <input type="hidden" name="id" value="@line.Product.ProductId" />
-                                                    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
-                                                    <button type="submit" class="btn-no-color btn-sm">
-                                                        <i class="fa fa-minus"></i>
-                                                    </button>
-                                                </form>
-                                                <span class="px-3 py-1" style="min-width: 40px; text-align: center;">@line.Quantity</span>
-                                                <form asp-action="IncreaseQuantity" method="post" class="m-0">
-                                                    <input type="hidden" name="id" value="@line.Product.ProductId" />
-                                                    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
-                                                    <button type="submit" class="btn-no-color btn-sm">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                            <form asp-action="RemoveFromCart" method="post" class="ms-2">
-                                                <input type="hidden" name="id" value="@line.Product.ProductId" />
-                                                <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
-                                                <button type="submit" class="btn-trash btn-sm" title="Ürünü Sil">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        }
+                    <div class="cart-products">
+                        @foreach (var line in Model.Lines)
+                        {
+                            <div class="cart-item">
+                                <div class="row align-items-center">
+                                    <!-- Ürün Fotoğrafı -->
+                                    <div class="col-md-2 text-center">
+                                        <div class="cart-img-container">
+                                            <img src="/images/@line.Product.ImageUrl" class="cart-img" alt="@line.Product.ProductName" onerror="this.onerror=null;this.src='https://via.placeholder.com/100';">
+                                        </div>
                                     </div>
-                                    <!-- Ürün Fiyatı -->
-                                    <div class="mt-2 text-end fw-bold">
-                                        @line.Product.ActualPrice.ToString("c")
+                                    <!-- Ürün Detayları -->
+                                    <div class="col-md-6">
+                                        <h5 class="cart-product-title">@line.Product.ProductName</h5>
+                                        <p class="cart-product-sku mb-0">SKU: @line.Product.ProductId</p>
+                                        <div class="cart-product-attributes">
+                                            <!-- Ürün özellikleri -->
+                                            <span class="cart-product-attribute">Stokta</span>
+                                            <span class="cart-product-attribute">Hızlı Teslimat</span>
+                                        </div>
+                                        <!-- Satıcı bilgisi (yeni eklendi) -->
+                                        <div class="cart-seller-info mt-1">
+                                            <small>Satıcı: <span class="cart-seller-name">MarketName</span></small>
+                                        </div>
+                                    </div>
+                                    <!-- Adet Kontrolü -->
+                                    <div class="col-md-2">
+                                        <div class="cart-quantity-control">
+                                            @if (line.Quantity == 1)
+                                            {
+                                                <div class="cart-quantity-wrapper">
+                                                    <span class="cart-quantity-value">@line.Quantity</span>
+                                                    <form asp-action="IncreaseQuantity" method="post" class="m-0">
+                                                        <input type="hidden" name="id" value="@line.Product.ProductId" />
+                                                        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+                                                        <button type="submit" class="cart-quantity-btn">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="cart-quantity-wrapper">
+                                                    <form asp-action="DecreaseQuantity" method="post" class="m-0">
+                                                        <input type="hidden" name="id" value="@line.Product.ProductId" />
+                                                        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+                                                        <button type="submit" class="cart-quantity-btn">
+                                                            <i class="fa fa-minus"></i>
+                                                        </button>
+                                                    </form>
+                                                    <span class="cart-quantity-value">@line.Quantity</span>
+                                                    <form asp-action="IncreaseQuantity" method="post" class="m-0">
+                                                        <input type="hidden" name="id" value="@line.Product.ProductId" />
+                                                        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+                                                        <button type="submit" class="cart-quantity-btn">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    <!-- Fiyat ve Silme -->
+                                    <div class="col-md-2 text-end">
+                                        <div class="cart-price">@((line.Quantity * line.Product.DiscountPrice)?.ToString("c"))</div>
+                                        <!-- Birim fiyatı (yeni eklendi) -->
+                                        <div class="cart-unit-price">Birim: @line.Product.DiscountPrice?.ToString("c")</div>
+                                        <form asp-action="RemoveFromCart" method="post" class="mt-2">
+                                            <input type="hidden" name="id" value="@line.Product.ProductId" />
+                                            <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+                                            <button type="submit" class="cart-remove-btn" title="Ürünü Sil">
+                                                <i class="fa fa-trash"></i> Kaldır
+                                            </button>
+                                        </form>
+                                        <!-- Favorilere ekle (yeni eklendi) -->
+                                        <button type="button" class="cart-wishlist-btn mt-1" title="Favorilere Ekle">
+                                            <i class="fa fa-heart"></i> Kaydet
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Kargo ve Kupon Kodları -->
+                    <div class="cart-options mt-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="cart-shipping-options">
+                                    <h5>Kargo Seçenekleri</h5>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="radio" name="shippingOption" id="standardShipping" checked>
+                                        <label class="form-check-label" for="standardShipping">
+                                            Standart Kargo (2-4 İş Günü) - Ücretsiz
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="shippingOption" id="expressShipping">
+                                        <label class="form-check-label" for="expressShipping">
+                                            Ekspres Kargo (1 İş Günü) - 29.90₺
+                                        </label>
+                                    </div>
+                                    <!-- Mağazadan teslim alma seçeneği (yeni eklendi) -->
+                                    <div class="form-check mt-2">
+                                        <input class="form-check-input" type="radio" name="shippingOption" id="storePickup">
+                                        <label class="form-check-label" for="storePickup">
+                                            Mağazadan Teslim Al - Ücretsiz
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="cart-coupon">
+                                    <h5>İndirim Kuponu</h5>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Kupon kodu girin">
+                                        <button class="btn cart-coupon-btn" type="button">Uygula</button>
+                                    </div>
+                                    <!-- Kupon önerileri (yeni eklendi) -->
+                                    <div class="cart-coupon-suggestions mt-2">
+                                        <small class="text-muted">Önerilen kuponlar:</small>
+                                        <div class="d-flex flex-wrap gap-1 mt-1">
+                                            <span class="cart-coupon-tag">ILKALIS10</span>
+                                            <span class="cart-coupon-tag">SEPET50</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                }
-            }
-            else
-            {
-                <div class="alert alert-info">Sepetinizde ürün bulunmamaktadır.</div>
-            }
-        </div>
 
-        <!-- Sağ Bölüm: Sipariş Özeti (Yüksekliği Artırıldı) -->
-        <div class="col-lg-4">
-            <div class="card" style="min-height: 350px;">
-                <div class="card-header bg-light">
-                    <h4>Sipariş Özeti (@Model.Lines.Count.ToString())</h4>
-                </div>
-                <div class="card-body d-flex flex-column justify-content-between">
-                    <div class="mb-5">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between">
-                                <span>Toplam Tutar:</span>
-                                <strong>@Model.ComputeTotalValue().ToString("c2")</strong>
-                            </li>
-                        </ul>
+                    <!-- Benzer ürünler - Öneriler (yeni eklendi) -->
+                    <div class="cart-suggestions mt-4">
+                        <h5 class="cart-suggestions-title">Bunlar da İlginizi Çekebilir</h5>
+                        <div class="row row-cols-2 row-cols-md-4 g-3">
+                            @for (int i = 1; i <= 4; i++)
+                            {
+                                <div class="col">
+                                    <div class="cart-suggestion-item">
+                                        <div class="cart-suggestion-img-container">
+                                            <img src="https://via.placeholder.com/150" class="cart-suggestion-img" alt="Önerilen Ürün @i">
+                                        </div>
+                                        <h6 class="cart-suggestion-title">Önerilen Ürün @i</h6>
+                                        <div class="cart-suggestion-price">@((99.90m + i * 10).ToString("c"))</div>
+                                        <button class="btn cart-add-suggestion-btn">Sepete Ekle</button>
+                                    </div>
+                                </div>
+                            }
+                        </div>
                     </div>
-                    <div class="d-grid gap-2 mt-5">
-                        <a class="btn btn-success btn-lg" asp-action="Checkout" asp-controller="Order">
-                            Ödeme Yap <i class="fa fa-credit-card"></i>
-                        </a>
+                }
+                else
+                {
+                    <div class="cart-empty">
+                        <div class="text-center py-5">
+                            <i class="fa fa-shopping-cart cart-empty-icon"></i>
+                            <h3 class="mt-3">Sepetiniz Boş</h3>
+                            <p class="text-muted">Sepetinizde ürün bulunmamaktadır.</p>
+                            <a href="@ViewBag.ReturnUrl" class="btn cart-continue-btn mt-3">
+                                <i class="fa fa-arrow-left me-2"></i> Alışverişe Başla
+                            </a>
+                        </div>
                     </div>
-                    <div class="d-grid gap-2">
-                        <a class="btn btn-danger btn-lg" href="@ViewBag.ReturnUrl">
-                            Alışverişe Devam Et <i class="fa fa-arrow-right"></i>
-                        </a>
+                }
+            </div>
+
+            <!-- Sağ Bölüm: Sipariş Özeti -->
+            <div class="col-lg-4">
+                <div class="cart-order-summary">
+                    <h4 class="cart-summary-title">Sipariş Özeti</h4>
+                    <div class="cart-summary-content">
+                        <div class="cart-summary-items">
+                            <div class="cart-summary-item">
+                                <span>Ürünler (@Model.Lines.Count.ToString())</span>
+                                <span>@Model.ComputeTotalValue().ToString("c2")</span>
+                            </div>
+                            <div class="cart-summary-item">
+                                <span>Kargo</span>
+                                <span class="text-success">Ücretsiz</span>
+                            </div>
+                            @if (Model.Lines != null && Model.Lines.Any())
+                            {
+                                <div class="cart-summary-item">
+                                    <span>Tahmini KDV</span>
+                                    <span>@((Model.ComputeTotalValue() * 0.18m).ToString("c2"))</span>
+                                </div>
+                                <!-- Kampanya indirimleri (yeni eklendi) -->
+                                <div class="cart-summary-item cart-discount">
+                                    <span>Toplam İndirimler</span>
+                                    <span>-@((Model.ComputeTotalValue() - Model.ComputeTotalDiscountValue()).ToString("c2"))</span>
+                                </div>
+                            }
+                        </div>
+                        <div class="cart-summary-total">
+                            <span>Toplam</span>
+                            @if (Model.Lines != null && Model.Lines.Any())
+                            {
+                                <span>@((Model.ComputeTotalDiscountValue()).ToString("c2"))</span>
+                            }
+                            else
+                            {
+                                <span>0.00₺</span>
+                            }
+                        </div>
+                        @if (Model.Lines != null && Model.Lines.Any())
+                        {
+                            <div class="cart-summary-buttons">
+                                <a class="btn cart-checkout-btn btn-lg w-100" asp-action="Checkout" asp-controller="Order">
+                                    Ödeme Yap <i class="fa fa-credit-card ms-2"></i>
+                                </a>
+                                <a class="btn cart-continue-btn btn-lg w-100 mt-2" href="@ViewBag.ReturnUrl">
+                                    Alışverişe Devam Et <i class="fa fa-arrow-right ms-2"></i>
+                                </a>
+                            </div>
+                            <!-- Güvenli Ödeme Bilgilendirmesi (yeni eklendi) -->
+                            <div class="cart-secure-payment">
+                                <div class="d-flex align-items-center justify-content-center mb-2">
+                                    <i class="fa fa-lock me-2"></i>
+                                    <span>Güvenli Ödeme</span>
+                                </div>
+                            </div>
+                            <div class="cart-payment-methods">
+                                <p class="text-center mb-2">Ödeme Seçenekleri</p>
+                                <div class="cart-payment-icons">
+                                    <i class="fa-brands fa-cc-visa fa-beat" style="color: #1613cd;"></i>
+                                    <i class="fa-brands fa-cc-mastercard fa-beat" style="color: #d83013;"></i>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
+
+<style>
+
+</style>

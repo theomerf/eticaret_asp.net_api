@@ -223,7 +223,8 @@ namespace E_Ticaret.Migrations
                     DiscountPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     ActualPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Summary = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ShowCase = table.Column<bool>(type: "bit", nullable: false)
+                    ShowCase = table.Column<bool>(type: "bit", nullable: false),
+                    Rating = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

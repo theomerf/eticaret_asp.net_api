@@ -1,66 +1,211 @@
-@model ProductListViewModel
-
+﻿@model ProductListViewModel
 <div class="row">
-    <div class="col-md-3 my-3">
-        <div class="accordion" id="filterAccordion">
-            <!-- Categories B�l�m� -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingCategories">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCategories" aria-expanded="true" aria-controls="collapseCategories">
-                        <i class="fa-solid fa-bars text-secondary me-2"></i> Kategori Se�
-                    </button>
-                </h2>
-                <div id="collapseCategories" class="accordion-collapse collapse show" aria-labelledby="headingCategories" data-bs-parent="#filterAccordion">
-                    <div class="accordion-body p-2">
-                        @await Component.InvokeAsync("CategoriesMenu")
+    <div class="col-lg-3 col-md-4 mb-4">
+        <div class="filter-sidebar sticky-top" style="top: 20px;">
+            <div class="accordion shadow-sm rounded-3 overflow-hidden" id="filterAccordion">
+                <!-- Categories Bölümü -->
+                <div class="accordion-item border-0">
+                    <h2 class="accordion-header" id="headingCategories">
+                        <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCategories" aria-expanded="true" aria-controls="collapseCategories">
+                            <i class="fa-solid fa-bars text-primary me-2"></i> Kategori Seç
+                        </button>
+                    </h2>
+                    <div id="collapseCategories" class="accordion-collapse collapse show" aria-labelledby="headingCategories" data-bs-parent="#filterAccordion">
+                        <div class="accordion-body p-0">
+                            @await Component.InvokeAsync("CategoriesMenu")
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- Filters B�l�m� -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingFilters">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilters" aria-expanded="false" aria-controls="collapseFilters">
-                        <i class="fa-solid fa-filter text-secondary me-2"></i> Filtrele
-                    </button>
-                </h2>
-                <div id="collapseFilters" class="accordion-collapse collapse" aria-labelledby="headingFilters" data-bs-parent="#filterAccordion">
-                    <div class="accordion-body p-2">
-                        @await Component.InvokeAsync("ProductFilterMenu")
+                <!-- Filters Bölümü -->
+                <div class="accordion-item border-0">
+                    <h2 class="accordion-header" id="headingFilters">
+                        <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilters" aria-expanded="true" aria-controls="collapseFilters">
+                            <i class="fa-solid fa-filter text-primary me-2"></i> Filtrele
+                        </button>
+                    </h2>
+                    <div id="collapseFilters" class="accordion-collapse collapse show" aria-labelledby="headingFilters" data-bs-parent="#filterAccordion">
+                        <div class="accordion-body p-0">
+                            @await Component.InvokeAsync("ProductFilterMenu")
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- Latest Products B�l�m� -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingLatest">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLatest" aria-expanded="false" aria-controls="collapseLatest">
-                        <i class="fa fa-box text-secondary me-2"></i> Son Eklenen �r�nler
-                    </button>
-                </h2>
-                <div id="collapseLatest" class="accordion-collapse collapse" aria-labelledby="headingLatest" data-bs-parent="#filterAccordion">
-                    <div class="accordion-body p-2">
-                        <div products="" number="3"></div>
+                <!-- Latest Products Bölümü -->
+                <div class="accordion-item border-0">
+                    <h2 class="accordion-header" id="headingLatest">
+                        <button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLatest" aria-expanded="false" aria-controls="collapseLatest">
+                            <i class="fa fa-box text-primary me-2"></i> Son Eklenen Ürünler
+                        </button>
+                    </h2>
+                    <div id="collapseLatest" class="accordion-collapse collapse" aria-labelledby="headingLatest" data-bs-parent="#filterAccordion">
+                        <div class="accordion-body p-0">
+                            <div products="" number="3"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="col-lg-9 col-md-8">
+        <div class="d-flex justify-content-between align-items-center mb-3 bg-light p-3 rounded-3 shadow-sm">
+            <div>
+                <h5 class="m-0">Toplam <span class="badge bg-primary">@Model.TotalCount</span> ürün bulundu</h5>
+            </div>
+            <div class="d-flex align-items-center">
+                <label class="me-2">Sırala:</label>
+                <select class="form-select form-select-sm" id="sortOptions" style="width: auto;">
+                    <option value="default">Varsayılan</option>
+                    <option value="priceLow">Fiyat: Düşükten Yükseğe</option>
+                    <option value="priceHigh">Fiyat: Yüksekten Düşüğe</option>
+                    <option value="newest">En Yeniler</option>
+                </select>
+            </div>
+        </div>
 
-	<div class="col-md-9">
-		<div class="row my-3 ">
-			@foreach (Product prd in Model.Products)
-			{
-				<partial name="_ProductCard" model="@prd" />
-			}
-		</div>
-		<div class="text-center">
-			<div page-model="@Model?.Pagination"
-				 page-action="Index"
-				 page-classes-enabled="true"
-				 page-class="btn"
-				 page-class-normal="btn-outline-dark"
-				 page-class-selected="btn-primary"
-				 class="btn-group">
-			</div>
-		</div>
-	</div>
+        @if (!string.IsNullOrEmpty(Context.Request.Query["SearchTerm"]) ||
+        !string.IsNullOrEmpty(Context.Request.Query["MinPrice"]) ||
+        !string.IsNullOrEmpty(Context.Request.Query["MaxPrice"]) ||
+        !string.IsNullOrEmpty(Context.Request.Query["Brand"]) ||
+        Context.Request.Query["IsBestSeller"] == "true" ||
+        !string.IsNullOrEmpty(Context.Request.Query["categoryId"]))
+        {
+            <div class="active-filters mb-3 p-3 border rounded-3 bg-white shadow-sm">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h6 class="m-0"><i class="fa-solid fa-tag me-2"></i>Aktif Filtreler</h6>
+                    <a href="@Url.Action("Index")" class="btn btn-sm btn-outline-secondary">
+                        <i class="fa-solid fa-xmark me-1"></i>Tümünü Temizle
+                    </a>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    @if (!string.IsNullOrEmpty(Context.Request.Query["SearchTerm"]))
+                    {
+                        <span class="badge bg-light text-dark p-2 d-flex align-items-center">
+                            Arama: @Context.Request.Query["SearchTerm"]
+                            <a href="@Url.Action("Index", new {
+                                categoryId = Context.Request.Query["categoryId"],
+                                MinPrice = Context.Request.Query["MinPrice"],
+                                MaxPrice = Context.Request.Query["MaxPrice"],
+                                Brand = Context.Request.Query["Brand"],
+                                IsBestSeller = Context.Request.Query["IsBestSeller"]
+                            })" class="ms-2 text-danger"><i class="fa-solid fa-xmark"></i></a>
+                        </span>
+                    }
+                    @if (!string.IsNullOrEmpty(Context.Request.Query["MinPrice"]) || !string.IsNullOrEmpty(Context.Request.Query["MaxPrice"]))
+                    {
+                        <span class="badge bg-light text-dark p-2 d-flex align-items-center">
+                            Fiyat: @(string.IsNullOrEmpty(Context.Request.Query["MinPrice"]) ? "0" : Context.Request.Query["MinPrice"]) - @(string.IsNullOrEmpty(Context.Request.Query["MaxPrice"]) ? "Max" : Context.Request.Query["MaxPrice"]) TL
+                            <a href="@Url.Action("Index", new {
+                                categoryId = Context.Request.Query["categoryId"],
+                                SearchTerm = Context.Request.Query["SearchTerm"],
+                                Brand = Context.Request.Query["Brand"],
+                                IsBestSeller = Context.Request.Query["IsBestSeller"]
+                            })" class="ms-2 text-danger"><i class="fa-solid fa-xmark"></i></a>
+                        </span>
+                    }
+                    @if (!string.IsNullOrEmpty(Context.Request.Query["Brand"]))
+                    {
+                        <span class="badge bg-light text-dark p-2 d-flex align-items-center">
+                            Marka: @Context.Request.Query["Brand"]
+                            <a href="@Url.Action("Index", new {
+                                categoryId = Context.Request.Query["categoryId"],
+                                SearchTerm = Context.Request.Query["SearchTerm"],
+                                MinPrice = Context.Request.Query["MinPrice"],
+                                MaxPrice = Context.Request.Query["MaxPrice"],
+                                IsBestSeller = Context.Request.Query["IsBestSeller"]
+                            })" class="ms-2 text-danger"><i class="fa-solid fa-xmark"></i></a>
+                        </span>
+                    }
+                    @if (Context.Request.Query["IsBestSeller"] == "true")
+                    {
+                        <span class="badge bg-light text-dark p-2 d-flex align-items-center">
+                            En Çok Satanlar
+                            <a href="@Url.Action("Index", new {
+                                categoryId = Context.Request.Query["categoryId"],
+                                SearchTerm = Context.Request.Query["SearchTerm"],
+                                MinPrice = Context.Request.Query["MinPrice"],
+                                MaxPrice = Context.Request.Query["MaxPrice"],
+                                Brand = Context.Request.Query["Brand"]
+                            })" class="ms-2 text-danger"><i class="fa-solid fa-xmark"></i></a>
+                        </span>
+                    }
+                </div>
+            </div>
+        }
+
+        <div class="row g-3">
+            @foreach (Product prd in Model.Products)
+            {
+                <partial name="_ProductCard" model="@prd" />
+            }
+        </div>
+
+        @if (Model.TotalCount == 0)
+        {
+            <div class="alert alert-info mt-4 text-center shadow-sm">
+                <i class="fa-solid fa-search me-2"></i>Arama kriterlerinize uygun ürün bulunamadı.
+                <a href="@Url.Action("Index")" class="alert-link">Tüm ürünleri göster</a>
+            </div>
+        }
+
+        <div class="d-flex justify-content-center mt-4">
+            <div page-model="@Model?.Pagination"
+                 page-action="Index"
+                 page-classes-enabled="true"
+                 page-class="btn"
+                 page-class-normal="btn-outline-primary"
+                 page-class-selected="btn-primary"
+                 class="btn-group shadow-sm">
+            </div>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Sıralama seçeneği değiştiğinde
+            $('#sortOptions').change(function() {
+                // Burada sortOptions değerine göre AJAX ile ürünleri sıralayabilirsiniz
+                // Örnek olarak sayfayı yeniden yükleyerek gösteriyorum
+                var sortValue = $(this).val();
+                var currentUrl = new URL(window.location.href);
+                currentUrl.searchParams.set('sort', sortValue);
+                window.location.href = currentUrl.toString();
+            });
+
+            // Range slider için
+            const rangeSlider = document.getElementById('priceRange');
+            if (rangeSlider) {
+                const minPriceDisplay = document.getElementById('minPriceDisplay');
+                const maxPriceDisplay = document.getElementById('maxPriceDisplay');
+
+                noUiSlider.create(rangeSlider, {
+                    start: [
+                        parseInt('@Context.Request.Query["MinPrice"]') || 0,
+                        parseInt('@Context.Request.Query["MaxPrice"]') || 50000
+                    ],
+                    connect: true,
+                    range: {
+                        'min': 0,
+                        'max': 50000
+                    },
+                    step: 50,
+                    format: {
+                        to: function (value) {
+                            return Math.round(value);
+                        },
+                        from: function (value) {
+                            return Number(value);
+                        }
+                    }
+                });
+
+                rangeSlider.noUiSlider.on('update', function (values, handle) {
+                    document.getElementById('minPrice').value = values[0];
+                    document.getElementById('maxPrice').value = values[1];
+                    minPriceDisplay.textContent = values[0] + ' TL';
+                    maxPriceDisplay.textContent = values[1] + ' TL';
+                });
+            }
+        });
+    </script>
+}

@@ -42,7 +42,7 @@ app.UseEndpoints(endpoints =>
 });
 
 app.ConfigureAndCheckMigration();
-/* app.ConfigureCsv(); */
+/*app.ConfigureCsv();*/
 app.ConfigureLocalization();
 app.ConfigureDefaultAdminUser();
 

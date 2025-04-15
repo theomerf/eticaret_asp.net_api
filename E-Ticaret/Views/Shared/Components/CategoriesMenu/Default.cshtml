@@ -1,18 +1,50 @@
 ﻿@model IEnumerable<MainCategory>
 
-<div class="card my-3 shadow-sm">
-    <div class="card-header bg-white">
-        <h6 class="mb-0">
-            <i class="fa-solid fa-bars text-secondary me-2"></i>Kategoriler
-        </h6>
-    </div>
+<div class="card filter-card border-0 mb-0">
     <div class="card-body p-0">
-        <ul class="list-group list-group-flush">
+        <ul class="list-group list-group-flush category-list">
+            <li class="list-group-item border-0 @(string.IsNullOrEmpty(Context.Request.Query["categoryId"]) ? "active" : "")">
+                <a asp-action="Index" class="category-link d-flex justify-content-between align-items-center">
+                    <span><i class="fa-solid fa-globe me-2"></i>Tüm Ürünler</span>
+                    <span class="badge bg-light text-dark rounded-pill">Tümü</span>
+                </a>
+            </li>
+
             @foreach (var cat in Model)
             {
-                <li class="list-group-item">
-                    <a asp-action="Index" asp-route-categoryId="@cat.MainCategoryId" class="text-decoration-none">
-                        @cat.CategoryName
+                <li class="list-group-item border-0 @(Context.Request.Query["categoryId"] == cat.MainCategoryId.ToString() ? "active" : "")">
+                    <a asp-action="Index" asp-route-categoryId="@cat.MainCategoryId"
+                       class="category-link d-flex justify-content-between align-items-center">
+                        <span>
+                            @* Kategori simgeleri özelleştirilebilir *@
+                            @if (cat.CategoryName.Contains("Telefon"))
+                            {
+                                <i class="fa-solid fa-mobile-alt me-2"></i>
+                            }
+                            else if (cat.CategoryName.Contains("Bilgisayar"))
+                            {
+                                <i class="fa-solid fa-laptop me-2"></i>
+                            }
+                            else if (cat.CategoryName.Contains("Tablet"))
+                            {
+                                <i class="fa-solid fa-tablet-alt me-2"></i>
+                            }
+                            else if (cat.CategoryName.Contains("Kamera"))
+                            {
+                                <i class="fa-solid fa-camera me-2"></i>
+                            }
+                            else if (cat.CategoryName.Contains("TV"))
+                            {
+                                <i class="fa-solid fa-tv me-2"></i>
+                            }
+                            else
+                            {
+                                <i class="fa-solid fa-box me-2"></i>
+                            }
+                            @cat.CategoryName
+                        </span>
+                        @* Kategori sayacı eklenebilir *@
+                        @* <span class="badge bg-light text-dark rounded-pill">12</span> *@
                     </a>
                 </li>
             }

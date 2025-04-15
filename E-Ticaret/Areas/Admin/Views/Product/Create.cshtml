@@ -1,60 +1,194 @@
 ﻿@model ProductDtoForInsertion
+<div class="container py-4">
+	<!-- Header -->
+	<div class="admin-header">
+		<h1><i class="fas fa-plus-circle me-2"></i> Yeni Ürün Oluştur</h1>
+		<a href="javascript:history.back()" class="admin-btn admin-btn-outline">
+			<i class="fas fa-arrow-left"></i> Geri Dön
+		</a>
+	</div>
 
-<div class="text-center">
-	<div class="display-6 my-4">Create</div>
+	<div class="row">
+		<div class="col-lg-8 offset-lg-2">
+			<div class="admin-card">
+				<div class="admin-card-header">
+					<div>Ürün Bilgileri</div>
+					<div>
+						<span class="admin-badge admin-badge-required">Zorunlu alanlar *</span>
+					</div>
+				</div>
+				<div class="admin-card-body">
+					@if (ViewData.ModelState.ErrorCount > 0)
+					{
+						<div class="admin-validation-summary">
+							<div class="text-danger" asp-validation-summary="All"></div>
+						</div>
+					}
+
+					<form method="post" asp-action="Create" enctype="multipart/form-data">
+						<!-- Temel Bilgiler Bölümü -->
+						<div class="admin-section-title">
+							<i class="fas fa-info-circle me-2"></i> Temel Bilgiler
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="admin-form-group">
+									<label asp-for="ProductName" class="admin-form-label">Ürün Adı <span class="text-danger">*</span></label>
+									<input asp-for="ProductName" class="form-control admin-form-control" placeholder="Ürün adını giriniz..." />
+								</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="admin-form-group">
+									<label asp-for="Summary" class="admin-form-label">Ürün Açıklaması <span class="text-danger">*</span></label>
+									<textarea asp-for="Summary" class="form-control admin-form-control admin-textarea" placeholder="Ürün açıklamasını giriniz..."></textarea>
+								</div>
+							</div>
+						</div>
+
+						<!-- Kategori Bölümü -->
+						<div class="admin-section-title">
+							<i class="fas fa-tags me-2"></i> Kategori Bilgileri
+						</div>
+
+						<div class="row">
+							<div class="col-md-6">
+								<div class="admin-form-group">
+									<label asp-for="MainCategoryId" class="admin-form-label">Ana Kategori <span class="text-danger">*</span></label>
+									<select class="form-select admin-form-select" asp-items="@ViewBag.MainCategories" asp-for="MainCategoryId">
+										<option value="">-- Ana Kategori Seçiniz --</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="admin-form-group">
+									<label asp-for="SubCategoryId" class="admin-form-label">Alt Kategori <span class="text-danger">*</span></label>
+									<select class="form-select admin-form-select" asp-items="@ViewBag.SubCategories" asp-for="SubCategoryId">
+										<option value="">-- Alt Kategori Seçiniz --</option>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<!-- Fiyat Bölümü -->
+						<div class="admin-section-title">
+							<i class="fas fa-tag me-2"></i> Fiyat Bilgileri
+						</div>
+
+						<div class="row">
+							<div class="col-md-6">
+								<div class="admin-form-group">
+									<label asp-for="ActualPrice" class="admin-form-label">Satış Fiyatı <span class="text-danger">*</span></label>
+									<div class="admin-price-input">
+										<input asp-for="ActualPrice" class="form-control admin-form-control" placeholder="0.00" />
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="admin-form-group">
+									<label asp-for="DiscountPrice" class="admin-form-label">İndirimli Fiyat <small class="text-muted">(varsa)</small></label>
+									<div class="admin-price-input">
+										<input asp-for="DiscountPrice" class="form-control admin-form-control" placeholder="0.00" />
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Görsel Bölümü -->
+						<div class="admin-section-title">
+							<i class="fas fa-image me-2"></i> Ürün Görseli
+						</div>
+
+						<div class="admin-form-group">
+							<div class="admin-image-preview" id="imagePreview">
+								<i class="fas fa-image admin-image-preview-icon"></i>
+							</div>
+							<div class="admin-file-input-container">
+								<label class="admin-file-input-label">
+									<i class="fas fa-upload me-2"></i> Görsel Seçin
+									<input name="file" type="file" class="admin-file-input" id="imageInput" accept="image/*" />
+								</label>
+							</div>
+						</div>
+
+						<!-- Ek Seçenekler -->
+						<div class="admin-section-title">
+							<i class="fas fa-cog me-2"></i> Ek Seçenekler
+						</div>
+
+						<div class="row mb-4">
+							<div class="col-md-6">
+								<div class="form-check form-switch">
+									<input class="form-check-input" type="checkbox" id="showcaseCheck">
+									<label class="form-check-label" for="showcaseCheck">Vitrine Ekle</label>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-check form-switch">
+									<input class="form-check-input" type="checkbox" id="featuredCheck">
+									<label class="form-check-label" for="featuredCheck">Öne Çıkan Ürün</label>
+								</div>
+							</div>
+						</div>
+
+						<!-- Butonlar -->
+						<div class="d-flex justify-content-between mt-4">
+							<a asp-action="Index" class="admin-btn admin-btn-outline">
+								<i class="fas fa-list me-2"></i> Ürün Listesine Dön
+							</a>
+							<button class="admin-btn admin-btn-primary" type="submit">
+								<i class="fas fa-save me-2"></i> Ürünü Oluştur
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
-<form method="post" asp-action="Create" enctype="multipart/form-data">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+	$(document).ready(function() {
+		// Görsel önizleme fonksiyonu
+		$("#imageInput").change(function() {
+			const file = this.files[0];
+			if (file) {
+				const reader = new FileReader();
+				reader.onload = function(e) {
+					$("#imagePreview").html('<img src="' + e.target.result + '" />');
+				}
+				reader.readAsDataURL(file);
+			} else {
+				$("#imagePreview").html('<i class="fas fa-image admin-image-preview-icon"></i>');
+			}
+		});
 
-	<div class="text-danger" asp-validation-summary="All"></div>
+		// Ana kategori değiştiğinde alt kategorileri güncelleme
+		$("#MainCategoryId").change(function() {
+			const mainCategoryId = $(this).val();
+			if (mainCategoryId) {
+				// Burada normalde AJAX çağrısı yapılarak alt kategoriler getirilir
+				// Bu örnek için sadece fonksiyon iskeleti oluşturulmuştur
+				console.log("Ana kategori değişti: " + mainCategoryId);
+				// Örnek: updateSubCategories(mainCategoryId);
+			}
+		});
 
-	<div class="form-group my-3">
-		<label asp-for="MainCategoryId">Kategori</label>
-		<select class="form-control" asp-items="@ViewBag.MainCategories" asp-for="MainCategoryId">
-		</select>
-	</div>
+		// Form gönderim kontrolü
+		$("form").submit(function(e) {
+			const productName = $("#ProductName").val();
+			const price = $("#ActualPrice").val();
+			const mainCategory = $("#MainCategoryId").val();
 
-	<div class="form-group my-3">
-		<label asp-for="SubCategoryId">Alt Kategori</label>
-		<select class="form-control" asp-items="@ViewBag.SubCategories" asp-for="SubCategoryId">
-		</select>
-	</div>
-
-	<div class="form-group my-3">
-		<label asp-for="ProductName">Ürün Adı</label>
-		<input asp-for="ProductName" class="form-control"/>
-	</div>
-
-	<div class="form-group my-3">
-		<label asp-for="Summary">Açıklama</label>
-		<input asp-for="Summary" class="form-control" />
-	</div>
-
-	<div class="form-group my-3">
-		<label asp-for="ImageUrl">Fotoğraf</label>
-		<input name="file" type="file" class="form-control" />
-	</div>
-
-	<div class="form-group my-3">
-		<label asp-for="ActualPrice">Fiyat</label>
-		<input asp-for="ActualPrice" class="form-control" />
-	</div>
-	<div class="form-group my-3">
-		<label asp-for="DiscountPrice">İndirim Fiyatı(Varsa)</label>
-		<input asp-for="DiscountPrice" class="form-control" />
-	</div>
-
-	<div class="form-group my-3">
-		<div class="btn-group">
-			<button class="btn btn-primary" type="submit">
-				<i class="fa fa-save"></i>
-				Oluştur
-			</button>
-			<a asp-action="Index" class="btn btn-outline-primary">
-				<i class="fa fa-list"></i>
-				Ürünler
-			</a>
-		</div>
-
-	</div>
-</form>
+			if (!productName || !price || !mainCategory) {
+				alert("Lütfen zorunlu alanları doldurunuz!");
+				e.preventDefault();
+			}
+		});
+	});
+</script>

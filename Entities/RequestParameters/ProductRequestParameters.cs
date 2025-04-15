@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace Entities.RequestParameters
 {
     public class ProductRequestParameters : RequestParameters
@@ -14,8 +13,9 @@ namespace Entities.RequestParameters
         public bool IsValidPrice => MaxPrice > MinPrice;
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
-
-        public ProductRequestParameters() : this(1,6)
+        public string? Brand { get; set; }
+        public bool? IsBestSeller { get; set; } = null;
+        public ProductRequestParameters() : this(1, 6)
         {
         }
         public ProductRequestParameters(int pageNumber, int pageSize)

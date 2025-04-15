@@ -512,7 +512,6 @@ C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\scopedcss\bundle\ETicaret.styles.css
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\scopedcss\projectbundle\ETicaret.bundle.scp.css
-C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\qdtm9xoqhj-j8tnfip3ds.gz
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\9rh4ulrn4x-61n19gt1b8.gz
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\xl4f85guwh-xtxxf3hu2r.gz
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\ko89tro013-bqjiyaj88i.gz
@@ -676,4 +675,5 @@ C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\ETicaret.pdb
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\ETicaret.genruntimeconfig.cache
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\ref\ETicaret.dll
-C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\623aw5bb6u-36dhu1fp2s.gz
+C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\qdtm9xoqhj-3kieb9gvwv.gz
+C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\623aw5bb6u-t4jf1y7h2f.gz

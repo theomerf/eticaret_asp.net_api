@@ -54,6 +54,9 @@
         public decimal ComputeTotalValue() =>
             Lines.Sum((Func<CartLine, decimal>)(e => (decimal)(e.Product.ActualPrice * e.Quantity)));
 
+        public decimal ComputeTotalDiscountValue() =>
+            Lines.Sum((Func<CartLine, decimal>)(e => (decimal)(e.Product.DiscountPrice * e.Quantity)));
+
         public virtual void Clear() => Lines.Clear();
     }
 }

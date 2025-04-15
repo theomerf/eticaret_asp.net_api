@@ -5,10 +5,6 @@
       "PackagePath": "staticwebassets\\ETicaret.d6qur97nh4.bundle.scp.css"
     },
     {
-      "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\1.png",
-      "PackagePath": "staticwebassets\\1.png"
-    },
-    {
       "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
@@ -155,6 +151,10 @@
     {
       "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\images\\a1.png",
       "PackagePath": "staticwebassets\\images\\a1.png"
+    },
+    {
+      "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\images\\profile.png",
+      "PackagePath": "staticwebassets\\images\\profile.png"
     },
     {
       "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\js\\site.js",

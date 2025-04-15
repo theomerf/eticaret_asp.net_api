@@ -9,7 +9,7 @@ namespace ETicaret.Areas.Admin.Controllers
     {
         public IActionResult Index()
         {
-            TempData["info"] = $"Welcome back, {DateTime.Now.ToShortTimeString()}";
+            TempData["info"] = $"Tekrar Hoşgeldiniz, Saat: {DateTime.Now.ToShortTimeString()}";
             return View();
         }
     }

@@ -35,7 +35,8 @@ namespace ETicaret.Infrastructure.Extensions
                     ActualPrice = decimal.TryParse(columns[8], out var actualPrice) ? actualPrice : 0,
                     DiscountPrice = decimal.TryParse(columns[7], out var discountPrice) ? discountPrice : 0,
                     Summary = columns[9].Trim(),
-                    ShowCase = columns[10] == "true" ? true : false
+                    ShowCase = columns[10] == "true" ? true : false,
+                    Rating = int.TryParse(columns[11], out var rating) ? rating : 0,
                 };
 
                 products.Add(product);

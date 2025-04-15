@@ -12,7 +12,7 @@ using Repositories;
 namespace E_Ticaret.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20250323214720_init")]
+    [Migration("20250413002228_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -130,6 +130,9 @@ namespace E_Ticaret.Migrations
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
 
                     b.Property<bool>("ShowCase")
                         .HasColumnType("bit");

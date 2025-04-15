@@ -20,42 +20,79 @@ namespace ETicaret.Infrastructe.TagHelpers
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            TagBuilder card = new TagBuilder("div");
-            card.AddCssClass("card mb-3 shadow-sm");
-
-            TagBuilder cardHeader = new TagBuilder("div");
-            cardHeader.AddCssClass("card-header bg-white");
-            TagBuilder headerH6 = new TagBuilder("h6");
-            headerH6.AddCssClass("mb-0");
-
-            TagBuilder icon = new TagBuilder("i");
-            icon.AddCssClass("fa fa-box text-secondary me-2");
-            headerH6.InnerHtml.AppendHtml(icon);
-            headerH6.InnerHtml.Append("Ürünler");
-
-            cardHeader.InnerHtml.AppendHtml(headerH6);
-            card.InnerHtml.AppendHtml(cardHeader);
-
-            TagBuilder ul = new TagBuilder("ul");
-            ul.AddCssClass("list-group list-group-flush");
+            TagBuilder div = new TagBuilder("div");
+            div.AddCssClass("latest-products-container");
 
             var products = _manager.ProductService.GetLastestProducts(Number, false);
+
             foreach (Product product in products)
             {
-                TagBuilder li = new TagBuilder("li");
-                li.AddCssClass("list-group-item");
+                TagBuilder itemDiv = new TagBuilder("div");
+                itemDiv.AddCssClass("latest-product-item d-flex align-items-center p-2 border-bottom");
 
-                TagBuilder a = new TagBuilder("a");
-                a.Attributes.Add("href", $"product/get/{product.ProductId}");
-                a.AddCssClass("text-decoration-none");
-                a.InnerHtml.Append(product.ProductName);
+                // Ürün resmi
+                TagBuilder imgDiv = new TagBuilder("div");
+                imgDiv.AddCssClass("latest-product-img me-2");
 
-                li.InnerHtml.AppendHtml(a);
-                ul.InnerHtml.AppendHtml(li);
+                TagBuilder img = new TagBuilder("img");
+                img.Attributes.Add("src", $"/images/{product.ImageUrl}" ?? "/img/no-image.jpg");
+                img.Attributes.Add("alt", product.ProductName);
+                img.AddCssClass("img-fluid rounded");
+                img.Attributes.Add("style", "width: 50px; height: 50px; object-fit: cover;");
+
+                imgDiv.InnerHtml.AppendHtml(img);
+                itemDiv.InnerHtml.AppendHtml(imgDiv);
+
+                // Ürün bilgileri
+                TagBuilder infoDiv = new TagBuilder("div");
+                infoDiv.AddCssClass("latest-product-info flex-grow-1");
+
+                // Ürün adı
+                TagBuilder nameDiv = new TagBuilder("div");
+                nameDiv.AddCssClass("fw-bold text-truncate");
+                nameDiv.Attributes.Add("style", "max-width: 160px;");
+
+                TagBuilder nameLink = new TagBuilder("a");
+                nameLink.Attributes.Add("href", $"/product/get/{product.ProductId}");
+                nameLink.AddCssClass("text-decoration-none text-dark");
+                nameLink.InnerHtml.Append(product.ProductName);
+
+                nameDiv.InnerHtml.AppendHtml(nameLink);
+                infoDiv.InnerHtml.AppendHtml(nameDiv);
+
+                // Ürün fiyatı
+                TagBuilder priceDiv = new TagBuilder("div");
+                priceDiv.AddCssClass("text-primary fw-bold");
+                priceDiv.InnerHtml.Append($"{product.ActualPrice.ToString("c")}");
+
+                infoDiv.InnerHtml.AppendHtml(priceDiv);
+                itemDiv.InnerHtml.AppendHtml(infoDiv);
+
+                div.InnerHtml.AppendHtml(itemDiv);
             }
-            card.InnerHtml.AppendHtml(ul);
 
-            output.Content.SetHtmlContent(card);
+            // Son ürün yok ise mesaj göster
+            if (!products.Any())
+            {
+                TagBuilder noProductDiv = new TagBuilder("div");
+                noProductDiv.AddCssClass("text-center p-3 text-muted fst-italic");
+                noProductDiv.InnerHtml.Append("Henüz ürün eklenmemiş.");
+                div.InnerHtml.AppendHtml(noProductDiv);
+            }
+
+            // Tümünü gör linki
+            TagBuilder viewAllDiv = new TagBuilder("div");
+            viewAllDiv.AddCssClass("text-end p-2 mt-2");
+
+            TagBuilder viewAllLink = new TagBuilder("a");
+            viewAllLink.Attributes.Add("href", "/product/index?SortOrder=newest");
+            viewAllLink.AddCssClass("btn btn-sm btn-outline-primary");
+            viewAllLink.InnerHtml.Append("Tümünü Gör");
+
+            viewAllDiv.InnerHtml.AppendHtml(viewAllLink);
+            div.InnerHtml.AppendHtml(viewAllDiv);
+
+            output.Content.SetHtmlContent(div);
         }
     }
 }

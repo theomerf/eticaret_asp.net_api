@@ -128,6 +128,9 @@ namespace E_Ticaret.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
                     b.Property<bool>("ShowCase")
                         .HasColumnType("bit");
 

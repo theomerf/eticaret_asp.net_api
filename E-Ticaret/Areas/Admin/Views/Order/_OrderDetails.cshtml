@@ -1,53 +1,166 @@
 ﻿@model Order
 @{
-	var total = @Model.Lines.Sum(c => c.Product.ActualPrice * c.Quantity);
+    var total = @Model.Lines.Sum(c => c.Product.ActualPrice * c.Quantity);
+    var orderStatus = Model.Shipped ? "Tamamlandı" : "İşlemde";
+    var statusColor = Model.Shipped ? "success" : "warning";
 }
 
-<div class="row shadow my-3">
-	<div class="col-md-3 border-1 border-dark p-3 bg-light shadow">
-		<h5 class="display-5 text-center">
-			<i class="fa fa-address-book text-danger"></i>
-			<br />
-			@Model?.Name
-		</h5>
-		<p>@Model?.Line1</p>
-		<p>@Model?.Line2</p>
-		<p>@Model?.Line3</p>
-		<p>@Model?.City</p>
-		<p class="rounded-2 p-3">
-			<span class="bg-warning p-2">Shipped</span>
-			<span class="bg-info p-2">@(Model.Shipped ? "Completed" : "In Progress")</span>
-		</p>
-	</div>
-	<div class="col-md-9">
-		9
-		<h6 class="display-6 mt-3 text-center">
-			Cart
-		</h6>
-		<ul class="list-group">
-			@foreach (var cartItem in Model?.Lines)
-			{
-				<li class="list-group-item d-flex justify-content-between brand">
-					@cartItem.Product.ProductName
-					<b>
-						@cartItem.Quantity * @cartItem.Product.ActualPrice.ToString("C2")
-						= @((cartItem.Quantity * cartItem.Product.ActualPrice).ToString("C2"))
-					</b>
+<div class="container py-4">
+    <div class="card border-0 shadow-sm rounded-3 mb-4">
+        <div class="card-header bg-primary bg-gradient text-white py-3">
+            <h4 class="mb-0">
+                <i class="fa fa-shopping-cart me-2"></i>Sipariş Detayları
+                <span class="badge bg-light text-primary float-end">#@Model.OrderId</span>
+            </h4>
+        </div>
 
-				</li>
-			}
-			<li class="list-group-item d-flex justify-content-between text-danger">
-				Total
-				<b>@total.ToString("C2")</b>
-			</li>
-		</ul>
-		<div class="text-center mt-2 p-2">
-			<form method="post" asp-action="Complete">
-				<input type="hidden" name="id" value="@Model.OrderId"/>
-				<button type="submit" class="btn btn-primary" disabled="@Model.Shipped">
-					Complete
-				</button>
-			</form>
-		</div>
-	</div>
+        <div class="card-body p-0">
+            <div class="row g-0">
+                <!-- Müşteri Bilgileri -->
+                <div class="col-md-4 border-end">
+                    <div class="p-4">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="avatar-circle bg-primary text-white me-3">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <h5 class="mb-0">Müşteri Bilgileri</h5>
+                        </div>
+
+                        <h4 class="mb-3">@Model?.Name</h4>
+
+                        <div class="mb-4">
+                            <h6 class="text-muted mb-2">Teslimat Adresi</h6>
+                            <address class="mb-0">
+                                @Model?.Line1<br>
+                                @if (!string.IsNullOrEmpty(Model?.Line2))
+                                {
+                                    @Model?.Line2
+
+                                    <br>
+                                }
+                                @if (!string.IsNullOrEmpty(Model?.Line3))
+                                {
+                                    @Model?.Line3
+
+                                    <br>
+                                }
+                                @Model?.City
+                            </address>
+                        </div>
+
+                        <div class="mb-2">
+                            <h6 class="text-muted mb-2">Sipariş Durumu</h6>
+                            <div class="d-flex align-items-center">
+                                <span class="badge bg-@statusColor rounded-pill px-3 py-2">@orderStatus</span>
+                                @if (!Model.Shipped)
+                                {
+                                    <div class="ms-2 spinner-border spinner-border-sm text-warning" role="status">
+                                        <span class="visually-hidden">Yükleniyor...</span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sipariş Ürünleri -->
+                <div class="col-md-8">
+                    <div class="p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="mb-0">
+                                <i class="fa fa-box me-2"></i>Sipariş İçeriği
+                            </h5>
+                            <span class="badge bg-secondary rounded-pill">
+                                @Model?.Lines.Count() Ürün
+                            </span>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Ürün</th>
+                                        <th class="text-center">Adet</th>
+                                        <th class="text-end">Birim Fiyat</th>
+                                        <th class="text-end">Toplam</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var cartItem in Model?.Lines)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="product-img-small me-3">
+                                                        @if (!string.IsNullOrEmpty(cartItem.Product.ImageUrl))
+                                                        {
+                                                            <img src="/images/@cartItem.Product.ImageUrl" class="img-thumbnail" width="250" alt="@cartItem.Product.ProductName">
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="placeholder-img bg-light d-flex align-items-center justify-content-center">
+                                                                <i class="fa fa-image text-muted"></i>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="mb-0">@cartItem.Product.ProductName</h6>
+                                                        @if (!string.IsNullOrEmpty(cartItem.Product.Summary))
+                                                        {
+                                                            <small class="text-muted">@cartItem.Product.Summary</small>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">@cartItem.Quantity</td>
+                                            <td class="text-end">@cartItem.Product.ActualPrice.ToString("C2")</td>
+                                            <td class="text-end fw-bold">@((cartItem.Quantity * cartItem.Product.ActualPrice).ToString("C2"))</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot class="table-group-divider">
+                                    <tr>
+                                        <th colspan="3" class="text-end">Toplam:</th>
+                                        <th class="text-end text-danger h5">@total.ToString("C2")</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                        <div class="d-flex justify-content-end mt-4">
+                            <form method="post" asp-action="Complete">
+                                <input type="hidden" name="id" value="@Model.OrderId" />
+                                <button type="submit" class="btn btn-primary" disabled="@Model.Shipped">
+                                    <i class="fa fa-check-circle me-2"></i>Siparişi Tamamla
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+    .avatar-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+    }
+
+    .placeholder-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 4px;
+    }
+
+    .table > :not(caption) > * > * {
+        padding: 0.75rem;
+        vertical-align: middle;
+    }
+</style>

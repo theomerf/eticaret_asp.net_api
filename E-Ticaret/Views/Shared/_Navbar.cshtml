@@ -1,43 +1,199 @@
-<nav class="navbar navbar-expand-lg navbar-dark custom-navbar shadow-lg">
+﻿<nav class="navbar navbar-expand-lg navbar-dark custom-navbar shadow sticky-top">
     <div class="container">
-        <a class="navbar-brand fw-bold text-white" href="/">
-            <i class="fa-solid fa-store fa-2x"></i> Market
+        <a class="navbar-brand fw-bold text-white d-flex align-items-center" href="/">
+            <div class="brand-logo me-2">
+                <i class="fa-solid fa-store"></i>
+            </div>
+            <span class="brand-text">Market</span>
         </a>
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-            <ul class="navbar-nav">
+
+        <div class="d-flex align-items-center order-lg-last">
+            <button class="btn nav-icon-btn d-lg-none me-2" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#searchCollapse" aria-expanded="false" aria-label="Toggle search">
+                <i class="fa-solid fa-search text-white"></i>
+            </button>
+
+            <a class="nav-link text-white nav-icon-link position-relative me-2"
+               asp-controller="Cart" asp-action="Index" title="Sepetim">
+                <i class="fa-solid fa-shopping-cart"></i>
+                <span class="position-absolute start-100 translate-middle badge rounded-pill bg-danger cart-badge">
+                    @await Component.InvokeAsync("CartSummary")
+                </span>
+            </a>
+
+            <button class="navbar-toggler border-0 d-lg-none" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <form class="search-form d-none d-lg-block mx-lg-3 flex-grow-1" style="max-width: 400px;">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Ürün, kategori, marka ara..." aria-label="Search">
+                    <button class="btn search-btn" type="submit">
+                        <i class="fa-solid fa-search"></i>
+                    </button>
+                </div>
+            </form>
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link text-white fw-semibold" asp-controller="Home" asp-action="Index">
-                        <i class="fa-solid fa-house"></i> Ana Sayfa
+                    <a class="nav-link text-white fw-semibold nav-hover-effect" asp-controller="Home" asp-action="Index">
+                        <i class="fa-solid fa-house me-1"></i> Ana Sayfa
                     </a>
                 </li>
+
+                <li class="nav-item dropdown position-static">
+                    <a class="nav-link text-white fw-semibold dropdown-toggle nav-hover-effect" href="#"
+                       id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-layer-group me-1"></i> Kategoriler
+                    </a>
+                    <div class="dropdown-menu mega-dropdown w-100 py-4" aria-labelledby="categoriesDropdown">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-3 mb-3 mb-lg-0">
+                                    <h6 class="dropdown-header gradient-text">Popüler Kategoriler</h6>
+                                    @await Component.InvokeAsync("CategoriesMenu")
+                                </div>
+                                <div class="col-lg-5 mb-3 mb-lg-0">
+                                    <h6 class="dropdown-header gradient-text">Öne Çıkan Ürünler</h6>
+                                    <div class="row featured-products">
+                                        <div class="col-4">
+                                            <div class="featured-product">
+                                                <img src="/api/placeholder/80/80" alt="Öne Çıkan Ürün" class="img-fluid rounded mb-1">
+                                                <p class="small mb-0 text-truncate">Öne Çıkan Ürün 1</p>
+                                                <span class="small text-danger fw-bold">199 ₺</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="featured-product">
+                                                <img src="/api/placeholder/80/80" alt="Öne Çıkan Ürün" class="img-fluid rounded mb-1">
+                                                <p class="small mb-0 text-truncate">Öne Çıkan Ürün 2</p>
+                                                <span class="small text-danger fw-bold">299 ₺</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="featured-product">
+                                                <img src="/api/placeholder/80/80" alt="Öne Çıkan Ürün" class="img-fluid rounded mb-1">
+                                                <p class="small mb-0 text-truncate">Öne Çıkan Ürün 3</p>
+                                                <span class="small text-danger fw-bold">149 ₺</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="p-3 rounded" style="background: linear-gradient(45deg, rgba(106, 17, 203, 0.05), rgba(37, 117, 252, 0.05));">
+                                        <h6 class="gradient-text">İndirim Fırsatları</h6>
+                                        <p class="small">En güncel kampanya ve indirimleri kaçırmayın!</p>
+                                        <a href="#" class="btn btn-sm btn-gradient w-100">Fırsatları Gör</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
                 <li class="nav-item">
-                    <a class="nav-link text-white fw-semibold" asp-controller="Product" asp-action="Index">
-                        <i class="fa-solid fa-box"></i> �r�nler (@await Component.InvokeAsync("ProductSummary"))
+                    <a class="nav-link text-white fw-semibold nav-hover-effect" asp-controller="Product" asp-action="Index">
+                        <i class="fa-solid fa-box me-1"></i> Ürünler <span class="small badge bg-light text-dark">@await Component.InvokeAsync("ProductSummary")</span>
                     </a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link text-white fw-semibold" asp-controller="Category" asp-action="Index">
-                        <i class="fa-solid fa-layer-group"></i> Kategoriler
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white fw-semibold" asp-page="/Contact">
-                        <i class="fa-solid fa-envelope"></i> �leti�im
+                    <a class="nav-link text-white fw-semibold nav-hover-effect" asp-page="/Contact">
+                        <i class="fa-solid fa-envelope me-1"></i> İletişim
                     </a>
                 </li>
             </ul>
+
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link text-white fw-semibold" asp-controller="Cart" asp-action="Index">
-                        <i class="fa-solid fa-shopping-cart"></i> Sepet (@await Component.InvokeAsync("CartSummary"))
+                <li class="nav-item d-none d-lg-block">
+                    <a class="nav-link text-white nav-icon-link position-relative" href="#" title="Favorilerim">
+                        <i class="fa-regular fa-heart"></i>
+                        <span class="position-absolute top-2 start-100 translate-middle badge rounded-pill bg-danger wishlist-badge">0</span>
                     </a>
                 </li>
-                <partial name="_LoginMenu" />
+
+                <li class="nav-item d-none d-lg-block">
+                    <a class="nav-link text-white nav-icon-link position-relative" href="#" title="Bildirimler">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="position-absolute start-100 translate-middle badge rounded-pill bg-danger notification-badge">2</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="dropdown">
+                            <a class="nav-link dropdown-toggle text-white fw-semibold d-flex align-items-center" id="navbarDropdown"
+                               role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <div class="avatar me-2">
+                                    <img src="/images/profile.png" alt="Avatar" class="rounded-circle" width="32" height="32">
+                                </div>
+                                <span class="d-none d-lg-inline">@User.Identity.Name</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end animate__animated animate__fadeIn" aria-labelledby="navbarDropdown">
+                                <li class="dropdown-header">
+                                    <div class="d-flex flex-column">
+                                        <span>@User.Identity.Name</span>
+                                        <small class="text-muted">@(User.IsInRole("Admin") ? "Admin" : "Üye")</small>
+                                    </div>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user me-2"></i> Profilim</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-box me-2"></i> Siparişlerim</a></li>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li><a class="dropdown-item" asp-controller="Admin" asp-action="Index"><i class="fa-solid fa-gauge-high me-2"></i> Admin Paneli</a></li>
+                                }
+                                else
+                                {
+                                    <li><a class="dropdown-item" href="#"><i class="fa-regular fa-heart me-2"></i> Favorilerim</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-tag me-2"></i> Kuponlarım</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear me-2"></i> Ayarlar</a></li>
+                                }
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout"><i class="fa-solid fa-right-from-bracket me-2"></i> Çıkış Yap</a></li>
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <a class="nav-link text-white fw-semibold btn btn-gradient-outline btn-sm ms-lg-2 nav-login-btn"
+                           asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.PathAndQuery()">
+                            <i class="fa-solid fa-right-to-bracket me-1"></i> Giriş Yap
+                        </a>
+                    }
+                </li>
             </ul>
         </div>
+
+        <div class="collapse d-lg-none mt-2 mb-2 w-100" id="searchCollapse">
+            <form class="search-form w-100">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Ürün, kategori, marka ara..." aria-label="Search">
+                    <button class="btn search-btn" type="submit">
+                        <i class="fa-solid fa-search"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
     </div>
 </nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var navbar = document.querySelector('.sticky-top');
+
+        window.onscroll = function() {
+            if (window.pageYOffset > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        };
+    });
+</script>

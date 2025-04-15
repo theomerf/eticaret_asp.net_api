@@ -1,199 +1,108 @@
 ﻿@model UserModel
 
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="utf-8">
-    <title>Giriş Yap / Üye Ol</title>
-    <style>
-        .card-hover {
-            transition: box-shadow 0.3s ease;
-        }
-
-            .card-hover:hover {
-                box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-            }
-
-        .card-header {
-            padding: 0;
-            border: 1px solid black;
-        }
-
-        .nav-btn {
-            flex: 1;
-            background-color: white;
-            border: none;
-            padding: 12px 0;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-            color: black;
-        }
-
-            .nav-btn.active {
-                background: linear-gradient(45deg, #6a11cb, #2575fc);
-                color: #fff;
-            }
-
-            .nav-btn:not(:last-child) {
-                border-right: 1px solid black;
-            }
-
-        .tab-content {
-            border: 1px solid black;
-            border-top: none;
-        }
-
-        .submit-btn {
-            background: linear-gradient(45deg, #6a11cb, #2575fc);
-            border-color: black;
-            color: #fff;
-        }
-
-        .social-row .social-btn {
-            height: 45px;
-            font-size: 0.9rem;
-            border: none;
-            transition: 0.3s;
-        }
-
-        .social-btn:hover {
-            opacity: 0.8;
-        }
-
-        .facebook-btn {
-            background-color: #3b5998;
-            color: #fff;
-        }
-
-        .google-btn {
-            background-color: #db4437;
-            color: #fff;
-        }
-
-        .submit-btn:hover {
-            background-color: #0b5ed7 !important;
-            border-color: #0a58ca !important;
-            color: white !important;
-        }
-
-        .facebook-btn:hover {
-            background-color: #2d4373 !important;
-            color: white !important;
-        }
-
-        .google-btn:hover {
-            background-color: #c1351d !important;
-            color: white !important;
-        }
-
-        .auth-container {
-            max-width: 400px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container my-5">
-        <h5 class="text-center mb-4">
-            Merhaba, giriş yap veya üye ol, fırsatları kaçırma!
-        </h5>
-        <div class="row justify-content-center">
-            <div class="col-md-5 auth-container">
-                <div class="card card-hover shadow-sm">
-                    <div class="card-header d-flex" id="authTabs" role="tablist">
-                        <button class="nav-link nav-btn @(Model.isRegister ? "" : "active")" id="loginTabBtn" data-bs-toggle="tab" data-bs-target="#loginTabPane" type="button">
-                            Giriş Yap
-                        </button>
-                        <button class="nav-link nav-btn @(Model.isRegister ? "active" : "")" id="registerTabBtn" data-bs-toggle="tab" data-bs-target="#registerTabPane" type="button">
-                            Üye Ol
-                        </button>
-                    </div>
-                    <div class="tab-content" id="authTabContent">
-                        <div class="tab-pane fade @(Model.isRegister ? "" : "show active") p-3" id="loginTabPane" role="tabpanel">
-                            @await Html.PartialAsync("_Notification")
-                            <div class="text-danger" asp-validation-summary="All"></div>
-                            <form method="post" asp-action="Login">
-                                <input type="hidden" asp-for="Login.ReturnUrl" />
-                                <div class="mb-3">
-                                    <label asp-for="Login.Name" class="form-label fw-bold">Kullanıcı Adı</label>
-                                    <input asp-for="Login.Name" class="form-control" required />
-                                    <span asp-validation-for="Login.Name" class="text-danger"></span>
-                                </div>
-                                <div class="mb-3">
-                                    <label asp-for="Login.Password" class="form-label fw-bold">Şifre</label>
-                                    <input type="password" asp-for="Login.Password" class="form-control" required />
-                                    <span asp-validation-for="Login.Password" class="text-danger"></span>
-                                </div>
-                                <div class="mb-3">
-                                    <a href="/Account/ForgotPassword" class="text-decoration-none">Şifremi Unuttum</a>
-                                </div>
-                                <button type="submit" class="btn submit-btn w-100 mb-3">
-                                    <i class="fa-solid fa-right-to-bracket me-2"></i>GİRİŞ YAP
-                                </button>
-                                <div class="row mb-3">
-                                    <div class="col-6">
-                                        <button type="button" class="btn social-btn facebook-btn w-100">
-                                            <i class="fa-brands fa-facebook me-2"></i>Facebook
-                                        </button>
-                                    </div>
-                                    <div class="col-6">
-                                        <button type="button" class="btn social-btn google-btn w-100">
-                                            <i class="fa-brands fa-google me-2"></i>Google
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="mt-3 text-center">
-                                    <small class="text-muted">
-                                        Üye olmadan devam etmek için <a href="/Orders/GuestCheckout" class="text-decoration-none">buraya tıklayın</a>
-                                    </small>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="tab-pane fade @(Model.isRegister ? "show active" : "") p-3" id="registerTabPane" role="tabpanel">
-                            <div class="text-danger" asp-validation-summary="All"></div>
-                            <form method="post" asp-action="Register">
-                                <div class="mb-3">
-                                    <label asp-for="Register.UserName" class="form-label fw-bold">Kullanıcı Adı</label>
-                                    <input asp-for="Register.UserName" class="form-control" required />
-                                    <span asp-validation-for="Register.UserName" class="text-danger"></span>
-                                </div>
-                                <div class="mb-3">
-                                    <label asp-for="Register.Email" class="form-label fw-bold">E-Posta</label>
-                                    <input type="email" asp-for="Register.Email" class="form-control" required />
-                                    <span asp-validation-for="Register.Email" class="text-danger"></span>
-                                </div>
-                                <div class="mb-3">
-                                    <label asp-for="Register.Password" class="form-label fw-bold">Şifre</label>
-                                    <input type="password" asp-for="Register.Password" class="form-control" required />
-                                    <span asp-validation-for="Register.Password" class="text-danger"></span>
-                                </div>
-                                <button type="submit" class="btn submit-btn w-100 mb-3">
-                                    <i class="fa-solid fa-user-plus me-2"></i>KAYDOL
-                                </button>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <button type="button" class="btn social-btn facebook-btn w-100">
-                                            <i class="fa-brands fa-facebook me-2"></i>Facebook
-                                        </button>
-                                    </div>
-                                    <div class="col-6">
-                                        <button type="button" class="btn social-btn google-btn w-100">
-                                            <i class="fa-brands fa-google me-2"></i>Google
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        document.getElementById('loginTabBtn').addEventListener('click', function () {
-            document.querySelectorAll('.text-danger').forEach(function (el) {
-                el.innerHTML = '';
-            });
-        });
-    </script>
-</body>
-</html>
+@{
+	ViewData["Title"] = "Giriş Yap/Üye Ol";
+}
+<div class="container my-5">
+	<h5 class="text-center mb-4">
+		Merhaba, giriş yap veya üye ol, fırsatları kaçırma!
+	</h5>
+	<div class="row justify-content-center">
+		<div class="col-md-5 auth-container">
+			<div class="card login-card login-card-hover shadow-sm">
+				<div class="card-header d-flex" id="authTabs" role="tablist">
+					<button class="nav-link nav-btn @(Model.isRegister ? "" : "active")" id="loginTabBtn" data-bs-toggle="tab" data-bs-target="#loginTabPane" type="button">
+						Giriş Yap
+					</button>
+					<button class="nav-link nav-btn @(Model.isRegister ? "active" : "")" id="registerTabBtn" data-bs-toggle="tab" data-bs-target="#registerTabPane" type="button">
+						Üye Ol
+					</button>
+				</div>
+				<div class="tab-content" id="authTabContent">
+					<div class="tab-pane fade @(Model.isRegister ? "" : "show active") p-3" id="loginTabPane" role="tabpanel">
+						@await Html.PartialAsync("_Notification")
+						<div class="text-danger" asp-validation-summary="All"></div>
+						<form method="post" asp-action="Login">
+							<input type="hidden" asp-for="Login.ReturnUrl" />
+							<div class="mb-3">
+								<label asp-for="Login.Name" class="form-label fw-bold">Kullanıcı Adı</label>
+								<input asp-for="Login.Name" class="form-control" required />
+								<span asp-validation-for="Login.Name" class="text-danger"></span>
+							</div>
+							<div class="mb-3">
+								<label asp-for="Login.Password" class="form-label fw-bold">Şifre</label>
+								<input type="password" asp-for="Login.Password" class="form-control" required />
+								<span asp-validation-for="Login.Password" class="text-danger"></span>
+							</div>
+							<div class="mb-3">
+								<a href="/Account/ForgotPassword" class="text-decoration-none">Şifremi Unuttum</a>
+							</div>
+							<button type="submit" class="btn login-submit-btn w-100 mb-3">
+								<i class="fa-solid fa-right-to-bracket me-2"></i>GİRİŞ YAP
+							</button>
+							<div class="row mb-3">
+								<div class="col-6">
+									<button type="button" class="btn social-btn facebook-btn w-100">
+										<i class="fa-brands fa-facebook me-2"></i>Facebook
+									</button>
+								</div>
+								<div class="col-6">
+									<button type="button" class="btn social-btn google-btn w-100">
+										<i class="fa-brands fa-google me-2"></i>Google
+									</button>
+								</div>
+							</div>
+							<div class="mt-3 text-center">
+								<small class="text-muted">
+									Üye olmadan devam etmek için <a href="/Orders/GuestCheckout" class="text-decoration-none">buraya tıklayın</a>
+								</small>
+							</div>
+						</form>
+					</div>
+					<div class="tab-pane fade @(Model.isRegister ? "show active" : "") p-3" id="registerTabPane" role="tabpanel">
+						<div class="text-danger" asp-validation-summary="All"></div>
+						<form method="post" asp-action="Register">
+							<div class="mb-3">
+								<label asp-for="Register.UserName" class="form-label fw-bold">Kullanıcı Adı</label>
+								<input asp-for="Register.UserName" class="form-control" required />
+								<span asp-validation-for="Register.UserName" class="text-danger"></span>
+							</div>
+							<div class="mb-3">
+								<label asp-for="Register.Email" class="form-label fw-bold">E-Posta</label>
+								<input type="email" asp-for="Register.Email" class="form-control" required />
+								<span asp-validation-for="Register.Email" class="text-danger"></span>
+							</div>
+							<div class="mb-3">
+								<label asp-for="Register.Password" class="form-label fw-bold">Şifre</label>
+								<input type="password" asp-for="Register.Password" class="form-control" required />
+								<span asp-validation-for="Register.Password" class="text-danger"></span>
+							</div>
+							<button type="submit" class="btn login-submit-btn w-100 mb-3">
+								<i class="fa-solid fa-user-plus me-2"></i>KAYDOL
+							</button>
+							<div class="row">
+								<div class="col-6">
+									<button type="button" class="btn social-btn facebook-btn w-100">
+										<i class="fa-brands fa-facebook me-2"></i>Facebook
+									</button>
+								</div>
+								<div class="col-6">
+									<button type="button" class="btn social-btn google-btn w-100">
+										<i class="fa-brands fa-google me-2"></i>Google
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	document.getElementById('loginTabBtn').addEventListener('click', function () {
+		document.querySelectorAll('.text-danger').forEach(function (el) {
+			el.innerHTML = '';
+		});
+	});
+</script>

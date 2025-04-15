@@ -1,27 +1,58 @@
 @model Product
 <div class="d-flex align-items-center justify-content-center col-sm-12 col-md-4 my-2">
-	<div class="card fixed-card shadow rounded-4 my-3">
-		<a asp-action="Get" asp-controller="Product" asp-route-id="@Model?.ProductId" class="text-decoration-none text-reset">
-			<div class="card-header">
-				@Model?.ProductName
-			</div>
-			<img src="/images/@Model?.ImageUrl" class="card-img-top" alt="@Model?.ProductName">
-			<div class="card-body text-center">
-				<div class="price-badge mb-2">
-					@Model?.ActualPrice.ToString("c")
-				</div>
-			</div>
-		</a>
-		<div class="card-footer bg-white text-center">
-			<form asp-controller="Cart" asp-action="AddToCart" method="post" class="d-inline">
-				<input type="hidden" name="productId" value="@Model.ProductId" />
-				<input type="hidden" name="returnUrl" value="@Context.Request.Path" />
-				<button type="submit" class="btn add-cart-btn rounded-2">
-					<i class="fa fa-cart-plus"></i> Sepete Ekle
-				</button>
-			</form>
-		</div>
-	</div>
+    <div class="card product-card shadow-sm rounded-3 my-3">
+        <a asp-action="Get" asp-controller="Product" asp-route-id="@Model?.ProductId" class="text-decoration-none text-reset product-link">
+            <div class="ribbon-container">
+                <div class="product-name">@Model?.ProductName</div>
+            </div>
+            @if (Model?.Discount > 0)
+            {
+                <div class="discount-badge">%@Model?.Discount Ýndirim</div>
+            }
+            <div class="img-container">
+                <img src="/images/@Model?.ImageUrl" class="card-img-top product-img" alt="@Model?.ProductName">
+            </div>
+            <div class="card-body text-center p-3">
+                <div class="price-container">
+                    @if (Model?.ActualPrice > Model?.DiscountPrice)
+                    {
+                        <span class="old-price">@Model?.ActualPrice.ToString("c")</span>
+                    }
+                    <span class="actual-price">@Model?.DiscountPrice?.ToString("c")</span>
+                </div>
+                <div class="product-rating mt-2">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        if (i <= (Model?.Rating ?? 0))
+                        {
+                            <i class="fa fa-star"></i>
+                        }
+                        else
+                        {
+                            <i class="fa-regular fa-star"></i>
+                        }
+                    }
+                </div>
+            </div>
+        </a>
+        <div class="card-footer bg-white border-0 p-0">
+            <div class="action-buttons">
+                <form asp-controller="Cart" asp-action="AddToCart" method="post" class="d-inline">
+                    <input type="hidden" name="productId" value="@Model.ProductId" />
+                    <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                    <button type="submit" class="btn add-cart-btn w-100">
+                        <i class="fa fa-cart-plus"></i> Sepete Ekle
+                    </button>
+                </form>
+                <div class="quick-buttons mt-2">
+                    <button class="btn quick-btn fav-btn" title="Favorilere Ekle">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+                    <button class="btn quick-btn compare-btn" title="Karþýlaþtýr">
+                        <i class="fa fa-exchange"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-

@@ -1,5 +1,7 @@
-html {
-  font-size: 14px;
+ï»¿html {
+    position: relative;
+    min-height: 100%;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
@@ -8,103 +10,341 @@ html {
   }
 }
 
+body {
+    margin-bottom: 60px;
+}
+
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
-}
-
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+    color: var(--bs-secondary-color);
+    text-align: end;
 }
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+    text-align: start;
 }
 
-.img-thumbnail {
-    width: 250px;
-    height: 250px;
-    object-fit: cover;
-}
 
-/* Navbar Genel Stil */
+
+/*NAVBAR*/
 .custom-navbar {
     background: linear-gradient(45deg, #6a11cb, #2575fc);
-    padding: 10px 0;
+    padding: 0.75rem 0;
+    transition: all 0.3s ease;
 }
 
-/* Navbar metin rengi ve animasyonlarý */
-.navbar-dark .navbar-nav .nav-link {
-    color: white;
-    transition: color 0.3s, transform 0.3s;
+.sticky-top {
+    transition: box-shadow 0.3s, padding 0.3s;
 }
 
-    /* Navbar menü öðeleri hover animasyonu */
-    .navbar-dark .navbar-nav .nav-link:hover {
-        color: #ffcc00;
-        transform: scale(1.05);
+    .sticky-top.scrolled {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        padding: 0.5rem 0;
     }
 
-/* Dropdown menüsü stili */
-.navbar-nav .dropdown-menu {
-    background: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    min-width: 160px;
-    font-size: 1rem;
+.brand-logo {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    transition: all 0.3s ease;
 }
 
-    .navbar-nav .dropdown-menu .dropdown-item {
-        color: #333;
-        padding: 10px 15px;
-        border-radius: 6px;
-        transition: background-color 0.3s;
+.navbar-brand:hover .brand-logo {
+    transform: rotate(10deg);
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.brand-text {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.nav-hover-effect {
+    position: relative;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+}
+
+    .nav-hover-effect:after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 50%;
+        background-color: #ffcc00;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
     }
 
-        .navbar-nav .dropdown-menu .dropdown-item:hover {
-            background-color: #6a11cb;
-            color: #fff;
+    .nav-hover-effect:hover {
+        color: #ffcc00 !important;
+    }
+
+        .nav-hover-effect:hover:after {
+            width: 80%;
         }
 
-/* Dropdown menüsüne ok iþareti eklemek */
-.navbar-nav .dropdown-toggle::after {
-    content: '\f0d7'; /* FontAwesome icon for dropdown */
-    font-family: 'Font Awesome 5 Free';
-    font-weight: 900;
-    padding-left: 5px;
+.search-form {
+    position: relative;
 }
 
-/* Navbar'ý daha modern hale getirmek için kenarlýk ve renk */
-.navbar {
-    border-bottom: 2px solid #2575fc;
+    .search-form .form-control {
+        border-radius: 20px;
+        padding-left: 15px;
+        padding-right: 40px;
+        border: none;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+        .search-form .form-control:focus {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+.search-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    border-radius: 0 20px 20px 0;
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: white;
+    z-index: 10;
+    transition: all 0.3s;
+}
+
+    .search-btn:hover {
+        opacity: 0.9;
+        color: #ffcc00;
+    }
+
+.nav-icon-link {
+    font-size: 1.1rem;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    margin: 0 0.2rem;
+}
+
+    .nav-icon-link:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: #ffcc00 !important;
+    }
+
+.nav-icon-btn {
+    color: white;
+    font-size: 1.1rem;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+    .nav-icon-btn:hover {
+        color: #ffcc00;
+    }
+
+.badge {
+    font-size: 0.65rem;
+    font-weight: 500;
+}
+
+.avatar {
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.dropdown-menu {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 0;
+    margin-top: 0.5rem;
+    min-width: 200px;
+}
+
+.dropdown-header {
+    color: #333;
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+}
+
+.dropdown-item {
+    padding: 0.6rem 1rem;
+    transition: all 0.2s ease;
+    border-radius: 0;
+}
+
+    .dropdown-item:hover {
+        background-color: rgba(106, 17, 203, 0.1);
+        color: #6a11cb;
+        transform: translateX(5px);
+    }
+
+    .dropdown-item i {
+        width: 16px;
+        text-align: center;
+    }
+
+.dropdown-divider {
+    margin: 0.3rem 0;
+    opacity: 0.1;
+}
+
+.mega-dropdown {
+    width: 100%;
+    left: 0;
+    right: 0;
+    padding: 1.5rem 0;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.featured-product {
+    transition: all 0.3s ease;
+    padding: 5px;
     border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
 }
 
-/* Dropdown menüsü baþlýklarýna odaklanma (kullanýcý adý gibi) */
-.nav-item.dropdown > .nav-link {
+    .featured-product:hover {
+        background-color: rgba(0, 0, 0, 0.03);
+        transform: translateY(-2px);
+    }
+
+.gradient-text {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     font-weight: 600;
 }
 
-/* Slayt Galerisi */
+.btn-gradient {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+    .btn-gradient:hover {
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+.btn-gradient-outline {
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+    .btn-gradient-outline:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: #ffcc00;
+        border-color: #ffcc00;
+    }
+
+.nav-login-btn {
+    min-width: 120px;
+    text-align: center;
+    padding: 0.5rem 1rem;
+}
+
+.animate__animated.animate__fadeIn {
+    animation-duration: 0.3s;
+}
+
+@media (max-width: 991px) {
+    .search-form {
+        margin: 0.5rem 0;
+    }
+
+    .navbar-collapse {
+        padding: 0.5rem 0;
+    }
+
+    .dropdown-menu {
+        border: none;
+        box-shadow: none;
+        padding-left: 1rem;
+        margin-top: 0;
+    }
+
+    .mega-dropdown {
+        background-color: transparent;
+        box-shadow: none;
+        padding: 0;
+    }
+
+        .mega-dropdown .dropdown-header {
+            margin-top: 0.5rem;
+        }
+
+    .featured-product {
+        margin: 0.5rem 0;
+    }
+
+    .navbar-nav .nav-item {
+        margin: 0.25rem 0;
+    }
+
+    .nav-login-btn {
+        margin: 0.5rem 0;
+        width: auto;
+        display: inline-block;
+    }
+
+    #searchCollapse {
+        background: rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 5px;
+    }
+
+    .nav-icon-link, .nav-icon-btn {
+        margin: 0 0.1rem;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .search-form {
+        max-width: 300px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .search-form {
+        max-width: 400px;
+    }
+}
+
+/* ANA SAYFA*/
 .carousel-item img {
-    height: 400px; /* Yüksekliði küçültüldü */
+    height: 400px; 
     object-fit: cover;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    margin: 0 auto; /* Yatayda ortalanmasý için */
-    max-width: 90%; /* Geniþliði küçültüldü */
+    margin: 0 auto; 
+    max-width: 90%; 
 }
 
-/* Marka Butonlarý */
 .brand-btn {
     background: linear-gradient(45deg, #6a11cb, #2575fc);
     color: white;
@@ -115,7 +355,7 @@ body {
     border-radius: 8px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     width: 50%;
-    height: 100px; /* Kare þeklinde olmasý için sabit yükseklik */
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -126,243 +366,903 @@ body {
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
+/*GÄ°RÄ°Åž SAYFASI*/
 
+        .login-card-hover {
+            transition: box-shadow 0.3s ease;
+        }
 
+            .login-card-hover:hover {
+                box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            }
 
-.main-image {
+        .login-card-header {
+            padding: 0;
+            border: 1px solid black;
+        }
+
+        .nav-btn {
+            flex: 1;
+            background-color: white;
+            border: none;
+            padding: 12px 0;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            color: black;
+        }
+
+            .nav-btn.active {
+                background: linear-gradient(45deg, #6a11cb, #2575fc);
+                color: #fff;
+            }
+
+            .nav-btn:not(:last-child) {
+                border-right: 1px solid black;
+            }
+
+        .tab-content {
+            border: 1px solid black;
+            border-top: none;
+        }
+
+        .login-submit-btn {
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            border-color: black;
+            color: #fff;
+        }
+
+        .social-row .social-btn {
+            height: 45px;
+            font-size: 0.9rem;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .social-btn:hover {
+            opacity: 0.8;
+        }
+
+        .facebook-btn {
+            background-color: #3b5998;
+            color: #fff;
+        }
+
+        .google-btn {
+            background-color: #db4437;
+            color: #fff;
+        }
+
+        .login-submit-btn:hover {
+            background-color: #0b5ed7 !important;
+            border-color: #0a58ca !important;
+            color: white !important;
+        }
+
+        .facebook-btn:hover {
+            background-color: #2d4373 !important;
+            color: white !important;
+        }
+
+        .google-btn:hover {
+            background-color: #c1351d !important;
+            color: white !important;
+        }
+
+        .auth-container {
+            max-width: 400px;
+        }
+
+/*ÃœRÃœN CARD*/
+.product-card {
+    width: 18rem;
+    transition: all 0.3s ease;
+    border: none;
+    overflow: visible; 
+    position: relative;
+}
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+    }
+
+.img-container {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+    background-color: #f9f9f9;
+}
+
+.product-img {
+    height: 100%;
     width: 100%;
-    max-width: 500px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    object-fit: contain;
+    padding: 10px;
+    transition: all 0.5s ease;
 }
 
-.thumbnail-gallery {
-    display: flex;
-    gap: 0.5rem;
+.product-card:hover .product-img {
+    transform: scale(1.05);
 }
 
-.thumbnail {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: transform 0.2s ease;
+.ribbon-container {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    padding: 10px;
+    color: white;
+    position: relative;
+    z-index: 1;
 }
 
-    .thumbnail:hover {
-        transform: scale(1.1);
-    }
-
-/* Ürün Detaylarý */
-.product-details {
-    padding: 1rem;
-    text-align: left;
-}
-
-.product-title {
-    font-size: 1.75rem;
+.product-name {
     font-weight: 600;
-    color: #333;
-}
-
-.product-description {
     font-size: 1rem;
-    color: #666;
-    margin-bottom: 1rem;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.product-price {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #d80000;
-    margin-bottom: 1rem;
+.discount-badge {
+    position: absolute;
+    top: -20px;
+    right: -30px;
+    background: #ff5252;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+    transform: rotate(15deg);
+    z-index: 2;
+    border: 2px solid white;
 }
 
-/* Yýldýz Puanlama */
-.product-rating {
-    margin: 1rem 0;
-}
-
-.star-rating i {
-    color: #FFD700;
-}
-
-.rating-text {
-    font-size: 0.9rem;
-    color: #666;
-}
-
-/* Detaylý Özellikler */
-.product-features {
-    margin: 1rem 0;
-}
-
-    .product-features ul {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    .product-features li {
-        font-size: 1rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .product-features strong {
-        font-weight: 600;
-    }
-
-/* Sepet Butonu ve Miktar Seçici */
-.quantity-selector {
+.price-container {
     display: flex;
-    gap: 0.5rem;
     align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 0.9rem;
+}
+
+.actual-price {
+    color: #ff5252;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.product-rating {
+    color: #ffc107;
+    font-size: 0.9rem;
+}
+
+.action-buttons {
+    padding: 0 12px 12px 12px;
 }
 
 .add-cart-btn {
-    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
     color: white;
     border: none;
-    width: 100%;
-    padding: 0.75rem;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 5px;
-    transition: opacity 0.2s ease;
-    margin-top: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
 }
 
     .add-cart-btn:hover {
-        opacity: 0.9;
+        background: linear-gradient(135deg, #5810b5, #1e68e0);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(106, 17, 203, 0.3);
     }
 
-.add-cart-btn2 {
-    background: linear-gradient(45deg, #6a11cb, #2575fc);
-    color: white;
+.quick-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.quick-btn {
+    width: 48%;
+    background-color: #f5f5f5;
     border: none;
-    width: 100%;
-    padding: 0.75rem;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 5px;
-    transition: opacity 0.2s ease;
-    margin-top: 10px;
-    margin-left: 15px;
-}
-
-    .add-cart-btn2:hover {
-        opacity: 0.9;
-    }
-
-.add-to-cart-form {
-    width: 100%;
-}
-
-/* Yorumlar */
-.comments {
-    margin-top: 1rem;
-    font-size: 0.95rem;
-}
-
-.comment {
-    padding: 1rem;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 1rem;
-}
-
-.comment-header {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-.comment-rating i {
-    color: #FFD700;
-    margin-right: 0.2rem;
-}
-
-.comment-text {
-    margin-top: 1rem;
-    font-size: 0.9rem;
+    padding: 8px;
+    transition: all 0.2s ease;
     color: #555;
 }
 
-/* Responsive düzen */
-@media (max-width: 767px) {
-    .product-image-gallery {
-        flex-direction: row;
-        justify-content: center;
+    .quick-btn:hover {
+        background-color: #e9e9e9;
+        color: #333;
     }
 
-    .main-image {
-        max-width: 300px;
+.fav-btn:hover {
+    color: #ff5252;
+}
+
+.compare-btn:hover {
+    color: #2575fc;
+}
+
+.product-link {
+    display: block;
+    height: 100%;
+}
+
+@media (max-width: 992px) {
+    .product-card {
+        width: 16rem;
     }
 }
 
-/* Kartýn sabit boyut ve modern hover efekti */
-.fixed-card {
-    width: 16rem; /* Kart geniþliði sabit */
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+@media (max-width: 768px) {
+    .product-card {
+        width: 100%;
+    }
 }
 
-    .fixed-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+/* SEPET SAYFASI*/
+
+/* Genel Stiller */
+.cart-container {
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+.cart-section-title {
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* ÃœrÃ¼n Listesi Stilleri */
+.cart-products {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+.cart-item {
+    padding: 20px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: all 0.3s ease;
+}
+
+    .cart-item:last-child {
+        border-bottom: none;
     }
-    /* Fotoðraf alaný sabit boyutta ve içerik tam sýðacak þekilde */
-    .fixed-card img {
-        height: 200px; /* Sabit yükseklik */
-        object-fit: contain; /* Fotoðrafýn kesilerek alaný doldurmasý */
+
+    .cart-item:hover {
+        background-color: #f9f9f9;
     }
-/* Fiyat bilgisi: daha küçük boyut, hafif kýrmýzý tonlu arka plan */
-.price-badge {
-    font-size: 0.9rem;
-    padding: 0.25rem 0.5rem;
-    background-color: #ffcccc; /* Yumuþak kýrmýzý */
-    color: #d80000;
-    border-radius: 0.25rem;
+
+.cart-img-container {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f8f8f8;
+}
+
+.cart-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.cart-product-title {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.cart-product-sku {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.cart-product-attributes {
+    margin-top: 5px;
+}
+
+.cart-product-attribute {
     display: inline-block;
+    font-size: 0.8rem;
+    background: #f0f8ff;
+    color: #2575fc;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-right: 5px;
 }
-/* Kart baþlýðý: Temaya uygun mor-mavi geçiþli renk */
-.card-header {
-    background: linear-gradient(45deg, #6a11cb, #2575fc);
-    color: white;
+
+.cart-seller-info {
+    font-size: 0.85rem;
+    color: #555;
+}
+
+.cart-seller-name {
+    color: #2575fc;
+}
+
+/* Adet Kontrol Stilleri */
+.cart-quantity-wrapper {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.cart-quantity-value {
+    min-width: 30px;
     text-align: center;
     font-weight: 600;
-    padding: 0.5rem;
+    padding: 0 10px;
 }
-/* Sepete ekle butonu: Temaya uyumlu, kartýn alt kýsmýnda */
-.add-cart-btn {
+
+.cart-quantity-btn {
+    background: transparent;
+    border: none;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6a11cb;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+    .cart-quantity-btn:hover {
+        background: rgba(106, 17, 203, 0.1);
+    }
+
+/* Fiyat ve Silme DÃ¼ÄŸmesi Stilleri */
+.cart-price {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.cart-unit-price {
+    font-size: 0.8rem;
+    color: #777;
+    margin-top: 2px;
+}
+
+.cart-remove-btn, .cart-wishlist-btn {
+    background: transparent;
+    border: none;
+    font-size: 0.85rem;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cart-remove-btn {
+    color: #dc3545;
+}
+
+    .cart-remove-btn:hover {
+        color: #c82333;
+        text-decoration: underline;
+    }
+
+.cart-wishlist-btn {
+    color: #6c757d;
+}
+
+    .cart-wishlist-btn:hover {
+        color: #f06292;
+    }
+
+/* SipariÅŸ Ã–zeti Stilleri */
+.cart-order-summary {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    overflow: hidden;
+    position: sticky;
+    top: 20px;
+}
+
+.cart-summary-title {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: white;
+    padding: 15px 20px;
+    margin: 0;
+    font-weight: 600;
+}
+
+.cart-summary-content {
+    padding: 20px;
+}
+
+.cart-summary-items {
+    margin-bottom: 15px;
+}
+
+.cart-summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.cart-discount {
+    color: #4caf50;
+    font-weight: 500;
+}
+
+.cart-summary-total {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding-top: 15px;
+    margin-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+/* GÃ¼venli Ã–deme */
+.cart-secure-payment {
+    margin-top: 15px;
+    padding-top: 10px;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+    .cart-secure-payment i {
+        color: #6a11cb;
+    }
+
+/* Buton Stilleri */
+.cart-checkout-btn {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    border: none;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s;
+    margin-top: 15px;
+}
+
+    .cart-checkout-btn:hover {
+        background: linear-gradient(45deg, #5a0cb1, #1565fc);
+        box-shadow: 0 5px 15px rgba(37, 117, 252, 0.4);
+        transform: translateY(-2px);
+        color: white;
+    }
+
+.cart-continue-btn {
+    background: transparent;
+    border: 1px solid #2575fc;
+    color: #2575fc;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+    .cart-continue-btn:hover {
+        background: rgba(37, 117, 252, 0.1);
+        color: #2575fc;
+    }
+
+/* Ã–deme YÃ¶ntemleri */
+.cart-payment-methods {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.cart-payment-icons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    font-size: 1.8rem;
+}
+
+    .cart-payment-icons i {
+        color: #555;
+    }
+
+/* Kargo ve Kupon KodlarÄ± Stilleri */
+.cart-options {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    padding: 20px;
+}
+
+.cart-shipping-options h5,
+.cart-coupon h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #444;
+}
+
+.cart-coupon-btn {
     background: linear-gradient(45deg, #6a11cb, #2575fc);
     color: white;
     border: none;
-    transition: opacity 0.2s ease;
 }
 
-    .add-cart-btn:hover {
-        opacity: 0.9;
+    .cart-coupon-btn:hover {
+        background: linear-gradient(45deg, #5a0cb1, #1565fc);
+        color: white;
     }
-/* Kart footer: Kenarlardan biraz boþluk býrakacak þekilde */
-.card-footer {
-    padding: 0.5rem;
+
+/* Kupon Ã–nerileri */
+.cart-coupon-suggestions {
+    font-size: 0.9rem;
 }
+
+.cart-coupon-tag {
+    display: inline-block;
+    font-size: 0.8rem;
+    background: #f0f0f0;
+    color: #333;
+    padding: 2px 8px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+    .cart-coupon-tag:hover {
+        background: #e0e0e0;
+        color: #6a11cb;
+    }
+
+/* BoÅŸ Sepet Stili */
+.cart-empty {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.cart-empty-icon {
+    font-size: 3rem;
+    color: #6a11cb;
+    opacity: 0.5;
+}
+
+/* Benzer ÃœrÃ¼nler Ã–nerisi */
+.cart-suggestions {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    padding: 20px;
+}
+
+.cart-suggestions-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.cart-suggestion-item {
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    height: 100%;
+    transition: all 0.3s;
+}
+
+    .cart-suggestion-item:hover {
+        box-shadow: 0 5px 10px rgba(106, 17, 203, 0.1);
+        transform: translateY(-2px);
+    }
+
+.cart-suggestion-img-container {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.cart-suggestion-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.cart-suggestion-title {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: 500;
+}
+
+.cart-suggestion-price {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.cart-add-suggestion-btn {
+    font-size: 0.8rem;
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    width: 100%;
+    transition: all 0.3s;
+}
+
+    .cart-add-suggestion-btn:hover {
+        background: linear-gradient(45deg, #5a0cb1, #1565fc);
+        color: white;
+    }
+
+/* Responsive Ayarlar */
+@media (max-width: 768px) {
+    .cart-item {
+        padding: 15px;
+    }
+
+    .cart-img-container {
+        width: 60px;
+        height: 60px;
+    }
+
+    .cart-product-title {
+        font-size: 1rem;
+    }
+
+    .cart-price {
+        font-size: 1rem;
+    }
+
+    .cart-payment-icons {
+        font-size: 1.5rem;
+    }
+
+    .cart-suggestion-item {
+        padding: 8px;
+    }
+
+    .cart-suggestion-img-container {
+        height: 80px;
+    }
+}
+
+/* Ã–DEME SAYFASI*/
+
+:root {
+    --primary-gradient: linear-gradient(45deg, #6a11cb, #2575fc);
+    --primary-color: #2575fc;
+    --secondary-color: #6a11cb;
+    --light-bg: #f8f9fa;
+    --dark-text: #333;
+    --input-border: #dee2e6;
+}
+
+body {
+    background-color: #f5f7ff;
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.checkout-container {
+    padding: 3rem 1rem;
+}
+
+.checkout-card {
+    border-radius: 15px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-header {
+    background: var(--primary-gradient);
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+    .checkout-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 100%;
+        height: 200%;
+        background: rgba(255, 255, 255, 0.1);
+        transform: rotate(30deg);
+    }
+
+    .checkout-header h3 {
+        font-weight: 700;
+        margin: 0;
+        position: relative;
+        color: white;
+    }
+
+.checkout-body {
+    padding: 2.5rem;
+    background: white;
+}
+
+.checkout-form-control {
+    border-radius: 8px;
+    padding: 12px 15px;
+    font-size: 1rem;
+    border: 2px solid var(--input-border);
+    transition: all 0.3s ease;
+}
+
+    .checkout-form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(37, 117, 252, 0.2);
+    }
+
+.checkout-form-label {
+    font-weight: 600;
+    color: var(--dark-text);
+    margin-bottom: 0.5rem;
+}
+
+.checkout-submit-btn {
+    background: var(--primary-gradient);
+    border: none;
+    border-radius: 8px;
+    padding: 12px 30px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3);
+    transition: all 0.3s ease;
+}
+
+    .checkout-submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(106, 17, 203, 0.4);
+    }
+
+    .checkout-submit-btn:active {
+        transform: translateY(1px);
+    }
+
+.checkout-gift-check {
+    display: flex;
+    align-items: center;
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+    background: rgba(37, 117, 252, 0.05);
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.checkout-gift-input {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    accent-color: var(--primary-color);
+}
+
+.checkout-gift-label {
+    font-weight: 500;
+    color: var(--dark-text);
+    margin-bottom: 0;
+}
+
+.checkout-order-summary {
+    background: var(--light-bg);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.checkout-order-title {
+    font-weight: 700;
+    color: var(--dark-text);
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+.checkout-payment-methods {
+    display: flex;
+    gap: 10px;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.checkout-payment-method {
+    width: 60px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 5px;
+    opacity: 0.7;
+    transition: all 0.2s;
+}
+
+    .checkout-payment-method:hover {
+        border-color: var(--primary-color);
+        opacity: 1;
+    }
+
+    .checkout-payment-method img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+.checkout-form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 1rem;
+}
+
+.checkout-form-group {
+    flex: 1;
+}
+
+.checkout-secure {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+    .checkout-secure i {
+        color: #28a745;
+        margin-right: 5px;
+    }
+
+@media (max-width: 768px) {
+    .checkout-form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .checkout-body {
+        padding: 1.5rem;
+    }
+}
+
+/* KATEGORÄ° SAYFASI*/
 
 .category-card {
     transition: all 0.3s ease-in-out;
 }
 
-.category-card:hover {
+    .category-card:hover {
         transform: scale(1.05);
         box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-        background-color: #f8f9fa; /* Hafif gri ton */
-}
+        background-color: #f8f9fa;
+    }
 
-.category-card:hover i {
-            color: #0d6efd; /* Bootstrap birincil rengi (Mavi) */
-}
+        .category-card:hover i {
+            color: #0d6efd;
+        }
 
+/* Ä°LETÄ°ÅžÄ°M SAYFASI*/
 .contact-card {
     background: #fff;
     transition: all 0.3s ease-in-out;
@@ -378,7 +1278,7 @@ body {
 }
 
 .contact-item:hover i {
-    color: #0d6efd; /* Bootstrap birincil rengi */
+    color: #0d6efd;
 }
 
 hr {
@@ -393,15 +1293,926 @@ hr {
     border-radius: 50%;
     transition: background-color 0.3s, color 0.3s;
 }
-    /* + ve - butonlarý için hover rengi: tema rengi (örneðin mavi) ve daire þeklinde görünüm */
     .btn-no-color:hover {
         background-color: #007bff;
         color: #fff;
         border-radius: 50%;
     }
-    /* Çöp kutusu butonu için hover rengi: kýrmýzý */
     .btn-trash:hover {
         background-color: red;
         color: #fff;
     }
+
+/*ADMÄ°N PANELÄ° DASHBOARD*/
+
+.dashboard-card {
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+    .dashboard-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
+    }
+
+        .dashboard-card:hover .dashboard-card-header {
+            background-size: 150% !important;
+        }
+
+.dashboard-card-header {
+    transition: all 0.5s ease;
+    background-size: 100%;
+    background-position: center;
+}
+
+.dashboard-card:hover .fs-1 i {
+    transform: scale(1.2);
+    transition: transform 0.3s ease;
+}
+
+.activity-item {
+    transition: background-color 0.3s ease;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+    .activity-item:hover {
+        background-color: #f8f9fa;
+        cursor: pointer;
+    }
+
+/*BÄ°LDÄ°RÄ°MLER KISMI*/
+
+.custom-alert {
+    display: flex;
+    align-items: flex-start;
+    border: none;
+    border-radius: 10px;
+    padding: 0.9rem;
+    position: relative;
+    margin-bottom: 1rem;
+    border-left: 4px solid transparent;
+    transition: all 0.3s ease;
+}
+
+    .custom-alert:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1) !important;
+    }
+
+.alert-icon {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.alert-content {
+    flex-grow: 1;
+}
+
+.alert-heading {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.btn-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+    .btn-close:hover {
+        opacity: 1;
+    }
+
+.custom-alert-info {
+    background-color: rgba(106, 17, 203, 0.05);
+    border-left-color: #6a11cb;
+}
+
+    .custom-alert-info .alert-icon {
+        color: #6a11cb;
+        background-color: rgba(106, 17, 203, 0.1);
+    }
+
+    .custom-alert-info .alert-heading {
+        color: #6a11cb;
+    }
+
+.custom-alert-success {
+    background-color: rgba(25, 135, 84, 0.05);
+    border-left-color: #198754;
+}
+
+    .custom-alert-success .alert-icon {
+        color: #198754;
+        background-color: rgba(25, 135, 84, 0.1);
+    }
+
+    .custom-alert-success .alert-heading {
+        color: #198754;
+    }
+
+.custom-alert-danger {
+    background-color: rgba(220, 53, 69, 0.05);
+    border-left-color: #dc3545;
+}
+
+    .custom-alert-danger .alert-icon {
+        color: #dc3545;
+        background-color: rgba(220, 53, 69, 0.1);
+    }
+
+    .custom-alert-danger .alert-heading {
+        color: #dc3545;
+    }
+
+/* ÃœRÃœN FÄ°LTRELERÄ° KISMI */
+
+.category-list .list-group-item {
+    padding: 0.5rem 0;
+    transition: all 0.2s ease;
+    border-radius: 0.25rem;
+}
+
+    .category-list .list-group-item:hover {
+        background-color: rgba(13, 110, 253, 0.05);
+    }
+
+    .category-list .list-group-item.active {
+        background-color: rgba(13, 110, 253, 0.1);
+        color: #0d6efd;
+        font-weight: 500;
+    }
+
+.category-list .category-link {
+    display: block;
+    color: #212529;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+}
+
+.category-list .list-group-item.active .category-link {
+    color: #0d6efd;
+}
+
+.filter-sidebar {
+    position: sticky;
+    top: 20px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: rgba(13, 110, 253, 0.05);
+    color: #0d6efd;
+    box-shadow: none;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+    border-color: rgba(13, 110, 253, 0.25);
+}
+
+.noUi-connect {
+    background: #0d6efd;
+}
+
+.noUi-horizontal {
+    height: 8px;
+}
+
+    .noUi-horizontal .noUi-handle {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        top: -7px;
+        cursor: pointer;
+        background: #fff;
+        border: 1px solid #0d6efd;
+        box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.1);
+        transition: all 0.2s ease;
+    }
+
+        .noUi-horizontal .noUi-handle:hover {
+            box-shadow: 0 0 0 5px rgba(13, 110, 253, 0.1);
+        }
+
+.noUi-handle:after,
+.noUi-handle:before {
+    display: none;
+}
+
+.active-filters .badge {
+    font-weight: normal;
+    font-size: 0.85rem;
+    border: 1px solid #dee2e6;
+}
+
+    .active-filters .badge a {
+        text-decoration: none;
+    }
+
+.filter-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .filter-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+
+@media (max-width: 768px) {
+    .filter-sidebar {
+        position: static;
+        max-height: none;
+        overflow-y: visible;
+    }
+
+    .brand-list {
+        max-height: 150px;
+        overflow-y: auto;
+        padding-right: 10px;
+    }
+}
+
+/* ADMÄ°N PANELÄ° ÃœRÃœNLER SAYFASI*/
+
+:root {
+    --primary-color: #4361ee;
+    --secondary-color: #3f37c9;
+    --success-color: #4cc9f0;
+    --warning-color: #f72585;
+    --danger-color: #f94144;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+    --gray-color: #adb5bd;
+    --border-radius: 10px;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    --transition: all 0.3s ease;
+}
+
+body {
+    background-color: #f5f7fb;
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.admin-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .admin-header h1 {
+        margin: 0;
+        font-weight: 600;
+        font-size: 1.8rem;
+    }
+
+.admin-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    border: none;
+    transition: var(--transition);
+    margin-bottom: 20px;
+}
+
+    .admin-card:hover {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+.admin-card-header {
+    background: white;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 15px 20px;
+    font-weight: 600;
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-card-body {
+    padding: 20px;
+}
+
+.admin-search-bar {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.admin-search-input {
+    padding: 12px 20px;
+    padding-left: 45px;
+    width: 100%;
+    border-radius: 30px;
+    border: 1px solid #e9ecef;
+    background: white;
+    transition: var(--transition);
+}
+
+    .admin-search-input:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.15);
+        outline: none;
+    }
+
+.admin-search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-color);
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+    .admin-table th {
+        background-color: #f8f9fa;
+        font-weight: 600;
+        padding: 15px;
+        text-align: left;
+        color: #495057;
+        border-top: none;
+        border-bottom: 2px solid #e9ecef;
+    }
+
+    .admin-table td {
+        padding: 15px;
+        vertical-align: middle;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .admin-table tbody tr {
+        transition: var(--transition);
+    }
+
+        .admin-table tbody tr:hover {
+            background-color: rgba(67, 97, 238, 0.03);
+        }
+
+.admin-product-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+}
+
+    .admin-product-image:hover {
+        transform: scale(1.1);
+    }
+
+.admin-btn {
+    padding: 8px 15px;
+    border-radius: 6px;
+    transition: var(--transition);
+    border: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+    .admin-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+.admin-btn-create {
+    background: linear-gradient(to right, #4cc9f0, #4361ee);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+}
+
+    .admin-btn-create:hover {
+        background: linear-gradient(to right, #4361ee, #4cc9f0);
+        color: white;
+    }
+
+.admin-btn-edit {
+    background-color: #ffbe0b;
+    color: white;
+}
+
+.admin-btn-delete {
+    background-color: #f94144;
+    color: white;
+}
+
+.admin-btn-info {
+    background-color: #4cc9f0;
+    color: white;
+}
+
+.admin-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+    .admin-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+.admin-switch-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .3s;
+    border-radius: 34px;
+}
+
+    .admin-switch-slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: .3s;
+        border-radius: 50%;
+    }
+
+input:checked + .admin-switch-slider {
+    background-color: var(--primary-color);
+}
+
+    input:checked + .admin-switch-slider:before {
+        transform: translateX(26px);
+    }
+
+.admin-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+.admin-badge-success {
+    background-color: rgba(76, 201, 240, 0.1);
+    color: var(--success-color);
+}
+
+.admin-badge-warning {
+    background-color: rgba(247, 37, 133, 0.1);
+    color: var(--warning-color);
+}
+
+.admin-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 20px;
+}
+
+    .admin-pagination .btn {
+        min-width: 40px;
+        height: 40px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+        transition: var(--transition);
+    }
+
+.admin-filter-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    margin-bottom: 20px;
+}
+
+.admin-filter-header {
+    padding: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    font-weight: 600;
+}
+
+.admin-filter-body {
+    padding: 15px;
+}
+
+.admin-filter-item {
+    margin-bottom: 10px;
+}
+
+.admin-filter-checkbox {
+    margin-right: 8px;
+}
+
+.admin-stats-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+    .admin-stats-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+.admin-stats-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.admin-stats-title {
+    color: var(--gray-color);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.admin-stats-value {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.admin-stats-trend {
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+}
+
+.admin-stats-up {
+    color: #2ecc71;
+}
+
+.admin-stats-down {
+    color: #e74c3c;
+}
+
+.admin-action-btn {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 17px;
+    margin-right: 5px;
+    transition: var(--transition);
+    color: white;
+    border: none;
+}
+
+    .admin-action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+@media (max-width: 768px) {
+    .admin-table thead {
+        display: none;
+    }
+
+    .admin-table, .admin-table tbody, .admin-table tr, .admin-table td {
+        display: block;
+        width: 100%;
+    }
+
+        .admin-table tr {
+            margin-bottom: 15px;
+            border: 1px solid #e9ecef;
+            border-radius: var(--border-radius);
+            background-color: white;
+        }
+
+        .admin-table td {
+            text-align: right;
+            padding-left: 50%;
+            position: relative;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+            .admin-table td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 15px;
+                font-weight: 600;
+                text-align: left;
+            }
+
+            .admin-table td:last-child {
+                border-bottom: none;
+            }
+}
+
+/* ADMÄ°N PANELÄ° ÃœRÃœN OLUÅžTURMA SAYFASI*/
+
+:root {
+    --primary-color: #4361ee;
+    --secondary-color: #3f37c9;
+    --success-color: #4cc9f0;
+    --warning-color: #f72585;
+    --danger-color: #f94144;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+    --gray-color: #adb5bd;
+    --border-radius: 10px;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    --transition: all 0.3s ease;
+}
+
+body {
+    background-color: #f5f7fb;
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.admin-header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .admin-header h1 {
+        margin: 0;
+        font-weight: 600;
+        font-size: 1.8rem;
+    }
+
+.admin-card {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    border: none;
+    transition: var(--transition);
+    margin-bottom: 20px;
+}
+
+    .admin-card:hover {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+.admin-card-header {
+    background: white;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 15px 20px;
+    font-weight: 600;
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-card-body {
+    padding: 20px;
+}
+
+.admin-form-label {
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+}
+
+.admin-form-control {
+    border-radius: 8px;
+    padding: 12px 15px;
+    border: 1px solid #e9ecef;
+    transition: var(--transition);
+}
+
+    .admin-form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.15);
+        outline: none;
+    }
+
+.admin-form-select {
+    border-radius: 8px;
+    padding: 12px 15px;
+    border: 1px solid #e9ecef;
+    transition: var(--transition);
+    background-position: right 15px center;
+}
+
+    .admin-form-select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.15);
+        outline: none;
+    }
+
+.admin-form-group {
+    margin-bottom: 20px;
+}
+
+.admin-textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.admin-btn {
+    padding: 12px 20px;
+    border-radius: 8px;
+    transition: var(--transition);
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+    .admin-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+.admin-btn-primary {
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    border: none;
+    color: white;
+}
+
+.admin-btn-outline {
+    background: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+    .admin-btn-outline:hover {
+        background-color: rgba(67, 97, 238, 0.05);
+    }
+
+.admin-image-preview {
+    width: 100%;
+    height: 200px;
+    border-radius: var(--border-radius);
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    border: 2px dashed #dee2e6;
+    overflow: hidden;
+}
+
+    .admin-image-preview img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+.admin-image-preview-icon {
+    font-size: 3rem;
+    color: #dee2e6;
+}
+
+.admin-file-input-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-file-input-label {
+    display: block;
+    position: relative;
+    background-color: #f8f9fa;
+    color: var(--dark-color);
+    text-align: center;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+    .admin-file-input-label:hover {
+        background-color: #e9ecef;
+    }
+
+.admin-file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.admin-section-title {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e9ecef;
+    color: var(--dark-color);
+    font-weight: 600;
+}
+
+.admin-price-group {
+    display: flex;
+    gap: 15px;
+}
+
+.admin-price-input {
+    position: relative;
+}
+
+    .admin-price-input .admin-form-control {
+        padding-left: 30px;
+    }
+
+    .admin-price-input:before {
+        content: "â‚º";
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray-color);
+        z-index: 10;
+    }
+
+.admin-validation-summary {
+    background-color: rgba(249, 65, 68, 0.05);
+    border-radius: var(--border-radius);
+    padding: 15px;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--danger-color);
+}
+
+    .admin-validation-summary ul {
+        margin-bottom: 0;
+        padding-left: 20px;
+    }
+
+.admin-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    background-color: #e9ecef;
+    color: #212529;
+    margin-left: 0.5rem;
+}
+
+.admin-badge-required {
+    background-color: rgba(247, 37, 133, 0.1);
+    color: var(--warning-color);
+}
+
+/* DuyarlÄ± tasarÄ±m ayarlarÄ± */
+media (max-width: 768px) {
+    .admin-price-group
+
+{
+    flex-direction: column;
+    gap: 0;
+}
+}
+
 
