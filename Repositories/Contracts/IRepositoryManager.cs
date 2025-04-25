@@ -4,6 +4,7 @@ namespace Repositories.Contracts{
         IMainCategoryRepository MainCategory {get; }
         ISubCategoryRepository SubCategory { get; }
         IOrderRepository Order { get; }
+        IUserReviewRepository UserReview { get; }
         void Save();
     }
 }

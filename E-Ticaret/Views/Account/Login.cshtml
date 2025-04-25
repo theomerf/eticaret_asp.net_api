@@ -34,6 +34,10 @@
 								<input type="password" asp-for="Login.Password" class="form-control" required />
 								<span asp-validation-for="Login.Password" class="text-danger"></span>
 							</div>
+							<div class="mb-3 form-check">
+								<input type="checkbox" asp-for="Login.RememberMe" class="form-check-input" />
+								<label asp-for="Login.RememberMe" class="form-check-label">Beni Hatırla</label>
+							</div>
 							<div class="mb-3">
 								<a href="/Account/ForgotPassword" class="text-decoration-none">Şifremi Unuttum</a>
 							</div>
@@ -66,6 +70,21 @@
 								<label asp-for="Register.UserName" class="form-label fw-bold">Kullanıcı Adı</label>
 								<input asp-for="Register.UserName" class="form-control" required />
 								<span asp-validation-for="Register.UserName" class="text-danger"></span>
+							</div>
+							<div class="mb-3">
+								<label asp-for="Register.FirstName" class="form-label fw-bold">Ad</label>
+								<input asp-for="Register.FirstName" class="form-control" required />
+								<span asp-validation-for="Register.FirstName" class="text-danger"></span>
+							</div>
+							<div class="mb-3">
+								<label asp-for="Register.LastName" class="form-label fw-bold">Soyad</label>
+								<input asp-for="Register.LastName" class="form-control" required />
+								<span asp-validation-for="Register.LastName" class="text-danger"></span>
+							</div>
+							<div class="mb-3">
+								<label asp-for="Register.BirthDate" class="form-label fw-bold">Doğum Tarihi</label>
+								<input type="date	" asp-for="Register.BirthDate" class="form-control" required />
+								<span asp-validation-for="Register.BirthDate" class="text-danger"></span>
 							</div>
 							<div class="mb-3">
 								<label asp-for="Register.Email" class="form-label fw-bold">E-Posta</label>

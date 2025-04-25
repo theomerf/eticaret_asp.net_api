@@ -1,6 +1,8 @@
 ﻿using Entities.Models;
 using Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
+using Entities.RequestParameters;
+using Repositories.Extensions;
 
 namespace Repositories
 {
@@ -32,6 +34,16 @@ namespace Repositories
         public Order? GetOneOrder(int id)
         {
             return FindByCondition(o => o.OrderId.Equals(id), false);
+        }
+
+        public IQueryable<Order> GetUserOrders(string userName)
+        {
+            return _context
+                .Orders
+                .Where(o => o.UserName == userName)
+                .Include(mc => mc.Lines)
+                .ThenInclude(c => c.Product);
+                
         }
 
         public void SaveOrder(Order order)

@@ -130,7 +130,11 @@
                             <a class="nav-link dropdown-toggle text-white fw-semibold d-flex align-items-center" id="navbarDropdown"
                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <div class="avatar me-2">
-                                    <img src="/images/profile.png" alt="Avatar" class="rounded-circle" width="32" height="32">
+                                    @{
+										var avatarUrl = await Component.InvokeAsync("Avatar");
+                                    }
+                                    <img src="/images/avatars/@avatarUrl"
+                                         alt="Avatar" class="rounded-circle" width="32" height="32">
                                 </div>
                                 <span class="d-none d-lg-inline">@User.Identity.Name</span>
                             </a>
@@ -142,7 +146,7 @@
                                     </div>
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#"><i class="fa-solid fa-user me-2"></i> Profilim</a></li>
+                                <li><a asp-controller="Account" asp-action="Profile" class="dropdown-item"><i class="fa-solid fa-user me-2"></i> Profilim</a></li>
                                 <li><a class="dropdown-item" href="#"><i class="fa-solid fa-box me-2"></i> Siparişlerim</a></li>
                                 @if (User.IsInRole("Admin"))
                                 {
@@ -150,7 +154,6 @@
                                 }
                                 else
                                 {
-                                    <li><a class="dropdown-item" href="#"><i class="fa-regular fa-heart me-2"></i> Favorilerim</a></li>
                                     <li><a class="dropdown-item" href="#"><i class="fa-solid fa-tag me-2"></i> Kuponlarım</a></li>
                                     <li><a class="dropdown-item" href="#"><i class="fa-solid fa-gear me-2"></i> Ayarlar</a></li>
                                 }

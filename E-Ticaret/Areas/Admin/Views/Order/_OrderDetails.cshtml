@@ -5,7 +5,7 @@
     var statusColor = Model.Shipped ? "success" : "warning";
 }
 
-<div class="container py-4">
+<div class="col-lg-12 py-4">
     <div class="card border-0 shadow-sm rounded-3 mb-4">
         <div class="card-header bg-primary bg-gradient text-white py-3">
             <h4 class="mb-0">
@@ -27,6 +27,8 @@
                         </div>
 
                         <h4 class="mb-3">@Model?.Name</h4>
+             
+                        <h2>Kullanıcı adı: @Model.UserName</h2>
 
                         <div class="mb-4">
                             <h6 class="text-muted mb-2">Teslimat Adresi</h6>

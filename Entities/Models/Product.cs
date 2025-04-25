@@ -17,6 +17,7 @@
            ? (int)((1 - (DiscountPrice.Value / ActualPrice)) * 100)
            : 0;
         public bool ShowCase { get; set; } = false;
+        public ICollection<UserReview> UserReviews { get; set; } = new List<UserReview>();
     }
 }
 

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<UserReview>
+
+
+	@{
+		var totalReviews = Model.Count();
+		var averageRating = totalReviews > 0 ? Model.Average(r => r.Rating) : 0;
+		var ratingCounts = Enumerable.Range(1, 5)
+			.Select(star => new
+			{
+				Star = star,
+				Count = Model.Count(r => r.Rating == star),
+				Percentage = totalReviews > 0 ? (Model.Count(r => r.Rating == star) * 100.0 / totalReviews) : 0
+			})
+			.OrderByDescending(r => r.Star);
+	}
+
+	<div class="review-stats">
+		<div class="overall-rating">
+			<div class="rating-number">@averageRating.ToString()</div>
+			<div class="rating-stars">
+				@for (int i = 1; i <= 5; i++)
+				{
+					if (i <= Math.Floor(averageRating))
+					{
+						<i class="fas fa-star"></i>
+					}
+					else if (i - averageRating < 1)
+					{
+						<i class="fas fa-star-half-alt"></i>
+					}
+					else
+					{
+						<i class="far fa-star"></i>
+					}
+				}
+			</div>
+			<div class="rating-count">@totalReviews.ToString() Değerlendirme</div>
+		</div>
+
+		<div class="rating-bars">
+			@foreach (var rating in ratingCounts)
+			{
+				<div class="rating-bar-item">
+					<div class="rating-label">@rating.Star Yıldız</div>
+					<div class="progress">
+						<div class="progress-bar" style="width: @rating.Percentage%"></div>
+					</div>
+					<div class="rating-percent">@rating.Percentage.ToString("0")%</div>
+				</div>
+			}
+		</div>
+	</div>

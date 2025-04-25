@@ -1,0 +1,8 @@
+﻿@model IEnumerable<UserReview>
+
+@{
+	var totalReviews = Model.Count();
+	var averageRating = totalReviews > 0 ? Model.Average(r => r.Rating) : 0;
+}
+
+@averageRating

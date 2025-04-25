@@ -10,16 +10,23 @@ namespace Entities.Dtos
     public record UserDto
     {
         [DataType(DataType.Text)]
-        [Required(ErrorMessage= "Username is required")]
+        [Required(ErrorMessage= "Kullanıcı adı gerekli")]
         public String? UserName { get; init; }
 
         [DataType(DataType.EmailAddress)]
-        [Required(ErrorMessage = "Email is required")]
+        [Required(ErrorMessage = "E-Posta gerekli")]
         public String? Email { get; init; }
 
         [DataType(DataType.PhoneNumber)]
-        [Required(ErrorMessage = "Phone Number is required")]
-        public String? PhoneNumber { get; init; }  
+        [Required(ErrorMessage = "Telefon numarası gerekli")]
+        public String? PhoneNumber { get; init; }
+        [DataType(DataType.Text)]
+        [Required(ErrorMessage = "Ad gerekli")]
+        public String FirstName { get; set; }
+
+        [DataType(DataType.Text)]
+        [Required(ErrorMessage = "Soyad gerekli")]
+        public String LastName { get; set; }
 
         public HashSet<String>? Roles { get; set; } = new HashSet<String>();
     }

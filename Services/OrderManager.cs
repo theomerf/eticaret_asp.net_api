@@ -37,5 +37,10 @@ namespace Repositories
         {
             _manager.Order.SaveOrder(order);
         }
+
+        public IQueryable<Order> GetUserOrders(string userName)
+        {
+            return _manager.Order.GetUserOrders(userName);
+        }
     }
 }

@@ -1,12 +1,47 @@
 ﻿@model IEnumerable<IdentityRole>
 
-<div class="text-center my-5">
-	<div class="display-6">Roles</div>
+<div class="admin-header mt-4">
+    <h1><i class="fa-solid fa-gears"></i> Rol Yönetimi</h1>
+    <a asp-action="Create" class="admin-btn admin-btn-create">
+        <i class="fas fa-plus"></i> Yeni Rol Ekle
+    </a>
 </div>
 
-<ul class="list-group my-5">
-	@foreach(var role in Model)
-	{
-		<li class="list-group-item">@role.Name</li>
-	}
-</ul>
+<div class="col-lg-12 my-4">
+    <div class="admin-card shadow-sm">
+        <div class="admin-card-header d-flex justify-content-between align-items-center">
+            <div>
+                <i class="fas fa-th-list me-2"></i> Rol Listesi
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <ul class="list-group list-group-flush">
+                @if (Model.Any())
+                {
+                    @foreach (var role in Model)
+                    {
+                        <li class="list-group-item category-item">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <span class="category-name fw-bold">@role.Name</span>
+                                </div>
+                                <div class="action-buttons">
+                                    <a class="admin-action-btn admin-btn-edit" data-bs-toggle="tooltip" title="Düzenle" asp-action="Update" asp-route-id="@role.Id">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a class="admin-action-btn admin-btn-delete" data-bs-toggle="tooltip" title="Sil" asp-action="Delete" asp-route-id="@role.Id" onclick="return confirm('Bu kategoriyi silmek istediğinize emin misiniz?');">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                }
+                else
+                {
+                    <li class="list-group-item text-center">Henüz rol bulunmamaktadır.</li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

@@ -11,8 +11,14 @@ namespace ETicaret.Infrastructe.Mapper
         {
             CreateMap<ProductDtoForInsertion, Product>();
             CreateMap<ProductDtoForUpdate, Product>().ReverseMap();
-            CreateMap<UserDtoForCreation, IdentityUser>();
-            CreateMap<UserDtoForUpdate, IdentityUser>().ReverseMap();
+            CreateMap<UserDtoForCreation, Account>();
+            CreateMap<UserDtoForUpdate, Account>().ReverseMap();
+            CreateMap<MainCategoryDtoForInsertion, MainCategory>();
+            CreateMap<MainCategoryDtoForUpdate, MainCategory>().ReverseMap();
+            CreateMap<SubCategoryDtoForInsertion, SubCategory>();
+            CreateMap<SubCategoryDtoForUpdate, SubCategory>().ReverseMap();
+            CreateMap<UserReviewDtoForInsertion, UserReview>();
+            CreateMap<UserReviewDtoForUpdate, UserReview>().ReverseMap();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Entities.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 
@@ -9,16 +10,22 @@ namespace ETicaret.Controllers
     {
         private readonly IServiceManager _manager;
 
+        private readonly UserManager<Entities.Models.Account> _userManager;
+
         private readonly Cart _cart;
 
-        public OrderController(IServiceManager manager, Cart cart)
+        public OrderController(IServiceManager manager, Cart cart, UserManager<Entities.Models.Account> userManager)
         {
             _manager = manager;
-            _cart = cart;   
+            _cart = cart;
+            _userManager = userManager;
         }
 
-        [Authorize()]
-        public ViewResult Checkout() => View(new Order());
+        [Authorize]
+        public ViewResult Checkout()
+        {
+            return View();
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -31,6 +38,7 @@ namespace ETicaret.Controllers
             if (ModelState.IsValid) 
             {
                 order.Lines = _cart.Lines.ToArray();
+                order.UserName = _userManager.FindByNameAsync(User.Identity.Name).Result.UserName;
                 _manager.OrderService.SaveOrder(order);
                 _cart.Clear();
                 return RedirectToAction("Complete", new { orderId = order.OrderId });

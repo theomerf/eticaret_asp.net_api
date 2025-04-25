@@ -1,48 +1,88 @@
 ﻿@model UserDtoForCreation
-<div class="text-center my-5">
-	<div class="display-6">Create User</div>
-</div>
 
-<form method="post" asp-action="Create">
-<div class="row">
-	<div class="col-md-6">
-		<div class="form-group my-3">
-			<label asp-for="UserName"></label>
-			<input asp-for="UserName" class="form-control" />
-		</div>
-		<div class="form-group my-3">
-			<label asp-for="Email"></label>
-			<input asp-for="Email" class="form-control" />
-		</div>
-		<div class="form-group my-3">
-			<label asp-for="Password"></label>
-			<input asp-for="Password" class="form-control" />
-		</div>
-		<div class="form-group my-3">
-			<label asp-for="PhoneNumber"></label>
-			<input asp-for="PhoneNumber" class="form-control" />
-		</div>
-		<div class="form-group my-3">
-			<div class="btn-group d-flex justify-content-end">
-				<button type="submit" class="btn btn-primary">Submit</button>
-					<a asp-action="Index" class="btn btn-outline-primary">
-						<i class="fa fa-solid fa-arrow-left"></i>
-						Back
-					</a>
+
+<div class="adminuser-container">
+	<div class="adminuser-card">
+		<div class="adminuser-header">
+			<div class="adminuser-avatar">
+				<i class="fas fa-user-plus"></i>
 			</div>
+			<h1 class="adminuser-title">Yeni Kullanıcı Oluştur</h1>
+			<p class="adminuser-subtitle">Kullanıcı bilgilerini giriniz</p>
 		</div>
-	</div>
 
-	<div class="col-md-6">
-		<div class="lead p-2 mt-2">
-			Roles
-			@foreach(var item in Model.Roles){
-				<div class="form-check my-2">
-					<input type="checkbox" name="Roles" value="@item" class="form-check-input"/>
-					<label class="form-check-label">@item</label>
+		<div class="adminuser-form">
+			@if (ViewData.ModelState.ErrorCount > 0)
+			{
+				<div class="adminuser-validation-summary">
+					<div class="text-danger" asp-validation-summary="All"></div>
 				</div>
 			}
+
+			<form method="post" asp-action="Create">
+				<div class="row">
+					<div class="col-md-6">
+						<div class="adminuser-form-group">
+							<label asp-for="UserName" class="adminuser-form-label"><i class="fas fa-user"></i> Kullanıcı Adı</label>
+							<div class="adminuser-input-icon">
+								<input asp-for="UserName" class="adminuser-form-control" placeholder="Kullanıcı adı giriniz" />
+							</div>
+						</div>
+
+						<div class="adminuser-form-group">
+							<label asp-for="Email" class="adminuser-form-label"><i class="fas fa-envelope"></i> E-posta Adresi</label>
+							<div class="adminuser-input-icon">
+								<input asp-for="Email" class="adminuser-form-control" placeholder="E-posta adresi giriniz" />
+							</div>
+						</div>
+
+						<div class="adminuser-form-group">
+							<label asp-for="Password" class="adminuser-form-label"><i class="fas fa-lock"></i> Şifre</label>
+							<div class="adminuser-input-icon">
+								<input asp-for="Password" class="adminuser-form-control" placeholder="Şifre giriniz" />
+							</div>
+						</div>
+
+						<div class="adminuser-form-group">
+							<label asp-for="PhoneNumber" class="adminuser-form-label"><i class="fas fa-phone"></i> Telefon Numarası</label>
+							<div class="adminuser-input-icon">
+								<input asp-for="PhoneNumber" class="adminuser-form-control" placeholder="Telefon numarası giriniz" />
+							</div>
+						</div>
+
+						<div class="adminuser-form-group">
+							<div class="adminuser-btn-group">
+								<button type="submit" class="adminuser-btn adminuser-btn-primary">
+									<i class="fas fa-save"></i> Oluştur
+								</button>
+								<a asp-action="Index" class="adminuser-btn adminuser-btn-outline">
+									<i class="fas fa-arrow-left"></i> Geri Dön
+								</a>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="adminuser-roles-section">
+							<div class="adminuser-roles-title">
+								<i class="fas fa-shield-alt me-2"></i>Kullanıcı Rolleri
+							</div>
+
+							@foreach (var item in Model.Roles)
+							{
+								<div class="adminuser-role-item">
+									<input type="checkbox" name="Roles" value="@item" class="adminuser-check-input" id="role-@item" />
+									<label class="adminuser-check-label" for="role-@item">@item</label>
+								</div>
+							}
+
+							<div class="adminuser-helper-text">
+								<i class="fas fa-info-circle me-1"></i>Kullanıcı için uygun rolleri seçiniz.
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
-</form>

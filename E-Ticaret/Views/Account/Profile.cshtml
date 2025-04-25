@@ -1,0 +1,703 @@
+﻿@using Microsoft.AspNetCore.Mvc.ModelBinding
+@model ProfileModel
+
+<div class="profile-page-header">
+	<div class="container">
+		<div class="row">
+			<div class="col-12 mb-3">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="#" class="text-decoration-none">Ana Sayfa</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Profilim</li>
+					</ol>
+				</nav>
+				<h1 class="mb-0">Profilim</h1>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="container py-4">
+	<div class="row g-4">
+		<!-- Sol kolon - Profil resmi ve temel bilgiler -->
+		<div class="col-lg-4 col-md-5 profile-left-column">
+			<div class="profile-card">
+				<div class="profile-card-header">
+					<h5 class="mb-0">Profil Bilgileri</h5>
+				</div>
+				<div class="profile-avatar-container text-center">
+					<img src="/images/avatars/@Model.User.AvatarUrl" alt="Profil Fotoğrafı" class="profile-avatar img-fluid rounded-circle" style="width: 180px; height: 180px; object-fit: cover;">
+					<div class="profile-upload-btn">
+						<form asp-action="UpdateAvatar" method="post" enctype="multipart/form-data">
+							<input type="file" id="fileInput" name="file" style="display: none;" onchange="this.form.submit()" />
+
+							<button type="button" class="btn text-white" onclick="document.getElementById('fileInput').click()">
+								<i class="fas fa-camera"></i>
+							</button>
+						</form>
+					</div>
+				</div>
+				<div class="card-body px-4">
+					<h4 class="text-center mb-4 fw-bold">@Model.User.UserName</h4>
+
+					<div class="profile-info-item">
+						<span class="profile-info-label">Ad Soyad</span>
+						<span class="profile-info-value">@Model.User.FirstName @Model.User.LastName</span>
+					</div>
+					<div class="profile-info-item">
+						<span class="profile-info-label">E-posta</span>
+						<span class="profile-info-value">@Model.User.Email</span>
+					</div>
+					<div class="profile-info-item">
+						<span class="profile-info-label">Telefon</span>
+						<span class="profile-info-value">@Model.User.PhoneNumber</span>
+					</div>
+					<div class="profile-info-item">
+						<span class="profile-info-label">Üyelik Tarihi</span>
+						<span class="profile-info-value">@Model.User.MembershipDate</span>
+					</div>
+					<div class="profile-info-item">
+						<span class="profile-info-label">Son Giriş</span>
+						<span class="profile-info-value">@Model.User.LastLoginDate</span>
+					</div>
+
+					<div class="d-grid gap-3 mt-4">
+						<button class="profile-btn" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+							<i class="fas fa-edit me-2"></i> Profili Düzenle
+						</button>
+						<button class="profile-btn-outline btn mb-4" data-bs-toggle="modal" data-bs-target="#editPasswordModal">
+							<i class="fas fa-lock me-2"></i> Şifre Değiştir
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Sağ kolon - Kullanıcı bilgileri, siparişler ve adresler -->
+		<div class="col-lg-8 col-md-7">
+			<!-- Kullanıcı bilgileri -->
+			<div class="profile-card mb-4">
+				<div class="profile-card-header d-flex justify-content-between align-items-center">
+					<h5 class="mb-0">Hesap Özeti</h5>
+				</div>
+				<div class="card-body">
+					<div class="row g-3">
+						<div class="col-md-4">
+							<div class="profile-stat-card">
+								<span class="profile-stat-number">@Model.Orders.Count.ToString()</span>
+								<span class="profile-stat-label">Toplam Sipariş</span>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="profile-stat-card">
+								<span class="profile-stat-number">@Model.UserReviews.Count().ToString()</span>
+								<span class="profile-stat-label">Yorumlar</span>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="profile-stat-card">
+								<span class="profile-stat-number">
+									@Model.Orders.Sum(order => order.Lines.Sum(line => line.Quantity * line.Product.DiscountPrice)) ₺
+								</span>
+								<span class="profile-stat-label">Toplam Harcama</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Siparişler -->
+			<div class="profile-card mb-4">
+				<div class="profile-card-header d-flex justify-content-between align-items-center">
+					<h5 class="mb-0">Son Siparişlerim</h5>
+					<a href="#" class="text-white text-decoration-none small">Tümünü Gör</a>
+				</div>
+				<div class="card-body p-0 scroll-box">
+					@if (Model.Orders != null && Model.Orders.Any())
+					{
+						foreach (var order in Model.Orders)
+						{
+							<div class="profile-order-item">
+								<div class="d-flex justify-content-between align-items-center mb-3">
+									<div>
+										@if (order.Shipped)
+										{
+											<span class="profile-badge-shipped me-2">
+												<i class="fas fa-check-circle me-1"></i> Teslim Edildi
+											</span>
+										}
+										else
+										{
+											<span class="profile-badge-inorder me-2">
+												<i class="fas fa-shopping-cart me-1"></i> Sipariş Verildi
+											</span>
+										}
+										<span class="order-date">
+											<i class="far fa-calendar-alt me-1"></i> @order.OrderedAt
+										</span>
+									</div>
+									<span class="text-muted small">Sipariş No: #@order.OrderId</span>
+								</div>
+
+								@foreach (var line in order.Lines)
+								{
+									<div class="row align-items-center order-product-row">
+										<div class="col-md-2 col-4">
+											<img src="/images/@line.Product.ImageUrl" alt="@line.Product.ProductName" class="img-fluid rounded product-image">
+										</div>
+										<div class="col-md-7 col-8">
+											<h6 class="mb-2">@line.Product.ProductName</h6>
+											<p class="text-muted small mb-0">Birim Fiyat: ₺@line.Product.DiscountPrice</p>
+										</div>
+										<div class="col-md-3 col-12 mt-3 mt-md-0 text-md-end">
+											<p class="mb-1 small">Adet: @line.Quantity</p>
+											<h6 class="fw-bold">₺@(line.Quantity * line.Product.DiscountPrice)</h6>
+										</div>
+									</div>
+								}
+
+								<div class="d-flex justify-content-between align-items-center mt-3">
+									<button class="profile-btn btn-sm">
+										<i class="fas fa-eye me-1"></i> Detaylar
+									</button>
+									<div class="order-total">
+										Toplam: ₺@order.Lines.Sum(l => l.Quantity * l.Product.DiscountPrice)
+									</div>
+								</div>
+							</div>
+						}
+					}
+					else
+					{
+						<div class="profile-empty-state">
+							<div class="profile-empty-icon">
+								<i class="fas fa-shopping-bag"></i>
+							</div>
+							<h5 class="profile-empty-title">Henüz Sipariş Vermemişsiniz</h5>
+							<p class="profile-empty-text">İlk alışverişinizi yapmak için ürünleri keşfedin.</p>
+							<a asp-controller="Product" asp-action="Index" class="text-decoration-none profile-btn">Alışverişe Başla</a>
+						</div>
+					}
+				</div>
+			</div>
+
+
+			<!-- Adres Bilgileri - Düzenlenmiş HTML -->
+			<div class="profile-card mb-4">
+				<div class="profile-card-header d-flex justify-content-between align-items-center">
+					<h5 class="mb-0">Adres Bilgilerim</h5>
+					<button class="profile-btn btn-sm">
+						<i class="fas fa-plus me-1"></i> Yeni Adres Ekle
+					</button>
+				</div>
+				<div class="card-body">
+					<div class="profile-address-card">
+						<div class="d-flex justify-content-between">
+							<h6 class="mb-2 fw-bold">Ev Adresi <span class="profile-default-badge">Varsayılan</span></h6>
+							<div class="dropdown">
+								<button class="btn btn-sm text-muted p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+									<i class="fas fa-ellipsis-v"></i>
+								</button>
+								<ul class="dropdown-menu">
+									<li><a class="dropdown-item" href="#"><i class="fas fa-edit me-2"></i> Düzenle</a></li>
+									<li><a class="dropdown-item" href="#"><i class="fas fa-trash me-2"></i> Sil</a></li>
+								</ul>
+							</div>
+						</div>
+						<p class="mb-1"><strong>Ahmet Yılmaz</strong></p>
+						<p class="mb-1">Atatürk Mah. Cumhuriyet Cad. No:123 D:5</p>
+						<p class="mb-1">Kadıköy / İstanbul</p>
+						<p class="mb-2">34700</p>
+						<p class="mb-0"><strong>Telefon:</strong> +90 555 123 4567</p>
+						<div class="profile-address-actions">
+							<span class="profile-address-action"><i class="fas fa-edit me-1"></i> Düzenle</span>
+							<span class="profile-address-action"><i class="fas fa-trash me-1"></i> Sil</span>
+						</div>
+					</div>
+
+					<div class="profile-address-card">
+						<div class="d-flex justify-content-between">
+							<h6 class="mb-2 fw-bold">İş Adresi</h6>
+							<div class="dropdown">
+								<button class="btn btn-sm text-muted p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+									<i class="fas fa-ellipsis-v"></i>
+								</button>
+								<ul class="dropdown-menu">
+									<li><a class="dropdown-item" href="#"><i class="fas fa-edit me-2"></i> Düzenle</a></li>
+									<li><a class="dropdown-item" href="#"><i class="fas fa-trash me-2"></i> Sil</a></li>
+									<li><a class="dropdown-item" href="#"><i class="fas fa-star me-2"></i> Varsayılan Yap</a></li>
+								</ul>
+							</div>
+						</div>
+						<p class="mb-1"><strong>Ahmet Yılmaz</strong></p>
+						<p class="mb-1">Levent Mah. Büyükdere Cad. No:201 Kat:8</p>
+						<p class="mb-1">Levent / İstanbul</p>
+						<p class="mb-2">34394</p>
+						<p class="mb-0"><strong>Telefon:</strong> +90 555 987 6543</p>
+						<div class="profile-review-actions">
+							<span class="profile-review-action"><i class="fas fa-edit me-1"></i> Düzenle</span>
+							<span class="profile-review-action"><i class="fas fa-trash me-1"></i> Sil</span>
+							<span class="profile-review-action"><i class="fas fa-star me-1"></i> Varsayılan Yap</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Yorumlarım - Düzenlenmiş HTML -->
+			<div class="profile-card">
+				<div class="profile-card-header d-flex justify-content-between align-items-center">
+					<h5 class="mb-0">Yorumlarım</h5>
+					<a href="#" class="text-white text-decoration-none small">Tümünü Gör</a>
+				</div>
+				<div class="card-body p-0 scroll-box">
+					@if (Model.UserReviews != null && Model.UserReviews.Any())
+					{
+						foreach (var review in Model.UserReviews)
+						{
+							<div class="profile-review-card">
+								<div class="d-flex justify-content-between align-items-center">
+									<div class="profile-review-product">
+										<i class="fas fa-box-open me-2"></i> @review.Product?.ProductName
+									</div>
+									<div class="profile-review-date fw-bold">
+										<i class="far fa-calendar-alt me-1"></i> @review.ReviewDate
+									</div>
+								</div>
+
+								<div class="d-flex justify-content-between align-items-center mb-3">
+									<div class="profile-review-title">
+										<i class="fas fa-quote-left me-2" style="opacity: 0.5; font-size: 0.8rem;"></i>
+										@review.ReviewTitle
+									</div>
+									<div class="profile-review-rating">
+										@for (int i = 1; i <= 5; i++)
+										{
+											if (i <= review.Rating)
+											{
+												<i class="fas fa-star"></i>
+											}
+											else
+											{
+												<i class="far fa-star"></i>
+											}
+										}
+									</div>
+								</div>
+
+								<div class="profile-review-text">
+									@review.ReviewText
+								</div>
+
+								@if (!string.IsNullOrEmpty(review.ReviewPictureUrl))
+								{
+									<div class="profile-review-image mb-3">
+										<img src="/images/comments/@review.ReviewPictureUrl" alt="Review Image" class="img-fluid rounded" style="max-height: 150px;">
+									</div>
+								}
+
+								<div class="profile-review-actions">
+									<span class="profile-review-action profile-review-edit-btn review-add-btn" data-review-rating="@review.Rating" data-review-id="@review.UserReviewId" data-user-id="@review.UserId" data-product-id="@review.ProductId">
+										<i class="fas fa-edit me-1"></i> Düzenle
+									</span>
+									
+									<a asp-action="DeleteComment" asp-route-id="@review.UserReviewId" class="profile-review-action">
+										<i class="fas fa-trash me-1"></i> Sil
+									</a>
+								</div>
+							</div>
+							
+						}
+					}
+					else
+					{
+						<div class="profile-empty-state">
+							<div class="profile-empty-icon">
+								<i class="far fa-comment-dots"></i>
+							</div>
+							<h5 class="profile-empty-title">Henüz Yorum Yapmadınız</h5>
+							<p class="profile-empty-text">Satın aldığınız ürünler hakkında düşüncelerinizi paylaşın.</p>
+							<a asp-action="Product" asp-controller="Index" class="text-decoration-none profile-btn">Ürünleri İncele</a>
+						</div>
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Profil Düzenle Modal -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content border-0 shadow">
+			<form asp-action="UpdateProfile" method="post">
+				<div class="modal-header border-0" style="background: linear-gradient(45deg, #6a11cb, #2575fc); color: white;">
+					<h5 class="modal-title" id="editProfileModalLabel">
+						<i class="fas fa-pen-square me-2"></i>
+						Profili Düzenle
+					</h5>
+					<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+				</div>
+
+				<div class="modal-body p-4">
+					<input type="hidden" name="UserName" asp-for="UserDtoForUpdate.UserName"/>
+					<div class="mb-4">
+						<label asp-for="UserDtoForUpdate.FirstName" class="form-label fw-bold"><i class="fas fa-a me-2" style="color: #6a11cb;"></i>Ad</label>
+						<input asp-for="UserDtoForUpdate.FirstName" name="FirstName" class="form-control border-0 shadow-sm" />
+						<span asp-validation-for="UserDtoForUpdate.FirstName" class="text-danger"></span>
+					</div>
+
+					<div class="mb-4">
+						<label asp-for="UserDtoForUpdate.LastName" class="form-label fw-bold"><i class="fas fa-s me-2" style="color: #6a11cb;"></i>	Soyad</label>
+						<input asp-for="UserDtoForUpdate.LastName" name="LastName" class="form-control border-0 shadow-sm" />
+						<span asp-validation-for="UserDtoForUpdate.LastName" class="text-danger"></span>
+					</div>
+
+					<div class="mb-4">
+						<label asp-for="UserDtoForUpdate.Email" class="form-label fw-bold"><i class="fas fa-envelope me-2" style="color: #6a11cb;"></i>E-posta</label>
+						<input asp-for="UserDtoForUpdate.Email" name="Email" class="form-control border-0 shadow-sm" />
+						<span asp-validation-for="UserDtoForUpdate.Email" class="text-danger"></span>
+					</div>
+
+					<div class="mb-4">
+						<label asp-for="UserDtoForUpdate.PhoneNumber" class="form-label fw-bold"><i class="fas fa-phone me-2" style="color: #6a11cb;"></i>Telefon</label>
+						<input asp-for="UserDtoForUpdate.PhoneNumber" name="PhoneNumber" class="form-control border-0 shadow-sm" />
+						<span asp-validation-for="UserDtoForUpdate.PhoneNumber" class="text-danger"></span>
+					</div>
+
+					<div class="d-flex justify-content-end mt-4">
+						<button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">Kapat</button>
+						<button type="submit" class="btn text-white" style="background: linear-gradient(45deg, #6a11cb, #2575fc);">Güncelle</button>
+					</div>
+
+				</div>
+			</form>
+
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="editPasswordModal" tabindex="-1" aria-labelledby="editPasswordModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content border-0 shadow">
+			<form asp-action="ChangePassword" method="post">
+				<div class="modal-header border-0" style="background: linear-gradient(45deg, #6a11cb, #2575fc); color: white;">
+					<h5 class="modal-title" id="editPasswordModalLabel">
+						<i class="fas fa-lock me-2"></i> Şifre Güncelle
+					</h5>
+					<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Kapat"></button>
+				</div>
+
+				<div class="modal-body p-4">
+					@if (!ViewData.ModelState.IsValid)
+					{
+						<div class="alert alert-danger">
+							@foreach (var error in ViewData.ModelState[string.Empty]?.Errors ?? Enumerable.Empty<ModelError>())
+							{
+								<div>@error.ErrorMessage</div>
+							}
+						</div>
+					}
+					<input type="hidden" name="UserName" asp-for="@Model.User.UserName" />
+
+					<div class="mb-4">
+						<label asp-for="ChangePasswordDto.Password" class="form-label fw-bold"><i class="fas fa-key me-2" style="color: #6a11cb;"></i>Mevcut Şifre</label>
+						<input asp-for="ChangePasswordDto.Password" class="form-control border-0 shadow-sm" name="Password" type="password" />
+						<span asp-validation-for="ChangePasswordDto.Password" class="text-danger"></span>
+					</div>
+
+					<div class="mb-4">
+						<label asp-for="ChangePasswordDto.NewPassword" class="form-label fw-bold"><i class="fas fa-key me-2" style="color: #6a11cb;"></i>Yeni Şifre</label>
+						<input asp-for="ChangePasswordDto.NewPassword" class="form-control border-0 shadow-sm" name="NewPassword" type="password" />
+						<span asp-validation-for="ChangePasswordDto.NewPassword" class="text-danger"></span>
+					</div>
+
+					<div class="mb-4">
+						<label asp-for="ChangePasswordDto.ConfirmPassword" class="form-label fw-bold"><i class="fas fa-key me-2" style="color: #6a11cb;"></i>Yeni Şifre Tekrar</label>
+						<input asp-for="ChangePasswordDto.ConfirmPassword" class="form-control border-0 shadow-sm" name="ConfirmPassword" type="password" />
+						<span asp-validation-for="ChangePasswordDto.ConfirmPassword" class="text-danger"></span>
+					</div>
+
+					<div class="d-flex justify-content-end mt-4">
+						<button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">İptal</button>
+						<button type="submit" class="btn text-white" style="background: linear-gradient(45deg, #6a11cb, #2575fc);">Şifreyi Güncelle</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+<!-- Edit Review Modal -->
+<div class="modal fade" id="editReviewModal" tabindex="-1" aria-labelledby="editReviewModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content border-0 shadow">
+			<!-- Modal Header with gradient background -->
+			<div class="modal-header border-0" style="background: linear-gradient(45deg, #6a11cb, #2575fc); color: white;">
+				<h5 class="modal-title" id="editReviewModalLabel">
+					<i class="fas fa-pen-square me-2"></i>
+					<span id="productNameDisplay"></span>
+				</h5>
+				<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+
+			<!-- Modal Body -->
+			<div class="modal-body p-4">
+				<form id="editReviewForm" asp-action="UpdateComment" method="post" enctype="multipart/form-data">
+					<input type="hidden" id="reviewId" name="UserReviewId">
+					<input type="hidden" id="userId" name="UserId">
+					<input type="hidden" id="productId" name="ProductId">
+
+					<!-- Review Title -->
+					<div class="mb-4">
+						<label for="reviewTitle" class="form-label fw-bold">
+							<i class="fas fa-heading me-2" style="color: #6a11cb;"></i>Yorum Başlığı
+						</label>
+						<input type="text" class="form-control border-0 shadow-sm" id="reviewTitle" name="ReviewTitle" required>
+					</div>
+
+					<!-- Review Text -->
+					<div class="mb-4">
+						<label for="reviewText" class="form-label fw-bold">
+							<i class="fas fa-comment me-2" style="color: #6a11cb;"></i>Yorumunuz
+						</label>
+						<textarea class="form-control border-0 shadow-sm" id="reviewText" name="ReviewText" rows="4" required></textarea>
+					</div>
+
+					<!-- Rating -->
+					<div class="mb-4">
+						<label class="form-label fw-bold">
+							<i class="fas fa-star me-2" style="color: #6a11cb;"></i>Değerlendirme
+						</label>
+						<div class="rating-stars">
+							<div class="d-flex">
+								<div class="star-rating">
+									<input type="radio" id="star5" name="Rating" value="5">
+									<label for="star5" class="star"><i class="fas fa-star"></i></label>
+
+									<input type="radio" id="star4" name="Rating" value="4">
+									<label for="star4" class="star"><i class="fas fa-star"></i></label>
+
+									<input type="radio" id="star3" name="Rating" value="3">
+									<label for="star3" class="star"><i class="fas fa-star"></i></label>
+
+									<input type="radio" id="star2" name="Rating" value="2">
+									<label for="star2" class="star"><i class="fas fa-star"></i></label>
+
+									<input type="radio" id="star1" name="Rating" value="1">
+									<label for="star1" class="star"><i class="fas fa-star"></i></label>
+								</div>
+								<div class="ms-3 rating-text"></div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Review Image -->
+					<div class="mb-4">
+						<label for="reviewImage" class="form-label fw-bold">
+							<i class="fas fa-image me-2" style="color: #6a11cb;"></i>Fotoğraf
+						</label>
+						<div class="image-upload-container">
+							<div class="image-preview-container mb-3">
+								<img id="currentImage" src="" alt="Yorum Resmi" class="img-fluid rounded" style="max-height: 150px; display: none;">
+							</div>
+							<div class="upload-controls">
+								<input type="file" class="form-control border-0 shadow-sm" id="reviewImage" name="file" accept="image/*">
+								<input type="hidden" id="existingImage" name="ReviewPictureUrl">
+								<div class="form-text">Mevcut resmi değiştirmek için yeni bir resim yükleyin.</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Form Buttons -->
+					<div class="d-flex justify-content-end mt-4">
+						<button type="button" class="btn btn-outline-secondary me-2" data-bs-dismiss="modal">
+							<i class="fas fa-arrow-left me-1"></i> Geri Dön
+						</button>
+						<button type="submit" class="btn text-white" style="background: linear-gradient(45deg, #6a11cb, #2575fc);">
+							<i class="fas fa-save me-1"></i> Kaydet
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	/* Theme colors */
+	:root {
+		--theme-gradient: linear-gradient(45deg, #6a11cb, #2575fc);
+		--primary-color: #6a11cb;
+		--secondary-color: #2575fc;
+	}
+
+	/* Modal styling */
+	#editReviewModal .modal-content {
+		border-radius: 15px;
+		overflow: hidden;
+	}
+
+	/* Modal styling */
+	#editProfileModal .modal-content {
+		border-radius: 15px;
+		overflow: hidden;
+	}
+
+	/* Modal styling */
+	#editPasswordModal .modal-content {
+		border-radius: 15px;
+		overflow: hidden;
+	}
+
+	/* Star rating system */
+	.star-rating {
+		display: flex;
+		flex-direction: row-reverse;
+		font-size: 1.5rem;
+		justify-content: flex-end;
+	}
+
+		.star-rating input {
+			display: none;
+		}
+
+		.star-rating label {
+			cursor: pointer;
+			color: #ddd;
+			padding: 0 0.15rem;
+		}
+
+			.star-rating input:checked ~ label,
+			.star-rating label:hover,
+			.star-rating label:hover ~ label {
+				color: #ffb700;
+			}
+
+	/* Image preview container */
+	.image-preview-container {
+		min-height: 50px;
+	}
+
+	/* Hover effects */
+	button[type="submit"]:hover {
+		box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+	}
+</style>
+@section Scripts {
+	<script>
+		$(document).ready(function () {
+			var modalId = '@TempData["OpenModal"]';
+			if (modalId) {
+				var modal = new bootstrap.Modal(document.getElementById(modalId));
+				modal.show();
+			}
+		});
+	</script>
+}
+
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+	  // Initialize review edit buttons
+	  const editButtons = document.querySelectorAll('.profile-review-edit-btn');
+
+	  editButtons.forEach(btn => {
+		btn.addEventListener('click', function() {
+		  const reviewId = this.getAttribute('data-review-id');
+		  const userId = this.getAttribute('data-user-id');
+		  const productId = this.getAttribute('data-product-id');
+		  const rating = this.getAttribute('data-review-rating');
+
+		  // Find the review card that contains this button
+		  const reviewCard = this.closest('.profile-review-card');
+
+		  // Extract data from the review card
+		  const productName = reviewCard.querySelector('.profile-review-product').textContent.trim();
+		  const reviewTitle = reviewCard.querySelector('.profile-review-title').textContent.trim();
+		  const reviewText = reviewCard.querySelector('.profile-review-text').textContent.trim();
+
+		  // Check if there's an image
+		  const imageElement = reviewCard.querySelector('.profile-review-image img');
+		  const imageSrc = imageElement ? imageElement.getAttribute('src') : '';
+
+		  // Get the image filename from the path
+		  let imageName = '';
+		  if (imageSrc) {
+			const parts = imageSrc.split('/');
+			imageName = parts[parts.length - 1];
+		  }
+
+		  // Populate the modal with the data
+		  document.getElementById('productNameDisplay').textContent = productName;
+		  document.getElementById('reviewId').value = reviewId;
+		  document.getElementById('userId').value = userId;
+		  document.getElementById('productId').value = productId;
+		  document.getElementById('reviewTitle').value = reviewTitle;
+		  document.getElementById('reviewText').value = reviewText;
+		  document.getElementById('existingImage').value = imageName;
+
+		  // Set the rating
+		  document.querySelector(`#star${rating}`).checked = true;
+		  updateRatingText(rating);
+
+		  // Show the current image if exists
+		  const currentImage = document.getElementById('currentImage');
+		  if (imageSrc) {
+			currentImage.src = imageSrc;
+			currentImage.style.display = 'block';
+		  } else {
+			currentImage.style.display = 'none';
+		  }
+
+		  // Reset file input
+		  document.getElementById('reviewImage').value = '';
+
+		  // Show the modal
+		  const editReviewModal = new bootstrap.Modal(document.getElementById('editReviewModal'));
+		  editReviewModal.show();
+		});
+	  });
+
+	  // Rating display text
+	  const ratingInputs = document.querySelectorAll('.star-rating input');
+	  const ratingText = document.querySelector('.rating-text');
+
+	  const ratingDescriptions = {
+		1: 'Kötü',
+		2: 'Orta',
+		3: 'İyi',
+		4: 'Çok İyi',
+		5: 'Mükemmel'
+	  };
+
+	  function updateRatingText(value) {
+		ratingText.textContent = ratingDescriptions[value];
+	  }
+
+	  ratingInputs.forEach(input => {
+		input.addEventListener('change', function() {
+		  updateRatingText(this.value);
+		});
+	  });
+
+	  // Image preview functionality
+	  const reviewImageInput = document.getElementById('reviewImage');
+	  const currentImage = document.getElementById('currentImage');
+
+	  reviewImageInput.addEventListener('change', function() {
+		if (this.files && this.files[0]) {
+		  const reader = new FileReader();
+
+		  reader.onload = function(e) {
+			currentImage.src = e.target.result;
+			currentImage.style.display = 'block';
+		  }
+
+		  reader.readAsDataURL(this.files[0]);
+		}
+	  });
+	});
+</script>

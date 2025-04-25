@@ -6,6 +6,8 @@ using Repositories.Contracts;
 using Services;
 using Services.Contracts;
 using ETicaret.Models;
+using Microsoft.Extensions.Options;
+using System.Security.Claims;
 
 namespace ETicaret.Infrastructure.Extensions
 {
@@ -24,7 +26,7 @@ namespace ETicaret.Infrastructure.Extensions
 
         public static void ConfigureIdentity(this IServiceCollection services)
         {
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            services.AddIdentity<Account, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.User.RequireUniqueEmail = true;
@@ -33,7 +35,8 @@ namespace ETicaret.Infrastructure.Extensions
                 options.Password.RequireLowercase = false;
                 options.Password.RequiredLength = 6;
             })
-            .AddEntityFrameworkStores<RepositoryContext>();
+            .AddEntityFrameworkStores<RepositoryContext>()
+            .AddDefaultTokenProviders();
         }
 
         public static void ConfigureSession(this IServiceCollection services)
@@ -56,6 +59,7 @@ namespace ETicaret.Infrastructure.Extensions
             services.AddScoped<IMainCategoryRepository, MainCategoryRepository>();
             services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IUserReviewRepository, UserReviewRepository>();
         }
 
         public static void ConfigureServiceRegistration(this IServiceCollection services)
@@ -66,17 +70,35 @@ namespace ETicaret.Infrastructure.Extensions
             services.AddScoped<ISubCategoryService, SubCategoryManager>();
             services.AddScoped<IOrderService, OrderManager>();
             services.AddScoped<IAuthService, AuthManager>();
+            services.AddScoped<IUserReviewService, UserReviewManager>();
         }
+
 
         public static void ConfigureApplicationCookie(this IServiceCollection services)
         {
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Account/Login";
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
                 options.AccessDeniedPath = "/Account/AccessDenied";
+
+                
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+                options.SlidingExpiration = true;
+
+                options.Events.OnSigningIn = context =>
+                {
+                    
+                    if (context.Properties.IsPersistent)
+                    {
+                        context.Properties.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(30);
+                    }
+
+                    return Task.CompletedTask;
+                };
             });
+
         }
+
         public static void ConfigureRouting(this IServiceCollection services)
         {
             services.AddRouting(options =>

@@ -21,17 +21,7 @@
                     <span class="actual-price">@Model?.DiscountPrice?.ToString("c")</span>
                 </div>
                 <div class="product-rating mt-2">
-                    @for (int i = 1; i <= 5; i++)
-                    {
-                        if (i <= (Model?.Rating ?? 0))
-                        {
-                            <i class="fa fa-star"></i>
-                        }
-                        else
-                        {
-                            <i class="fa-regular fa-star"></i>
-                        }
-                    }
+                    @await Component.InvokeAsync("RatingStars", new { productId = Model.ProductId, Mode = "stars" })
                 </div>
             </div>
         </a>

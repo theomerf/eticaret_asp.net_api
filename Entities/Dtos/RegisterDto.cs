@@ -4,11 +4,19 @@ namespace Entities.Dtos
 {
     public record RegisterDto
     {
-        [Required(ErrorMessage ="Username is required")]
+        [Required(ErrorMessage ="Kullanıcı adı gerekiyor")]
         public string UserName { get; init; }
-        [Required(ErrorMessage = "Email is required")]
+        [Required(ErrorMessage = "E-Posta gerekiyor")]
         public string Email { get; init; }
-        [Required(ErrorMessage = "Password is required")]
+        [Required(ErrorMessage = "Şifre gerekiyor")]
         public string Password { get; init; }
+
+        [Required(ErrorMessage = "İsim gerekiyor")]
+        public string FirstName { get; init; }
+        [Required(ErrorMessage = "Soyisim gerekiyor")]
+        public string LastName { get; init; }
+        [Required(ErrorMessage = "Doğum tarihi gerekiyor")]
+        public DateTime BirthDate { get; init; }
+
     }
 }

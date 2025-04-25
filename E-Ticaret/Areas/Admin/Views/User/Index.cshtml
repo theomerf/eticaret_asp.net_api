@@ -1,55 +1,149 @@
-﻿@model IEnumerable<IdentityUser>
-
-<div class="row">
-	<div class="col-md-3"></div>
-	<div class="col-md-6">
-		<div class="text-center my-5">
-			<div class="display-6">Users</div>
+﻿<div class="container py-5">
+	<!-- User Stats Section -->
+	<div class="adminuser-stats">
+		<div class="adminuser-stat-card">
+			<div class="adminuser-stat-value">35</div>
+			<div class="adminuser-stat-label">Toplam Kullanıcı</div>
+		</div>
+		<div class="adminuser-stat-card">
+			<div class="adminuser-stat-value">28</div>
+			<div class="adminuser-stat-label">Aktif Kullanıcı</div>
+		</div>
+		<div class="adminuser-stat-card">
+			<div class="adminuser-stat-value">7</div>
+			<div class="adminuser-stat-label">Pasif Kullanıcı</div>
+		</div>
+		<div class="adminuser-stat-card">
+			<div class="adminuser-stat-value">3</div>
+			<div class="adminuser-stat-label">Admin Sayısı</div>
 		</div>
 	</div>
-	<div class="col-md-3 d-flex justify-content-center align-items-center">
-		<div class="btn-group">
-			<a asp-action="Create" class="btn btn-primary rounded-2 mt-3">
-				<i class="fa fa-solid fa-plus"></i>
-				Create User
+
+	<div class="card adminuser-card">
+		<div class="card-header adminuser-card-header d-flex justify-content-between align-items-center">
+			<h5 class="mb-0">Kullanıcı Yönetimi</h5>
+			<a asp-action="Create" class="btn btn-light adminuser-btn-primary">
+				<i class="fa fa-solid fa-plus me-2"></i>
+				Yeni Kullanıcı Ekle
 			</a>
+		</div>
+		<div class="card-body">
+			<div class="adminuser-header-actions">
+				<div class="adminuser-search-box">
+					<i class="fa fa-search"></i>
+					<input type="text" placeholder="Kullanıcı ara..." class="form-control">
+				</div>
+				<div class="d-flex gap-2">
+					<div class="adminuser-filter-dropdown">
+						<button class="adminuser-filter-btn">
+							<i class="fa fa-filter"></i>
+							<span>Filtrele</span>
+						</button>
+						<div class="adminuser-filter-menu">
+							<div class="adminuser-filter-item">Tüm Kullanıcılar</div>
+							<div class="adminuser-filter-item">Sadece Adminler</div>
+							<div class="adminuser-filter-item">Sadece Kullanıcılar</div>
+							<div class="adminuser-filter-item">Aktif Kullanıcılar</div>
+							<div class="adminuser-filter-item">Pasif Kullanıcılar</div>
+						</div>
+					</div>
+					<button class="adminuser-export-btn">
+						<i class="fa fa-download"></i>
+						<span>Dışa Aktar</span>
+					</button>
+				</div>
+			</div>
+
+			<div class="adminuser-table-responsive">
+				<table class="adminuser-table">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Kullanıcı Adı</th>
+							<th>Email</th>
+							<th>Durum</th>
+							<th>Roller</th>
+							<th>Kayıt Tarihi</th>
+							<th>Eylemler</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (Account user in Model)
+						{
+							<tr>
+								<td class="text-muted">@user.Id</td>
+								<td>
+									<div class="d-flex align-items-center">
+										<div style="width: 40px; height: 40px; background: linear-gradient(45deg, #6a11cb, #2575fc); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 10px;">
+											@user.UserName.Substring(0, 1).ToUpper()
+										</div>
+										<span>@user.UserName</span>
+									</div>
+								</td>
+								<td>@user.Email</td>
+								<td>
+									<span class="adminuser-user-status adminuser-user-active"></span>
+									Aktif
+								</td>
+								<td user-name="@user.UserName" user-role="">
+									<span class="adminuser-badge adminuser-badge-admin">Admin</span>
+								</td>
+								<td>01.04.2025</td>
+								<td>
+									<div class="adminuser-btn-group">
+										<a class="btn adminuser-icon-btn adminuser-icon-btn-edit" title="Düzenle" asp-action="Update" asp-route-id="@user.UserName">
+											<i class="fa fa-edit"></i>
+										</a>
+										<a class="btn adminuser-icon-btn adminuser-icon-btn-reset" title="Şifre Sıfırla" asp-action="ResetPassword" asp-route-id="@user.UserName">
+											<i class="fa fa-key"></i>
+										</a>
+										<form method="post" asp-action="DeleteOneUser" style="display: inline;">
+											<input type="hidden" name="UserName" value="@user.UserName" />
+											<button type="submit" class="btn adminuser-icon-btn adminuser-icon-btn-delete" title="Sil">
+												<i class="fa fa-trash"></i>
+											</button>
+										</form>
+									</div>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+
+			<nav class="adminuser-pagination">
+				<ul class="pagination">
+					<li class="page-item">
+						<a class="page-link" href="#" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+						</a>
+					</li>
+					<li class="page-item active"><a class="page-link" href="#">1</a></li>
+					<li class="page-item"><a class="page-link" href="#">2</a></li>
+					<li class="page-item"><a class="page-link" href="#">3</a></li>
+					<li class="page-item">
+						<a class="page-link" href="#" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
 		</div>
 	</div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+	document.querySelector('.adminuser-filter-btn').addEventListener('click', function() {
+		document.querySelector('.adminuser-filter-menu').classList.toggle('show');
+	});
 
-<table>
-	<thead>
-		<tr>
-			<th>Id</th>
-			<th>UserName</th>
-			<th>Roles</th>
-			<th>Operations</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (IdentityUser user in Model)
-		{
-			<tr>
-				<td>@user.Id</td>
-				<td>@user.UserName</td>
-				<td user-name="@user.UserName" user-role="">
-					<i></i>
-				</td>
-				<td>
-					<div class="btn-group">
-						<a class="btn btn btn-warning rounded-0" asp-action="Update" asp-route-id="@user.UserName"><i class="fa fa-solid fa-edit"></i> Edit</a>
-						<a class="btn btn btn-info rounded-0" asp-action="ResetPassword" asp-route-id="@user.UserName"><i class="fa fa-solid fa-edit"></i> Reset Password</a>
-						<form method="post" asp-action="DeleteOneUser">
-							<input type="hidden" name="UserName" value="@user.UserName" />
-							<button class="btn btn-danger rounded-0">
-								<i class="fa fa-solid fa-trash"></i>
-								Delete
-							</button>
-						</form>
-					</div>
-				</td>
-			</tr>
+	document.addEventListener('click', function(event) {
+		if (!event.target.closest('.adminuser-filter-dropdown')) {
+			const filterMenu = document.querySelector('.adminuser-filter-menu');
+			if (filterMenu.classList.contains('show')) {
+				filterMenu.classList.remove('show');
+			}
 		}
-	</tbody>
-</table>
+	});
+</script>

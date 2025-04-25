@@ -60,7 +60,7 @@ namespace Services
             var product = _manager.Product.GetOneProduct(id, trackChanges);
             if (product == null)
             {
-                throw new Exception("Product not found");
+                throw new Exception("Ürün bulunamadı");
             }
             return product;
         }

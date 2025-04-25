@@ -1,10 +1,10 @@
-﻿@model ProductListViewModel
+﻿@model ProductDtoForShowcaseUpdate
 
 
 <div class="container-fluid py-4">
 	<!-- Header -->
 	<div class="admin-header">
-		<h1><i class="fas fa-box-open me-2"></i> Ürün Yönetimi</h1>
+		<h1><i class="fa-solid fa-gears"></i> Ürün Yönetimi</h1>
 		<a asp-action="Create" class="admin-btn admin-btn-create">
 			<i class="fas fa-plus"></i> Yeni Ürün Ekle
 		</a>
@@ -21,7 +21,7 @@
 							<i class="fas fa-box"></i>
 						</div>
 						<div class="admin-stats-title">Toplam Ürün</div>
-						<div class="admin-stats-value">@Model.Products.Count()</div>
+						<div class="admin-stats-value">@Model.ProductList.Products.Count()</div>
 						<div class="admin-stats-trend admin-stats-up">
 							<i class="fas fa-arrow-up me-1"></i> %8.2
 						</div>
@@ -33,7 +33,7 @@
 							<i class="fas fa-star"></i>
 						</div>
 						<div class="admin-stats-title">Vitrindeki Ürünler</div>
-						<div class="admin-stats-value">@Model.Products.Count(p => p.ShowCase)</div>
+						<div class="admin-stats-value">@Model.ProductList.Products.Count(p => p.ShowCase)</div>
 						<div class="admin-stats-trend admin-stats-up">
 							<i class="fas fa-arrow-up me-1"></i> %12.5
 						</div>
@@ -120,7 +120,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								@foreach (Product prd in Model.Products)
+								@foreach (Product prd in Model.ProductList.Products)
 								{
 									<tr>
 										<td data-label="ID">@prd.ProductId</td>
@@ -139,11 +139,22 @@
 											}
 										</td>
 										<td data-label="Vitrin">
-											<label class="admin-switch">
-												<input type="checkbox" @(prd.ShowCase ? "checked" : "") disabled>
-												<span class="admin-switch-slider"></span>
-											</label>
+											<form method="post" asp-action="Index">
+												<input type="hidden" asp-for="ProductName" value="@prd.ProductName" />
+												<input type="hidden" asp-for="ProductId" value="@prd.ProductId" />
+												<input type="hidden" asp-for="Summary" value="@prd.Summary" />
+												<input type="hidden" asp-for="ActualPrice" value="@prd.ActualPrice" />
+												<input type="hidden" asp-for="DiscountPrice" value="@prd.DiscountPrice" />
+												<input type="hidden" asp-for="ImageUrl" value="@prd.ImageUrl" />
+												<input type="hidden" asp-for="MainCategoryId" value="@prd.MainCategoryId" />
+												<input type="hidden" asp-for="SubCategoryId" value="@prd.SubCategoryId"/>
+												<label class="admin-switch">
+													<input type="checkbox" name="Showcase" value="true" @(prd.ShowCase ? "checked" : "") onchange="this.form.submit()">
+													<span class="admin-switch-slider"></span>
+												</label>
+											</form>
 										</td>
+
 										<td data-label="Stok">
 											<span class="admin-badge @(prd.ProductId % 2 == 0 ? "admin-badge-success" : "admin-badge-warning")">
 												@(prd.ProductId % 2 == 0 ? "Stokta" : "Az")
@@ -169,7 +180,7 @@
 					<!-- Sayfalama -->
 					<div class="text-center mt-4">
 						<div class="admin-pagination"
-							 page-model="@Model?.Pagination"
+							 page-model="@Model?.ProductList.Pagination"
 							 page-action="Index"
 							 page-classes-enabled="true"
 							 page-class="btn"

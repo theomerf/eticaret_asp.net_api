@@ -39,9 +39,16 @@ namespace ETicaret.Areas.Admin.Controllers
         public async Task<IActionResult> Create([FromForm] UserDtoForCreation userDto)
         {
             var result = await _manager.AuthService.CreateUser(userDto);
-            return result.Succeeded
-                ? RedirectToAction("Index")
-                : View();
+            if (result.Succeeded)
+            {
+                TempData["success"] = "Kullanıcı başarıyla oluşturuldu.";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["danger"] = "Kullanıcı oluştururken bir hata oluştu.";
+                return View();
+            }
         }
 
         public async Task<IActionResult> Update([FromRoute(Name = "id")] string id)
@@ -56,6 +63,7 @@ namespace ETicaret.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["danger"] = "Kullanıcı güncellenirken bir hata oluştu.";
                 return View(userDto);
             }
 
@@ -66,9 +74,10 @@ namespace ETicaret.Areas.Admin.Controllers
                 {
                     ModelState.AddModelError("Error", error.Description);
                 }
+                TempData["danger"] = "Kullanıcı güncellenirken bir hata oluştu.";
                 return View(userDto);
             }
-
+            TempData["success"] = "Kullanıcı başarıyla güncellendi.";
             return RedirectToAction("Index");
         }
 
@@ -84,12 +93,14 @@ namespace ETicaret.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["danger"] = "Kullanıcı şifresi değiştirilirken bir hata oluştu.";
                 return View(model);
             }
 
             var result = await _manager.AuthService.ResetPassword(model);
             if (result.Succeeded)
             {
+                TempData["success"] = "Kullanıcı şifresi başarıyla değiştirildi.";
                 return RedirectToAction("Index");
             }
             else
@@ -99,6 +110,7 @@ namespace ETicaret.Areas.Admin.Controllers
                     ModelState.AddModelError("Error", error.Description);
                 }
             }
+            TempData["danger"] = "Kullanıcı şifresi değiştirilirken bir hata oluştu.";
             return View(model);
 
         }
@@ -108,10 +120,17 @@ namespace ETicaret.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteOneUser([FromForm] UserDto userDto)
         {
             var result = await _manager.AuthService.DeleteOneUser(userDto.UserName);
-            
-            return result.Succeeded
-                ? RedirectToAction("Index")
-                : View();
+
+            if (result.Succeeded)
+            {
+                TempData["success"] = "Kullanıcı başarıyla silindi."; 
+                return RedirectToAction("Index");
+            }
+            else 
+            {
+                TempData["danger"] = "Kullanıcı silinirken bir hata oluştu.";
+                return View();
+            }
         }
     }
 }

@@ -1,0 +1,48 @@
+﻿@model SubCategoryDtoForInsertion
+
+
+<div class="adminuser-container">
+	<div class="adminuser-card">
+		<div class="adminuser-header">
+			<div class="adminuser-avatar">
+				<i class="fa-solid fa-pen-to-square"></i>
+			</div>
+			<h1 class="adminuser-title">Yeni Alt Kategori Oluştur</h1>
+			<p class="adminuser-subtitle">Kategori bilgilerini giriniz</p>
+		</div>
+
+		<div class="adminuser-form">
+			@if (ViewData.ModelState.ErrorCount > 0)
+			{
+				<div class="adminuser-validation-summary">
+					<div class="text-danger" asp-validation-summary="All"></div>
+				</div>
+			}
+
+			<form method="post" asp-action="SubCategoryCreate">
+				<div class="row">
+					<div class="container">
+						<input type="hidden" asp-for="MainCategoryId" />
+						<div class="adminuser-form-group">
+							<label asp-for="CategoryName" class="adminuser-form-label"><i class="fa-solid fa-pen"></i> Alt Kategori Adı</label>
+							<div class="adminuser-input-icon">
+								<input asp-for="CategoryName" class="adminuser-form-control" placeholder="Alt Kategori adı giriniz" />
+							</div>
+						</div>
+
+						<div class="adminuser-form-group">
+							<div class="adminuser-btn-group">
+								<button type="submit" class="adminuser-btn adminuser-btn-primary">
+									<i class="fas fa-save"></i> Oluştur
+								</button>
+								<a asp-action="Index" class="adminuser-btn adminuser-btn-outline">
+									<i class="fas fa-arrow-left"></i> Geri Dön
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

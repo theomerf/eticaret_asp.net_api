@@ -1,15 +1,102 @@
 ﻿@model IEnumerable<MainCategory>
-
-<div class="text-center my-3">
-	<h6 class="display-6">
-		Categories
-	</h6>
+<!-- Header -->
+<div class="admin-header mt-4">
+	<h1><i class="fa-solid fa-gears"></i> Kategori Yönetimi</h1>
+	<a asp-action="MainCategoryCreate" class="admin-btn admin-btn-create">
+		<i class="fas fa-plus"></i> Yeni Kategori Ekle
+	</a>
 </div>
 
-<ul class="list-group">
-	@foreach (var cat in Model)
-	{
-		<li class="list-group-item">@cat.CategoryName</li>
-	}
+<div class="col-lg-12 my-4">
+	<div class="admin-card shadow-sm">
+		<div class="admin-card-header d-flex justify-content-between align-items-center">
+			<div>
+				<i class="fas fa-th-list me-2"></i> Kategori Listesi
+			</div>
+		</div>
+		<div class="card-body p-0">
+			<ul class="list-group list-group-flush">
+				@if (Model.Any())
+				{
+					@foreach (var cat in Model)
+					{
+						<li class="list-group-item admincat-category-item">
+							<div class="d-flex justify-content-between align-items-center">
+								<div class="d-flex align-items-center">
+									<span class="category-name fw-bold">@cat.CategoryName</span>
+									<span class="badge bg-info rounded-pill ms-2">@(cat.SubCategories?.Count() ?? 0)</span>
+								</div>
+								<div class="action-buttons">
+									<button class="admin-action-btn p-0 admincat-toggle-subcategories" data-bs-toggle="collapse" data-bs-target="#subcategories-@cat.MainCategoryId" aria-expanded="false" aria-controls="subcategories-@cat.MainCategoryId">
+										<i class="fas fa-chevron-down"></i>
+									</button>
+									<a class="admin-action-btn admin-btn-edit" data-bs-toggle="tooltip" title="Düzenle" asp-action="MainCategoryUpdate" asp-route-id="@cat.MainCategoryId">
+										<i class="fas fa-edit"></i>
+									</a>
+									<a class="admin-action-btn admin-btn-delete" data-bs-toggle="tooltip" title="Sil" asp-action="MainCategoryDelete" asp-route-id="@cat.MainCategoryId" onclick="return confirm('Bu kategoriyi silmek istediğinize emin misiniz?');">
+										<i class="fas fa-trash"></i>
+									</a>
+								</div>
+							</div>
+							<div class="collapse mt-3" id="subcategories-@cat.MainCategoryId">
+								<div class="subcategory-container px-4">
+									<div class="subcategory-header d-flex justify-content-between align-items-center mt-4 mb-2">
+										<h6 class="mb-2 fw-bold">Alt Kategoriler</h6>
+										<a asp-action="SubCategoryCreate" asp-route-mainCategoryId="@cat.MainCategoryId" class="admin-btn admin-btn-create">
+											<i class="fas fa-plus-circle"></i> Alt Kategori Ekle
+										</a>
+									</div>
+									<ul class="list-group list-group-flush subcategory-list">
+										@if (cat.SubCategories != null && cat.SubCategories.Any())
+										{
+											@foreach (var subCat in cat.SubCategories)
+											{
+												<li class="list-group-item admincat-subcategory-item">
+													<div class="d-flex justify-content-between align-items-center">
+														<span class="subcategory-name">@subCat.CategoryName</span>
+														<div class="action-buttons">
+															<a class="admin-action-btn admin-btn-edit" data-bs-toggle="tooltip" title="Düzenle" asp-action="SubCategoryUpdate" asp-route-id="@subCat.SubCategoryId">
+																<i class="fas fa-edit"></i>
+															</a>
+															<a class="admin-action-btn admin-btn-delete" data-bs-toggle="tooltip" title="Sil" asp-action="SubCategoryDelete" asp-route-id="@subCat.SubCategoryId" onclick="return confirm('Bu alt kategoriyi silmek istediğinize emin misiniz?');">
+																<i class="fas fa-trash"></i>
+															</a>
+														</div>
+													</div>
+												</li>
+											}
+										}
+										else
+										{
+											<li class="list-group-item text-center text-muted">Alt kategori bulunamadı.</li>
+										}
+									</ul>
+								</div>
+							</div>
+						</li>
+					}
+				}
+				else
+				{
+					<li class="list-group-item text-center">Henüz kategori bulunmamaktadır.</li>
+				}
+			</ul>
+		</div>
+	</div>
+</div>
 
-</ul>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+			return new bootstrap.Tooltip(tooltipTriggerEl)
+		});
+
+		document.querySelectorAll('.toggle-subcategories').forEach(function(btn) {
+			btn.addEventListener('click', function() {
+				const icon = this.querySelector('i');
+				icon.classList.toggle('fa-chevron-down');
+				icon.classList.toggle('fa-chevron-up');
+			});
+		});
+</script>

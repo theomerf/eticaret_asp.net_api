@@ -7,5 +7,6 @@
         ISubCategoryService SubCategoryService { get; }
         IOrderService OrderService { get; }
         IAuthService AuthService { get; }
+        IUserReviewService UserReviewService { get; }
     }
 }

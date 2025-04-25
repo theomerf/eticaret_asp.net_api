@@ -1,0 +1,44 @@
+﻿@model SubCategoryDtoForUpdate
+<div class="adminuser-container">
+	<div class="adminuser-card">
+		<div class="adminuser-header">
+			<div class="adminuser-avatar">
+				<i class="fas fa-user"></i>
+			</div>
+			<h1 class="adminuser-title">Alt Kategori Güncelle</h1>
+			<p class="adminuser-subtitle">@Model.CategoryName</p>
+		</div>
+
+		<div class="adminuser-form">
+			@if (ViewData.ModelState.ErrorCount > 0)
+			{
+				<div class="adminuser-validation-summary">
+					<div class="text-danger" asp-validation-summary="All"></div>
+				</div>
+			}
+
+			<form method="post" asp-action="SubCategoryUpdate">
+				<div class="row">
+					<div class="col-md-6">
+						<input type="hidden" asp-for="SubCategoryId" />
+						<input type="hidden" asp-for="MainCategoryId" />
+						<div class="adminuser-form-group">
+							<label asp-for="CategoryName" class="adminuser-form-label">Alt Kategori Adı</label>
+							<input asp-for="CategoryName" class="adminuser-form-control" />
+						</div>
+						<div class="adminuser-form-group">
+							<div class="adminuser-btn-group">
+								<button type="submit" class="adminuser-btn adminuser-btn-primary">
+									<i class="fas fa-save"></i> Kaydet
+								</button>
+								<a asp-action="Index" class="adminuser-btn adminuser-btn-outline">
+									<i class="fas fa-arrow-left"></i> Geri Dön
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

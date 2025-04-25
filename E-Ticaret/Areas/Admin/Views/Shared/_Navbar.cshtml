@@ -1,6 +1,11 @@
-<nav class="navbar navbar-expand-lg navbar-dark custom-navbar shadow-lg">
+ï»¿<nav class="navbar navbar-expand-lg navbar-dark custom-navbar shadow-lg">
 	<div class="container">
-		<a class="navbar-brand fw-bold text-white" href="/">Admin</a>
+		<a class="navbar-brand fw-bold text-white d-flex align-items-center" href="/">
+			<div class="brand-logo me-2">
+				<i class="fa-solid fa-store"></i>
+			</div>
+			<span class="brand-text">Admin</span>
+		</a>
 		<button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -10,19 +15,19 @@
 					<a class="nav-link text-white fw-semibold" aria-current="page" asp-controller="Dashboard" asp-action="Index"><i class="fa-solid fa-table-columns"></i> G. Paneli</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link text-white fw-semibold" asp-controller="Product" asp-action="Index"><i class="fa-solid fa-box"></i> Ürünler (@await Component.InvokeAsync("ProductSummary"))</a>
+					<a class="nav-link text-white fw-semibold" asp-controller="Product" asp-action="Index"><i class="fa-solid fa-box"></i> ÃœrÃ¼nler (@await Component.InvokeAsync("ProductSummary"))</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link text-white fw-semibold" asp-controller="Category" asp-action="Index"><i class="fa-solid fa-layer-group"></i> Kategoriler</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link text-white fw-semibold" asp-controller="Order" asp-action="Index"><i class="fa-solid fa-bag-shopping"></i> Sipariþler</a>
+					<a class="nav-link text-white fw-semibold" asp-controller="Order" asp-action="Index"><i class="fa-solid fa-bag-shopping"></i> SipariÅŸler</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link text-white fw-semibold" asp-controller="Role" asp-action="Index"><i class="fa-solid fa-users-gear"></i> Roller</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link text-white fw-semibold" asp-controller="User" asp-action="Index"><i class="fa-solid fa-users"></i> Üyeler</a>
+					<a class="nav-link text-white fw-semibold" asp-controller="User" asp-action="Index"><i class="fa-solid fa-users"></i> Ãœyeler</a>
 				</li>
 			</ul>
 			<ul class="navbar-nav">
@@ -31,7 +36,7 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link text-white fw-semibold" asp-area="" asp-controller="Account" asp-action="Logout">
-						<i class="fa-solid fa-right-from-bracket"></i> Çýkýþ Yap</a>
+						<i class="fa-solid fa-right-from-bracket"></i> Ã‡Ä±kÄ±ÅŸ Yap</a>
 				</li>
 			</ul>
 		</div>

@@ -9,6 +9,7 @@ namespace Repositories.Contracts
         void Complete(int id);
         void SaveOrder(Order order);
         int NumberOfInProcess { get; }
+        IQueryable<Order> GetUserOrders(string userName);   
     }
 
 }

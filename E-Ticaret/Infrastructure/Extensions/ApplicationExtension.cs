@@ -1,4 +1,5 @@
-﻿using ETicaret.Infrastructure.Extensions;
+﻿using Entities.Models;
+using ETicaret.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Repositories;
@@ -30,6 +31,8 @@ namespace ETicaret.Infrastructure.Extensions
             }
         }
 
+
+
         public static void ConfigureLocalization(this WebApplication app)
         {
             app.UseRequestLocalization(options =>
@@ -46,11 +49,11 @@ namespace ETicaret.Infrastructure.Extensions
             const string adminUser = "Admin";
             const string adminPassword = "Admin+123456";
 
-            UserManager<IdentityUser> userManager = app
+            UserManager<Account> userManager = app
                 .ApplicationServices
                 .CreateScope()
                 .ServiceProvider
-                .GetRequiredService<UserManager<IdentityUser>>();
+                .GetRequiredService<UserManager<Account>>();
 
             RoleManager<IdentityRole> roleManager = app
                 .ApplicationServices
@@ -58,11 +61,14 @@ namespace ETicaret.Infrastructure.Extensions
                 .ServiceProvider
                 .GetRequiredService<RoleManager<IdentityRole>>();
 
-            IdentityUser user = await userManager.FindByNameAsync(adminUser);
+            Account user = await userManager.FindByNameAsync(adminUser);
             if (user == null)
             {
-                user = new IdentityUser()
+                user = new Account()
                 {
+                    FirstName = "Admin",
+                    LastName = "Root",
+                    BirthDate = DateTime.Now,
                     Email = "omerfarukyalcin08@gmail.com",
                     PhoneNumber = "05425946284",
                     UserName = adminUser

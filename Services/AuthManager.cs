@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Entities.Dtos;
+using Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Services.Contracts;
 using System;
@@ -14,10 +15,10 @@ namespace Services
     public class AuthManager : IAuthService
     {
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<Account> _userManager;
         private readonly IMapper _mapper;
 
-        public AuthManager(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, IMapper mapper)
+        public AuthManager(RoleManager<IdentityRole> roleManager, UserManager<Account> userManager, IMapper mapper)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -28,7 +29,7 @@ namespace Services
 
         public async Task<IdentityResult> CreateUser(UserDtoForCreation userDto)
         {
-            var user = _mapper.Map<IdentityUser>(userDto);
+            var user = _mapper.Map<Account>(userDto);
             var result = await _userManager.CreateAsync(user, userDto.Password);
 
             if (!result.Succeeded)
@@ -53,12 +54,12 @@ namespace Services
             return await _userManager.DeleteAsync(user);
         }
 
-        public IEnumerable<IdentityUser> GetAllUsers()
+        public IEnumerable<Account> GetAllUsers()
         {
             return _userManager.Users.ToList();
         }
 
-        public async Task<IdentityUser> GetOneUser(string userName)
+        public async Task<Account> GetOneUser(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
             if (user != null)
@@ -86,9 +87,18 @@ namespace Services
             return result;
         }
 
+        public async Task<IdentityResult> ChangePassword(ChangePasswordDto model)
+        {
+            var user = await GetOneUser(model.UserName);
+            var result = await _userManager.ChangePasswordAsync(user,model.Password,model.NewPassword);
+            return result;
+        }
+
         public async Task<IdentityResult> Update(UserDtoForUpdate userDto)
         {
             var user = await GetOneUser(userDto.UserName);
+            user.FirstName = userDto.FirstName;
+            user.LastName = userDto.LastName;
             user.PhoneNumber = userDto.PhoneNumber;
             user.Email = userDto.Email;
 
@@ -99,6 +109,18 @@ namespace Services
                 var r1 = await _userManager.RemoveFromRolesAsync(user, userRoles);
                 var r2 = await _userManager.AddToRolesAsync(user, userDto.Roles);
             }
+
+            return result;
+
+        }
+
+        public async Task<IdentityResult> UpdateAvatar(UserDtoForUpdate userDto)
+        {
+            var user = await GetOneUser(userDto.UserName);
+            user.AvatarUrl = userDto.AvatarUrl;
+
+
+            var result = await _userManager.UpdateAsync(user);
 
             return result;
 

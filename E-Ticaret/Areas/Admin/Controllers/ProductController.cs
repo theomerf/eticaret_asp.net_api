@@ -31,11 +31,40 @@ namespace ETicaret.Areas.Admin.Controllers
                 ItemsPerPage = p.PageSize,
                 TotalItems = _manager.ProductService.GetAllProducts(false).Count()
             };
-            return View(new ProductListViewModel()
+            var productlist = new ProductListViewModel()
             {
                 Products = products,
                 Pagination = paginaton
+            };
+            return View(new ProductDtoForShowcaseUpdate()
+            {
+                ProductList = productlist,
             });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index([FromForm] ProductDtoForUpdate productDto)
+        {
+            if (ModelState.IsValid)
+            {
+                _manager.ProductService.UpdateOneProduct(productDto);
+                if (productDto.Showcase) 
+                {
+                    TempData["success"] = $"{productDto.ProductName} adlı ürün başarıyla vitrine eklendi.";
+                }
+                else
+                {
+                    TempData["success"] = $"{productDto.ProductName} adlı ürün başarıyla vitrinden kaldırıldı.";
+                }
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["danger"] = "Bir hata oluştu.";
+                return RedirectToAction("Index");
+            }
         }
 
         public IActionResult Create()
@@ -71,12 +100,12 @@ namespace ETicaret.Areas.Admin.Controllers
 
                 productDto.ImageUrl = (_manager.ProductService.GetAllProducts(false).Count() + 1).ToString() + ".png";
                 _manager.ProductService.CreateProduct(productDto);
-                TempData["success"] = $"{productDto.ProductName} has been created successfully";
+                TempData["success"] = $"{productDto.ProductName} adlı ürün başarıyla oluşturuldu.";
                 return RedirectToAction("Index");
             }
             else
             {
-                TempData["danger"] = "Something went wrong";
+                TempData["danger"] = "Bir şeyler yanlış gitti";
                 return View();
             }
 
@@ -110,6 +139,7 @@ namespace ETicaret.Areas.Admin.Controllers
                 }
 
                 _manager.ProductService.UpdateOneProduct(productDto);
+                TempData["success"] = $"{productDto.ProductName} adlı ürün başarıyla güncellendi.";
                 return RedirectToAction("Index");
             }
             else
@@ -122,6 +152,7 @@ namespace ETicaret.Areas.Admin.Controllers
         public IActionResult Delete([FromRoute(Name ="id")] int id)
         {
             _manager.ProductService.DeleteOneProduct(id);
+            TempData["success"] = "Ürün başarıyla silindi.";
             return RedirectToAction("Index");
         }
     }

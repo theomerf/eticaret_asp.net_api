@@ -6,12 +6,13 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Repositories
 {
-    public class RepositoryContext : IdentityDbContext<IdentityUser>
+    public class RepositoryContext : IdentityDbContext<Account>
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<MainCategory> MainCategories { get; set; }
         public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<UserReview> UserReviews { get; set; }
 
         public RepositoryContext(DbContextOptions<RepositoryContext> options)
             : base(options)
