@@ -53,7 +53,7 @@ namespace ETicaret.Controllers
 
                     if (result.Succeeded)
                     {
-                        user.LastLoginDate = DateTime.Now;
+                        user.LastLoginDate = DateTime.UtcNow;
                         await _userManager.UpdateAsync(user);
 
                         return Redirect(model.Login.ReturnUrl ?? "/");
