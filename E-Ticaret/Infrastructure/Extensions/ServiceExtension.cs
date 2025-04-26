@@ -17,7 +17,7 @@ namespace ETicaret.Infrastructure.Extensions
         {
             services.AddDbContext<RepositoryContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("mssqlconnection"),
+                options.UseNpgsql(configuration.GetConnectionString("postgresqlconnection"),
                 b => b.MigrationsAssembly("ETicaret"));
 
                 options.EnableSensitiveDataLogging(true);
