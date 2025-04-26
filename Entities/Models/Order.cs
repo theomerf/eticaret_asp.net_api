@@ -20,6 +20,6 @@ namespace Entities.Models
         public String? City { get; set; }
         public bool GiftWrap { get; set; }
         public bool Shipped { get; set; } = false;
-        public DateTime? OrderedAt { get; set; } = DateTime.Now;
+        public DateTime? OrderedAt { get; set; } = DateTime.UtcNow;
     }
 }

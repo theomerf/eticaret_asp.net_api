@@ -12,7 +12,7 @@ using Repositories;
 namespace E_Ticaret.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20250426150039_init")]
+    [Migration("20250426151803_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -38,7 +38,7 @@ namespace E_Ticaret.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("BirthDate")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -56,7 +56,7 @@ namespace E_Ticaret.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("LastLoginDate")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -69,7 +69,7 @@ namespace E_Ticaret.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("MembershipDate")
-                        .HasColumnType("timestamp without time zone");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
