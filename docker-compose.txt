@@ -1,0 +1,45 @@
+version: '3.4'
+
+services:
+  eticaret:
+    build:
+      context: .
+      dockerfile: ETicaret/Dockerfile
+    ports:
+      - "5000:80"
+    depends_on:
+      - repositories
+      - services
+	  - entities
+
+  repositories:
+    build:
+      context: .
+    networks:
+      - eticaret_network
+
+  services:
+    build:
+      context: .
+    networks:
+      - eticaret_network
+	  
+  entities:
+    build:
+      context: .
+    networks:
+      - eticaret_network
+
+  database:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=YourPassword123
+    ports:
+      - "1433:1433"
+    networks:
+      - eticaret_network
+
+networks:
+  eticaret_network:
+    driver: bridge

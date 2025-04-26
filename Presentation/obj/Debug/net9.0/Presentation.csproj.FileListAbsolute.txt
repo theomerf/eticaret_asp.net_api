@@ -31,8 +31,6 @@ C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\Presentation\obj\D
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\Presentation\obj\Debug\net9.0\Presentation.pdb
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\Presentation\obj\Debug\net9.0\Presentation.genruntimeconfig.cache
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\Presentation\obj\Debug\net9.0\ref\Presentation.dll
-C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\Presentation\bin\Debug\net9.0\appsettings.Development.json
-C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\Presentation\bin\Debug\net9.0\appsettings.json
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\Presentation\bin\Debug\net9.0\Presentation.staticwebassets.endpoints.json
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\Presentation\bin\Debug\net9.0\Presentation.exe
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\Presentation\bin\Debug\net9.0\Presentation.deps.json

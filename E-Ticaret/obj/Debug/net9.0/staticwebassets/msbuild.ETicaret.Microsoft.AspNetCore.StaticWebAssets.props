@@ -12,8 +12,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>x9op1lk8mn</Fingerprint>
-      <Integrity>JZx8RjMDEIFf9+5LQmB1VX5lfz6+SSU2RPku1AJVfP4=</Integrity>
+      <Fingerprint>6x3o06xdpd</Fingerprint>
+      <Integrity>2lHYcJ4jGbhaZw6j5r43oPqrIEsGio4zUFOspjd4rjY=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\site.css'))</OriginalItemSpec>
@@ -732,8 +732,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>64h38oekao</Fingerprint>
-      <Integrity>ZsHoCF7m9GtNxlKZ9uVsM2SNXm7JCZqxeRIvpLTZa3A=</Integrity>
+      <Fingerprint>v2r92c6j1p</Fingerprint>
+      <Integrity>qfxH1DeDqTDV+9MRHQSE4A6hCfF/NsTyxzKnR+hHVxw=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\images\avatars\Admin.png'))</OriginalItemSpec>

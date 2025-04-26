@@ -663,10 +663,10 @@ C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\ETicaret.genruntimeconfig.cache
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\ref\ETicaret.dll
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\qdtm9xoqhj-3kieb9gvwv.gz
-C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\623aw5bb6u-x9op1lk8mn.gz
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\a83zwljbd5-0i3buxo5is.gz
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\dsyw1xo9dv-o1o13a6vjx.gz
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\xjjj0psjsq-ttgo8qnofa.gz
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\gk86gpfess-2z0ns9nrw6.gz
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\d57l7ywok4-muycvpuwrr.gz
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\6u4fm3y2kl-87fc7y1x7t.gz
+C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\623aw5bb6u-6x3o06xdpd.gz

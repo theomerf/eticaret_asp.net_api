@@ -1,22 +1,22 @@
-# Build aþamasý
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /src
-
-# Tüm proje dosyalarýný konteynýra kopyala
-COPY . .
-
-# Projeyi restore et
-RUN dotnet restore ./ETicaret.csproj
-
-# Yayýn (publish) iþlemi
-RUN dotnet publish ./ETicaret.csproj -c Release -o /app/publish
-
-# Runtime aþamasý
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+# SDK image (build aþamasý)
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /app
 
-# Yayýnlanan dosyalarý kopyala
-COPY --from=build /app/publish .
+# Çözüm dosyasýný kopyala
+COPY ../ETicaret.sln ./
 
-# Uygulamayý baþlat
+# Projeleri kopyala ve restore et
+COPY ../Entities/ ./Entities/
+COPY ../Services/ ./Services/
+COPY ../Repositories/ ./Repositories/
+COPY ./ ./Eticaret/
+
+WORKDIR /app/Eticaret
+RUN dotnet restore
+RUN dotnet publish -c Release -o out
+
+# Runtime image (çalýþma zamaný)
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
+WORKDIR /app
+COPY --from=build /app/ETicaret/out ./
 ENTRYPOINT ["dotnet", "ETicaret.dll"]

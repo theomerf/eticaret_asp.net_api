@@ -148,25 +148,6 @@
           }
         }
       },
-      "Microsoft.AspNetCore.OpenApi/9.0.3": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.OpenApi": "1.6.17"
-        },
-        "compile": {
-          "lib/net9.0/Microsoft.AspNetCore.OpenApi.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net9.0/Microsoft.AspNetCore.OpenApi.dll": {
-            "related": ".xml"
-          }
-        },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
-      },
       "Microsoft.Bcl.AsyncInterfaces/7.0.0": {
         "type": "package",
         "compile": {
@@ -1068,19 +1049,6 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Microsoft.OpenApi/1.6.17": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard2.0/Microsoft.OpenApi.dll": {
-            "related": ".pdb;.xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard2.0/Microsoft.OpenApi.dll": {
-            "related": ".pdb;.xml"
-          }
-        }
-      },
       "Microsoft.SqlServer.Server/1.0.0": {
         "type": "package",
         "compile": {
@@ -1762,22 +1730,6 @@
           "bin/placeholder/Entities.dll": {}
         }
       },
-      "Presentation/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v9.0",
-        "dependencies": {
-          "Microsoft.AspNetCore.OpenApi": "9.0.3"
-        },
-        "compile": {
-          "bin/placeholder/Presentation.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Presentation.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
-      },
       "Repositories/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
@@ -1975,22 +1927,6 @@
         "lib/net9.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.xml",
         "microsoft.aspnetcore.identity.entityframeworkcore.9.0.3.nupkg.sha512",
         "microsoft.aspnetcore.identity.entityframeworkcore.nuspec"
-      ]
-    },
-    "Microsoft.AspNetCore.OpenApi/9.0.3": {
-      "sha512": "fKh0UyGMUE+lhbovMhh3g88b9bT+y2jfZIuJ8ljY7rcCaSJ9m2Qqqbh66oULFfzWE2BUAmimzTGcPcq3jXi/Ew==",
-      "type": "package",
-      "path": "microsoft.aspnetcore.openapi/9.0.3",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
-        "PACKAGE.md",
-        "THIRD-PARTY-NOTICES.TXT",
-        "lib/net9.0/Microsoft.AspNetCore.OpenApi.dll",
-        "lib/net9.0/Microsoft.AspNetCore.OpenApi.xml",
-        "microsoft.aspnetcore.openapi.9.0.3.nupkg.sha512",
-        "microsoft.aspnetcore.openapi.nuspec"
       ]
     },
     "Microsoft.Bcl.AsyncInterfaces/7.0.0": {
@@ -3801,21 +3737,6 @@
         "runtime.json"
       ]
     },
-    "Microsoft.OpenApi/1.6.17": {
-      "sha512": "Le+kehlmrlQfuDFUt1zZ2dVwrhFQtKREdKBo+rexOwaCoYP0/qpgT9tLxCsZjsgR5Itk1UKPcbgO+FyaNid/bA==",
-      "type": "package",
-      "path": "microsoft.openapi/1.6.17",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "README.md",
-        "lib/netstandard2.0/Microsoft.OpenApi.dll",
-        "lib/netstandard2.0/Microsoft.OpenApi.pdb",
-        "lib/netstandard2.0/Microsoft.OpenApi.xml",
-        "microsoft.openapi.1.6.17.nupkg.sha512",
-        "microsoft.openapi.nuspec"
-      ]
-    },
     "Microsoft.SqlServer.Server/1.0.0": {
       "sha512": "N4KeF3cpcm1PUHym1RmakkzfkEv3GRMyofVv40uXsQhCQeglr2OHNcUk2WOG51AKpGO8ynGpo9M/kFXSzghwug==",
       "type": "package",
@@ -5071,11 +4992,6 @@
       "path": "../Entities/Entities.csproj",
       "msbuildProject": "../Entities/Entities.csproj"
     },
-    "Presentation/1.0.0": {
-      "type": "project",
-      "path": "../Presentation/Presentation.csproj",
-      "msbuildProject": "../Presentation/Presentation.csproj"
-    },
     "Repositories/1.0.0": {
       "type": "project",
       "path": "../Repositories/Repositories.csproj",
@@ -5092,7 +5008,6 @@
       "CsvHelper >= 33.0.1",
       "Entities >= 1.0.0",
       "Microsoft.EntityFrameworkCore.Design >= 9.0.3",
-      "Presentation >= 1.0.0",
       "Repositories >= 1.0.0",
       "Services >= 1.0.0"
     ]
@@ -5131,9 +5046,6 @@
           "projectReferences": {
             "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\Entities\\Entities.csproj": {
               "projectPath": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\Entities\\Entities.csproj"
-            },
-            "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\Presentation\\Presentation.csproj": {
-              "projectPath": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\Presentation\\Presentation.csproj"
             },
             "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\Repositories\\Repositories.csproj": {
               "projectPath": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\Repositories\\Repositories.csproj"
