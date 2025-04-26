@@ -19,6 +19,7 @@ namespace ETicaret.Infrastructure.Extensions
             {
                 options.UseNpgsql(configuration.GetConnectionString("postgresqlconnection"),
                 b => b.MigrationsAssembly("ETicaret"));
+                options.AddInterceptors(new UtcDateInterceptor());
 
                 options.EnableSensitiveDataLogging(true);
             });
