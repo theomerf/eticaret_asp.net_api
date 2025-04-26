@@ -68,7 +68,7 @@ namespace ETicaret.Infrastructure.Extensions
                 {
                     FirstName = "Admin",
                     LastName = "Root",
-                    BirthDate = DateTime.Now,
+                    BirthDate = DateTime.UtcNow,
                     Email = "omerfarukyalcin08@gmail.com",
                     PhoneNumber = "05425946284",
                     UserName = adminUser
