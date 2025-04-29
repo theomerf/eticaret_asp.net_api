@@ -25,12 +25,17 @@
     </header>
     <div class="container">
         <div>
-            <partial name="_Notification" />
+            @if (ViewBag.SuppressLayoutNotification == null || ViewBag.SuppressLayoutNotification == false)
+            {
+                <partial name="_Notification" />
+            }
         </div>
+
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
+
     <footer class="mt-5"> 
         <partial name="_Footer" />
         @RenderSection("Footer", false)

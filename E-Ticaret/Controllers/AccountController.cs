@@ -96,6 +96,7 @@ namespace ETicaret.Controllers
                 var roleResult = await _userManager.AddToRoleAsync(user, "User");
                 if (roleResult.Succeeded)
                 {
+                    ViewBag.SuppressLayoutNotification = true;
                     TempData["success"] = "Başarıyla kayıt oldunuz, giriş yapın.";
                     return RedirectToAction("Login");
                 }
