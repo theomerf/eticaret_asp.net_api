@@ -79,13 +79,14 @@ namespace ETicaret.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register([FromForm] UserModel model)
         {
+
             var user = new Account
             {
                 UserName = model.Register.UserName,
                 FirstName = model.Register.FirstName,
                 LastName = model.Register.LastName,
                 PhoneNumber = model.Register.PhoneNumber,
-                BirthDate = model.Register.BirthDate,
+                BirthDate = DateTime.SpecifyKind(model.Register.BirthDate, DateTimeKind.Utc),
                 Email = model.Register.Email
             };
 

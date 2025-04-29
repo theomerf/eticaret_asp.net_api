@@ -1,7 +1,16 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\omerf\\OneDrive\\Masa\u00FCst\u00FC\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{91A3F4A8-68DF-4559-BF20-EC1F1DC3C4E1}|Entities\\Entities.csproj|c:\\users\\omerf\\onedrive\\masa\u00FCst\u00FC\\kodlama\\.net\\asp\\e-ticaret\\eticaret_asp.net\\entities\\models\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{91A3F4A8-68DF-4559-BF20-EC1F1DC3C4E1}|Entities\\Entities.csproj|solutionrelative:entities\\models\\account.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8E6C851A-E20C-4AFB-8855-E976B8640932}|E-Ticaret\\ETicaret.csproj|c:\\users\\omerf\\onedrive\\masa\u00FCst\u00FC\\kodlama\\.net\\asp\\e-ticaret\\eticaret_asp.net\\e-ticaret\\infrastructure\\mapper\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E6C851A-E20C-4AFB-8855-E976B8640932}|E-Ticaret\\ETicaret.csproj|solutionrelative:e-ticaret\\infrastructure\\mapper\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -18,6 +27,32 @@
             {
               "$type": "Bookmark",
               "Name": "ST:2:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Account.cs",
+              "DocumentMoniker": "C:\\Users\\omerf\\OneDrive\\Masa\u00FCst\u00FC\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\Entities\\Models\\Account.cs",
+              "RelativeDocumentMoniker": "Entities\\Models\\Account.cs",
+              "ToolTip": "C:\\Users\\omerf\\OneDrive\\Masa\u00FCst\u00FC\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\Entities\\Models\\Account.cs",
+              "RelativeToolTip": "Entities\\Models\\Account.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-29T22:29:08.387Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MappingProfile.cs",
+              "DocumentMoniker": "C:\\Users\\omerf\\OneDrive\\Masa\u00FCst\u00FC\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\Infrastructure\\Mapper\\MappingProfile.cs",
+              "RelativeDocumentMoniker": "E-Ticaret\\Infrastructure\\Mapper\\MappingProfile.cs",
+              "ToolTip": "C:\\Users\\omerf\\OneDrive\\Masa\u00FCst\u00FC\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\Infrastructure\\Mapper\\MappingProfile.cs",
+              "RelativeToolTip": "E-Ticaret\\Infrastructure\\Mapper\\MappingProfile.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-29T22:26:50.268Z",
+              "EditorCaption": ""
             }
           ]
         }
