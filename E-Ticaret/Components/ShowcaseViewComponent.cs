@@ -14,7 +14,7 @@ namespace ETicaret.Components
 
         public IViewComponentResult Invoke(string page = "default")
         {
-            var products = _manager.ProductService.GetShowcaseProducts(false);
+            var products = _manager.ProductService.GetShowcaseProducts(false).ToList();
             return page.Equals("default") 
                 ? View(products) 
                 : View("List", products);
