@@ -24,7 +24,7 @@ namespace ETicaret.Areas.Admin.Controllers
         public IActionResult Index([FromQuery] ProductRequestParameters p)
         {
             ViewData["Title"] = "Products";
-            var products = _manager.ProductService.GetAllProductsWithDetails(p);
+            var products = _manager.ProductService.GetAllProductsWithDetails(p).ToList();
             var paginaton = new Pagination()
             {
                 CurrentPage = p.PageNumber,
@@ -76,12 +76,12 @@ namespace ETicaret.Areas.Admin.Controllers
 
         public SelectList GetMainCategoriesSelectList()
         {
-            return new SelectList(_manager.MainCategoryService.GetAllCategories(false), "MainCategoryId", "CategoryName", "1");
+            return new SelectList(_manager.MainCategoryService.GetAllCategories(false).ToList(), "MainCategoryId", "CategoryName", "1");
 
         }
         public SelectList GetSubCategoriesSelectList()
         {
-            return new SelectList(_manager.SubCategoryService.GetAllCategories(false), "SubCategoryId", "CategoryName", "1");
+            return new SelectList(_manager.SubCategoryService.GetAllCategories(false).ToList(), "SubCategoryId", "CategoryName", "1");
 
         }
 

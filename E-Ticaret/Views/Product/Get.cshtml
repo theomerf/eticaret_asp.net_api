@@ -94,7 +94,7 @@
 
 					<div class="action-buttons">
 						<form asp-controller="Cart" asp-action="AddToCart" method="post" class="add-to-cart-form">
-							<input type="hidden" name="productId" value="@Model.ProductId" />
+							<input type="hidden" name="productId" value="@Model.Product.ProductId" />
 							<input type="hidden" name="returnUrl" value="@Context.Request.Path" />
 							<button type="submit" class="add-cart-btn">
 								<i class="fas fa-shopping-cart"></i> Sepete Ekle

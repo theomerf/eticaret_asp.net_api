@@ -22,7 +22,7 @@ namespace ETicaret.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            var model = _manager.MainCategoryService.GetAllCategories(false);
+            var model = _manager.MainCategoryService.GetAllCategories(false).ToList();
             return View(model);
         }
 

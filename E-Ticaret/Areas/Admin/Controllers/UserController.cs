@@ -18,7 +18,7 @@ namespace ETicaret.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            var users = _manager.AuthService.GetAllUsers();
+            var users = _manager.AuthService.GetAllUsers().ToList();
             return View(users);
         }
 
