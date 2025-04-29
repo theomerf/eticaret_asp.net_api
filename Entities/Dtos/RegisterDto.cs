@@ -14,6 +14,8 @@ namespace Entities.Dtos
         [Required(ErrorMessage = "İsim gerekiyor")]
         public string FirstName { get; init; }
         [Required(ErrorMessage = "Soyisim gerekiyor")]
+        public string PhoneNumber { get; init; }
+        [Required(ErrorMessage = "Telefon numarası gerekiyor")]
         public string LastName { get; init; }
         [Required(ErrorMessage = "Doğum tarihi gerekiyor")]
         public DateTime BirthDate { get; init; }

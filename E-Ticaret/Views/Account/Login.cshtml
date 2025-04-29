@@ -82,6 +82,11 @@
 								<span asp-validation-for="Register.LastName" class="text-danger"></span>
 							</div>
 							<div class="mb-3">
+								<label asp-for="Register.PhoneNumber" class="form-label fw-bold">Soyad</label>
+								<input asp-for="Register.PhoneNumber" class="form-control" required />
+								<span asp-validation-for="Register.PhoneNumber" class="text-danger"></span>
+							</div>
+							<div class="mb-3">
 								<label asp-for="Register.BirthDate" class="form-label fw-bold">Doğum Tarihi</label>
 								<input type="date" asp-for="Register.BirthDate" class="form-control" required />
 								<span asp-validation-for="Register.BirthDate" class="text-danger"></span>

@@ -82,6 +82,10 @@ namespace ETicaret.Controllers
             var user = new Account
             {
                 UserName = model.Register.UserName,
+                FirstName = model.Register.FirstName,
+                LastName = model.Register.LastName,
+                PhoneNumber = model.Register.PhoneNumber,
+                BirthDate = model.Register.BirthDate,
                 Email = model.Register.Email
             };
 
