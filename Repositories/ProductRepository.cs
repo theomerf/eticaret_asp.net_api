@@ -28,7 +28,8 @@ namespace Repositories
                 .FilteredByCategoryId(p.CategoryId)
                 .FilteredBySearchTerm(p.SearchTerm)
                 .FilteredByPrice(p.MinPrice, p.MaxPrice, p.IsValidPrice)
-                .ToPaginate(p.PageNumber, p.PageSize);
+                .ToPaginate(p.PageNumber, p.PageSize)
+                .OrderBy(p => p.ProductId);
         }
 
         public Product? GetOneProduct(int id, bool trackChanges)
@@ -39,7 +40,8 @@ namespace Repositories
         public IQueryable<Product> GetShowcaseProducts(bool trackChanges)
         {
             return FindAll(trackChanges)
-               .Where(p => p.ShowCase.Equals(true));
+               .Where(p => p.ShowCase.Equals(true))
+               .OrderBy(p => p.ProductId);
         }
 
         public void UpdateOneProduct(Product entity) => Update(entity);
