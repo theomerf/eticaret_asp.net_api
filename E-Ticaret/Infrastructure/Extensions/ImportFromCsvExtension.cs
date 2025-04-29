@@ -17,6 +17,10 @@ namespace ETicaret.Infrastructure.Extensions
 
         public void ImportProductsFromCsv(string csvFilePath)
         {
+            if(_context.Products.Any())
+            {
+                return; 
+            }
             var products = new List<Product>();
             var mainCategories = new List<MainCategory>();
             var subCategories = new List<SubCategory>();

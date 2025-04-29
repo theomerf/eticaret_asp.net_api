@@ -16,7 +16,7 @@ namespace ETicaret.Controllers
 
         public IActionResult Index(ProductRequestParameters p)
         {
-            var products = _manager.ProductService.GetAllProductsWithDetails(p);
+            var products = _manager.ProductService.GetAllProductsWithDetails(p).ToList();
             var totalCount = _manager.ProductService.GetAllProducts(false).Count();
 
             var pagination = new Pagination()
