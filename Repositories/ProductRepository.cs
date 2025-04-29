@@ -1,4 +1,4 @@
-using Entities.Models;
+﻿using Entities.Models;
 using Entities.RequestParameters;
 using Repositories.Contracts;
 using Repositories.Extensions;
@@ -25,11 +25,11 @@ namespace Repositories
         {
             return _context
                 .Products
+                .OrderBy(p => p.ProductId)
                 .FilteredByCategoryId(p.CategoryId)
                 .FilteredBySearchTerm(p.SearchTerm)
                 .FilteredByPrice(p.MinPrice, p.MaxPrice, p.IsValidPrice)
-                .ToPaginate(p.PageNumber, p.PageSize)
-                .OrderBy(p => p.ProductId);
+                .ToPaginate(p.PageNumber, p.PageSize); 
         }
 
         public Product? GetOneProduct(int id, bool trackChanges)
