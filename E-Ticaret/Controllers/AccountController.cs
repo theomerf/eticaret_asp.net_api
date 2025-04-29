@@ -178,7 +178,7 @@ namespace ETicaret.Controllers
         {
             string userName = User.Identity.Name;
             Account user = await _manager.AuthService.GetOneUser(userName);
-            user.AvatarUrl = $"{User.Identity.Name}.png";
+            user.AvatarUrl = $"avatars/{User.Identity.Name}.png";
             UserDtoForUpdate userDto = new UserDtoForUpdate()
             {
                 UserName = user.UserName,

@@ -17,18 +17,22 @@ namespace ETicaret.Controllers
         public IActionResult Index(ProductRequestParameters p)
         {
             var products = _manager.ProductService.GetAllProductsWithDetails(p);
-            var paginaton = new Pagination()
+            var totalCount = _manager.ProductService.GetAllProducts(false).Count();
+
+            var pagination = new Pagination()
             {
                 CurrentPage = p.PageNumber,
                 ItemsPerPage = p.PageSize,
-                TotalItems = _manager.ProductService.GetAllProducts(false).Count()
+                TotalItems = totalCount
             };
-            return View(new ProductListViewModel() 
+
+            return View(new ProductListViewModel()
             {
                 Products = products,
-                Pagination = paginaton
+                Pagination = pagination
             });
         }
+
 
         public IActionResult Get([FromRoute(Name="id")] int id){
             var product = _manager.ProductService.GetOneProduct(id, false);
