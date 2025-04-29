@@ -25,7 +25,7 @@
     </header>
     <div class="container">
         <div>
-            @if (ViewBag.SuppressLayoutNotification == null || ViewBag.SuppressLayoutNotification == false)
+            @if (TempData["visible"]?.ToString() != "false")
             {
                 <partial name="_Notification" />
             }
