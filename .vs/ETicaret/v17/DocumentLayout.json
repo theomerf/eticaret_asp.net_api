@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\omerf\\OneDrive\\Masa\u00FCst\u00FC\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{8E6C851A-E20C-4AFB-8855-E976B8640932}|E-Ticaret\\ETicaret.csproj|c:\\users\\omerf\\onedrive\\masa\u00FCst\u00FC\\kodlama\\.net\\asp\\e-ticaret\\eticaret_asp.net\\e-ticaret\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8E6C851A-E20C-4AFB-8855-E976B8640932}|E-Ticaret\\ETicaret.csproj|solutionrelative:e-ticaret\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BC5E8000-F425-49A5-9DB3-4CAFA2154121}|Services\\Services.csproj|c:\\users\\omerf\\onedrive\\masa\u00FCst\u00FC\\kodlama\\.net\\asp\\e-ticaret\\eticaret_asp.net\\services\\userreviewmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BC5E8000-F425-49A5-9DB3-4CAFA2154121}|Services\\Services.csproj|solutionrelative:services\\userreviewmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{8E6C851A-E20C-4AFB-8855-E976B8640932}|E-Ticaret\\ETicaret.csproj|c:\\users\\omerf\\onedrive\\masa\u00FCst\u00FC\\kodlama\\.net\\asp\\e-ticaret\\eticaret_asp.net\\e-ticaret\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{8E6C851A-E20C-4AFB-8855-E976B8640932}|E-Ticaret\\ETicaret.csproj|solutionrelative:e-ticaret\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
@@ -22,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -34,7 +42,33 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserReviewManager.cs",
+              "DocumentMoniker": "C:\\Users\\omerf\\OneDrive\\Masa\u00FCst\u00FC\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\Services\\UserReviewManager.cs",
+              "RelativeDocumentMoniker": "Services\\UserReviewManager.cs",
+              "ToolTip": "C:\\Users\\omerf\\OneDrive\\Masa\u00FCst\u00FC\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\Services\\UserReviewManager.cs",
+              "RelativeToolTip": "Services\\UserReviewManager.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-29T23:12:56.524Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "C:\\Users\\omerf\\OneDrive\\Masa\u00FCst\u00FC\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "E-Ticaret\\Controllers\\ProductController.cs",
+              "ToolTip": "C:\\Users\\omerf\\OneDrive\\Masa\u00FCst\u00FC\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "E-Ticaret\\Controllers\\ProductController.cs",
+              "ViewState": "AgIAADQAAAAAAAAAAAAkwCcAAABmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-29T23:07:43.661Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "C:\\Users\\omerf\\OneDrive\\Masa\u00FCst\u00FC\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "E-Ticaret\\Views\\Shared\\_Layout.cshtml",
@@ -47,7 +81,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "_Notification.cshtml",
               "DocumentMoniker": "C:\\Users\\omerf\\OneDrive\\Masa\u00FCst\u00FC\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\Views\\Shared\\_Notification.cshtml",
               "RelativeDocumentMoniker": "E-Ticaret\\Views\\Shared\\_Notification.cshtml",
@@ -55,12 +89,11 @@
               "RelativeToolTip": "E-Ticaret\\Views\\Shared\\_Notification.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-29T22:48:52.534Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-29T22:48:52.534Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Login.cshtml",
               "DocumentMoniker": "C:\\Users\\omerf\\OneDrive\\Masa\u00FCst\u00FC\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\Views\\Account\\Login.cshtml",
               "RelativeDocumentMoniker": "E-Ticaret\\Views\\Account\\Login.cshtml",
@@ -68,8 +101,7 @@
               "RelativeToolTip": "E-Ticaret\\Views\\Account\\Login.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-29T22:46:42.325Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-04-29T22:46:42.325Z"
             }
           ]
         }

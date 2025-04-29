@@ -37,7 +37,7 @@ namespace ETicaret.Controllers
         public IActionResult Get([FromRoute(Name="id")] int id){
             var product = _manager.ProductService.GetOneProduct(id, false);
             ViewData["Title"] = product?.ProductName;
-            var reviews = _manager.UserReviewService.GetAllUserReviewsOfOneProduct(id, false);
+            var reviews = _manager.UserReviewService.GetAllUserReviewsOfOneProduct(id, false).ToList();
             return View(new ProductDetail()
             {
                 Product = product,
