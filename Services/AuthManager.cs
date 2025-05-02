@@ -56,7 +56,9 @@ namespace Services
 
         public IEnumerable<Account> GetAllUsers()
         {
-            return _userManager.Users.ToList();
+            return _userManager.Users
+                .OrderBy(u => u.MembershipDate)
+                .ToList();
         }
 
         public async Task<Account> GetOneUser(string userName)

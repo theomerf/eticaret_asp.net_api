@@ -28,6 +28,10 @@ namespace Entities.Dtos
         [Required(ErrorMessage = "Soyad gerekli")]
         public String LastName { get; set; }
 
+        [DataType(DataType.DateTime)]
+        [Required(ErrorMessage = "Doğum tarihi gerekli")]
+        public DateTime BirthDate { get; set; }
+
         public HashSet<String>? Roles { get; set; } = new HashSet<String>();
     }
 }

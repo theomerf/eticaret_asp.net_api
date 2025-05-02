@@ -1,365 +1,440 @@
 ﻿@{
-    ViewData["Title"] = "Ana Sayfa";
+	ViewData["Title"] = "Ana Sayfa";
 }
 
 <section class="index-hero-section">
-    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
-        <!-- Indicators -->
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        </div>
+	<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+		<!-- Indicators -->
+		<div class="carousel-indicators">
+			<button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 1"></button>
+			<button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+			<button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+		</div>
 
-        <!-- Carousel Items -->
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="~/images/a1.png" class="index-hero-img" alt="...">
+		<!-- Carousel Items -->
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<img src="~/images/a1.png" class="index-hero-img" alt="Kampanya">
+				<div class="index-hero-content">
+					<h2 class="index-hero-title">Büyük Yaz İndirimleri</h2>
+					<p class="index-hero-subtitle">Sezonun en trend ürünlerinde %50'ye varan indirimler</p>
+					<a href="#" class="btn index-hero-btn">Hemen Keşfet</a>
+				</div>
+			</div>
+			<div class="carousel-item">
+				<img src="~/images/a2.png" class="index-hero-img" alt="Yeni Gelenler">
+				<div class="index-hero-content">
+					<h2 class="index-hero-title">Yeni Sezon Koleksiyonu</h2>
+					<p class="index-hero-subtitle">En yeni ürünleri keşfedin</p>
+					<a href="#" class="btn index-hero-btn">Alışverişe Başla</a>
+				</div>
+			</div>
+			<div class="carousel-item">
+				<img src="~/images/a3.png" class="index-hero-img" alt="Fırsat">
+				<div class="index-hero-content">
+					<h2 class="index-hero-title">Süper Teknoloji Fırsatları</h2>
+					<p class="index-hero-subtitle">Teknoloji ürünlerinde özel indirimler</p>
+					<a href="#" class="btn index-hero-btn">İncele</a>
+				</div>
+			</div>
+		</div>
 
-            </div>
-            <div class="carousel-item">
-                <img src="~/images/a2.png" class="index-hero-img" alt="...">
-
-            </div>
-            <div class="carousel-item">
-                <img src="~/images/a3.png" class="index-hero-img" alt="...">
-            </div>
-        </div>
-
-        <!-- Optional: Arrows -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </button>
-    </div>
+		<!-- Arrows -->
+		<button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+			<span class="carousel-control-prev-icon"></span>
+		</button>
+		<button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+			<span class="carousel-control-next-icon"></span>
+		</button>
+	</div>
 </section>
 
 
 
 
 <!-- Popüler Kategoriler -->
-<section class="popular-categories">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="index-section-title">Popüler Kategoriler</h2>
-            <p class="index-section-subtitle">Müşterilerimizin en çok tercih ettiği kategoriler</p>
-        </div>
-        <div class="row g-4">
-            <div class="col-6 col-md-3">
-                <div class="index-category-card">
-                    <div class="index-category-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h4 class="index-category-name">Elektronik</h4>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="index-category-card">
-                    <div class="index-category-icon">
-                        <i class="fas fa-tshirt"></i>
-                    </div>
-                    <h4 class="index-category-name">Moda</h4>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="index-category-card">
-                    <div class="index-category-icon">
-                        <i class="fas fa-home"></i>
-                    </div>
-                    <h4 class="index-category-name">Ev & Yaşam</h4>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="index-category-card">
-                    <div class="index-category-icon">
-                        <i class="fas fa-gamepad"></i>
-                    </div>
-                    <h4 class="index-category-name">Oyun & Hobi</h4>
-                </div>
-            </div>
-        </div>
-    </div>
+<section class="index-popular-categories">
+	<div class="container">
+		<div class="text-center mb-5">
+			<h2 class="index-section-title">Popüler Kategoriler</h2>
+			<p class="index-section-subtitle">En çok tercih edilen ürün kategorileri</p>
+		</div>
+		<div class="row g-4">
+			<div class="col-6 col-md-3">
+				<a class="text-decoration-none" asp-controller="Product" asp-action="Index" asp-route-categoryId="1">
+					<div class="index-category-card">
+						<div class="index-category-icon">
+							<i class="fas fa-mobile-alt"></i>
+						</div>
+						<h4 class="index-category-name">Teknoloji</h4>
+						<p class="index-category-info">782 ürün</p>
+						<div class="index-category-arrow">
+							<i class="fas fa-chevron-right"></i>
+						</div>
+					</div>
+				</a>
+			</div>
+
+			<div class="col-6 col-md-3">
+				<a class="text-decoration-none" asp-controller="Product" asp-action="Index" asp-route-categoryId="2">
+					<div class="index-category-card">
+						<div class="index-category-icon">
+							<i class="fas fa-tshirt"></i>
+						</div>
+						<h4 class="index-category-name">Giyim</h4>
+						<p class="index-category-info">349 ürün</p>
+						<div class="index-category-arrow">
+							<i class="fas fa-chevron-right"></i>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-6 col-md-3">
+				<a class="text-decoration-none" asp-controller="Product" asp-action="Index" asp-route-categoryId="3">
+					<div class="index-category-card">
+						<div class="index-category-icon">
+							<i class="fas fa-home"></i>
+						</div>
+						<h4 class="index-category-name">Ev Aletleri</h4>
+						<p class="index-category-info">215 ürün</p>
+						<div class="index-category-arrow">
+							<i class="fas fa-chevron-right"></i>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-6 col-md-3">
+				<a class="text-decoration-none" asp-controller="Product" asp-action="Index" asp-route-categoryId="5">
+					<div class="index-category-card">
+						<div class="index-category-icon">
+							<i class="fa-solid fa-book"></i>
+						</div>
+						<h4 class="index-category-name">Kitap</h4>
+						<p class="index-category-info">564 ürün</p>
+						<div class="index-category-arrow">
+							<i class="fas fa-chevron-right"></i>
+						</div>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
 </section>
 
 <!-- Öne Çıkan Kampanya Banner -->
 <section class="index-featured-banner">
-    <div class="container">
-        <div class="row g-4">
-            <div class="col-md-6">
-                <div class="index-banner-card">
-                    <img src="~/images/a1.jpeg" alt="Kampanya 1">
-                    <div class="index-banner-content">
-                        <h3>Yaz İndirimleri</h3>
-                        <p>%40'a varan indirimler</p>
-                        <a href="#" class="btn index-banner-btn">İncele</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="index-banner-card">
-                    <img src="~/images/a1.jpeg" alt="Kampanya 2">
-                    <div class="index-banner-content">
-                        <h3>Yeni Gelenler</h3>
-                        <p>En yeni ürünleri keşfedin</p>
-                        <a href="#" class="btn index-banner-btn">İncele</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="container">
+		<div class="row g-4">
+			<div class="col-md-6">
+				<div class="index-banner-card">
+					<img src="~/images/a1.jpeg" alt="Kampanya 1">
+					<div class="index-banner-content">
+						<span class="index-banner-label">Sınırlı Süre</span>
+						<h3>Yaz İndirimleri</h3>
+						<p>%40'a varan indirimler</p>
+						<a href="#" class="btn index-banner-btn">Keşfet <i class="fas fa-arrow-right ms-2"></i></a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="index-banner-card">
+					<img src="~/images/a1.jpeg" alt="Kampanya 2">
+					<div class="index-banner-content">
+						<span class="index-banner-label">Yeni Trend</span>
+						<h3>Yeni Gelenler</h3>
+						<p>En yeni ürünleri keşfedin</p>
+						<a href="#" class="btn index-banner-btn">Keşfet <i class="fas fa-arrow-right ms-2"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 
 <!-- Vitrin Ürünleri - Showcase Component -->
 <section class="index-showcase-section">
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <h2 class="index-section-title mb-0">Öne Çıkan Ürünler</h2>
-                <p class="index-section-subtitle mb-0">En çok tercih edilen ürünler</p>
-            </div>
-            <div class="index-section-nav">
-                <a href="#" class="btn index-nav-btn active">Tümü</a>
-                <a href="#" class="btn index-nav-btn">Yeni Gelenler</a>
-                <a href="#" class="btn index-nav-btn">En Çok Satanlar</a>
-                <a href="#" class="btn index-nav-btn">İndirimli</a>
-            </div>
-        </div>
-        <div class="row g-4">
-            @await Component.InvokeAsync("Showcase")
-        </div>
-        <div class="text-center mt-5">
-            <a href="#" class="btn btn-outline-primary index-view-all-btn">Tüm Ürünleri Görüntüle</a>
-        </div>
-    </div>
+	<div class="container">
+		<div class="index-section-header">
+			<div>
+				<h2 class="index-section-title">Öne Çıkan Ürünler</h2>
+				<p class="index-section-subtitle">En çok tercih edilen ürünler</p>
+			</div>
+			<div class="index-section-nav">
+				<a href="#" class="btn index-nav-btn active">Tümü</a>
+				<a href="#" class="btn index-nav-btn">Yeni Gelenler</a>
+				<a href="#" class="btn index-nav-btn">En Çok Satanlar</a>
+				<a href="#" class="btn index-nav-btn">İndirimli</a>
+			</div>
+		</div>
+		<div class="row g-4">
+			@await Component.InvokeAsync("Showcase")
+		</div>
+		<div class="text-center mt-5">
+			<a asp-controller="Product" asp-action="Index" class="btn index-view-all-btn">
+				Tüm Ürünleri Görüntüle <i class="fas fa-long-arrow-alt-right ms-2"></i>
+			</a>
+		</div>
+	</div>
 </section>
 
 <!-- Marka Showcase - Daha modern görünüm -->
 <section class="index-brands-section">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="index-section-title">Popüler Markalar</h2>
-            <p class="index-section-subtitle">En çok tercih edilen markalar</p>
-        </div>
-        <div class="index-brands-slider">
-            <div class="row g-4 justify-content-center">
-                <div class="col-4 col-md-2">
-                    <div class="index-brand-logo">
-                        <img src="~/images/placeholder-logo.png" alt="Marka 1">
-                    </div>
-                </div>
-                <div class="col-4 col-md-2">
-                    <div class="index-brand-logo">
-                        <img src="~/images/placeholder-logo.png" alt="Marka 2">
-                    </div>
-                </div>
-                <div class="col-4 col-md-2">
-                    <div class="index-brand-logo">
-                        <img src="~/images/placeholder-logo.png" alt="Marka 3">
-                    </div>
-                </div>
-                <div class="col-4 col-md-2">
-                    <div class="index-brand-logo">
-                        <img src="~/images/placeholder-logo.png" alt="Marka 4">
-                    </div>
-                </div>
-                <div class="col-4 col-md-2">
-                    <div class="index-brand-logo">
-                        <img src="~/images/placeholder-logo.png" alt="Marka 5">
-                    </div>
-                </div>
-                <div class="col-4 col-md-2">
-                    <div class="index-brand-logo">
-                        <img src="~/images/placeholder-logo.png" alt="Marka 6">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="container">
+		<div class="text-center mb-5">
+			<h2 class="index-section-title">Popüler Markalar</h2>
+			<p class="index-section-subtitle">En çok tercih edilen markalar</p>
+		</div>
+		<div class="index-brands-slider">
+			<div class="row g-4 justify-content-center">
+				<div class="col-4 col-md-2">
+					<div class="index-brand-logo">
+						<img src="~/images/adidas.png" alt="Marka 1">
+					</div>
+				</div>
+				<div class="col-4 col-md-2">
+					<div class="index-brand-logo">
+						<img src="~/images/samsung.png" alt="Marka 2">
+					</div>
+				</div>
+				<div class="col-4 col-md-2">
+					<div class="index-brand-logo">
+						<img src="~/images/bershka.png" alt="Marka 3">
+					</div>
+				</div>
+				<div class="col-4 col-md-2">
+					<div class="index-brand-logo">
+						<img src="~/images/zara.png" alt="Marka 4">
+					</div>
+				</div>
+				<div class="col-4 col-md-2">
+					<div class="index-brand-logo">
+						<img src="~/images/hp.png" alt="Marka 5">
+					</div>
+				</div>
+				<div class="col-4 col-md-2">
+					<div class="index-brand-logo">
+						<img src="~/images/apple.png" alt="Marka 6">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 
 <!-- İndirim Kampanyası - Daha çarpıcı tasarım -->
 <section class="index-campaign-section">
-    <div class="container">
-        <div class="index-campaign-content">
-            <span class="badge bg-light text-primary mb-3">Sınırlı Süre</span>
-            <h2 class="index-campaign-title">Büyük Yaz Kampanyası!</h2>
-            <p class="index-campaign-text">Seçili ürünlerde %30'a varan indirimler ve 300₺ üzeri alışverişlerde ücretsiz kargo fırsatını kaçırmayın.</p>
-            <div class="index-countdown-timer">
-                <div class="index-countdown-item">
-                    <span class="count">00</span>
-                    <span class="label">Gün</span>
-                </div>
-                <div class="index-countdown-item">
-                    <span class="count">00</span>
-                    <span class="label">Saat</span>
-                </div>
-                <div class="index-countdown-item">
-                    <span class="count">00</span>
-                    <span class="label">Dakika</span>
-                </div>
-                <div class="index-countdown-item">
-                    <span class="count">00</span>
-                    <span class="label">Saniye</span>
-                </div>
-            </div>
-            <a href="#" class="btn index-campaign-btn">Hemen Alışveriş Yap</a>
-        </div>
-    </div>
+	<div class="container">
+		<div class="index-campaign-content">
+			<span class="index-campaign-badge">Sınırlı Süre</span>
+			<h2 class="index-campaign-title">Büyük Yaz Kampanyası!</h2>
+			<p class="index-campaign-text">Seçili ürünlerde %30'a varan indirimler ve 300₺ üzeri alışverişlerde ücretsiz kargo fırsatını kaçırmayın.</p>
+			<div class="index-countdown-timer">
+				<div class="index-countdown-item">
+					<span class="count" id="days">00</span>
+					<span class="label">Gün</span>
+				</div>
+				<div class="index-countdown-item">
+					<span class="count" id="hours">00</span>
+					<span class="label">Saat</span>
+				</div>
+				<div class="index-countdown-item">
+					<span class="count" id="minutes">00</span>
+					<span class="label">Dakika</span>
+				</div>
+				<div class="index-countdown-item">
+					<span class="count" id="seconds">00</span>
+					<span class="label">Saniye</span>
+				</div>
+			</div>
+			<a asp-controller="Product" asp-action="Index" class="btn index-campaign-btn">
+				Hemen Alışveriş Yap <i class="fas fa-shopping-cart ms-2"></i>
+			</a>
+		</div>
+	</div>
 </section>
+
 
 <!-- Özellikler - Modern ve minimalist tasarım -->
 <section class="index-features-section">
-    <div class="container">
-        <div class="row g-4">
-            <div class="col-6 col-md-3">
-                <div class="index-feature-item">
-                    <div class="index-feature-icon">
-                        <i class="fas fa-truck"></i>
-                    </div>
-                    <div class="index-feature-content">
-                        <h4 class="index-feature-title">Hızlı Teslimat</h4>
-                        <p class="index-feature-text">24 saat içinde kargo</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="index-feature-item">
-                    <div class="index-feature-icon">
-                        <i class="fas fa-undo"></i>
-                    </div>
-                    <div class="index-feature-content">
-                        <h4 class="index-feature-title">Kolay İade</h4>
-                        <p class="index-feature-text">14 gün içinde ücretsiz iade</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="index-feature-item">
-                    <div class="index-feature-icon">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <div class="index-feature-content">
-                        <h4 class="index-feature-title">Güvenli Ödeme</h4>
-                        <p class="index-feature-text">SSL sertifikalı güvenli işlem</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="index-feature-item">
-                    <div class="index-feature-icon">
-                        <i class="fas fa-headset"></i>
-                    </div>
-                    <div class="index-feature-content">
-                        <h4 class="index-feature-title">7/24 Destek</h4>
-                        <p class="index-feature-text">Her zaman yanınızdayız</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="container">
+		<div class="row g-4">
+			<div class="col-6 col-md-3">
+				<div class="index-feature-item">
+					<div class="index-feature-icon">
+						<i class="fas fa-truck"></i>
+					</div>
+					<div class="index-feature-content">
+						<h4 class="index-feature-title">Hızlı Teslimat</h4>
+						<p class="index-feature-text">24 saat içinde kargo</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-6 col-md-3">
+				<div class="index-feature-item">
+					<div class="index-feature-icon">
+						<i class="fas fa-undo"></i>
+					</div>
+					<div class="index-feature-content">
+						<h4 class="index-feature-title">Kolay İade</h4>
+						<p class="index-feature-text">14 gün içinde ücretsiz iade</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-6 col-md-3">
+				<div class="index-feature-item">
+					<div class="index-feature-icon">
+						<i class="fas fa-lock"></i>
+					</div>
+					<div class="index-feature-content">
+						<h4 class="index-feature-title">Güvenli Ödeme</h4>
+						<p class="index-feature-text">SSL sertifikalı güvenli işlem</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-6 col-md-3">
+				<div class="index-feature-item">
+					<div class="index-feature-icon">
+						<i class="fas fa-headset"></i>
+					</div>
+					<div class="index-feature-content">
+						<h4 class="index-feature-title">7/24 Destek</h4>
+						<p class="index-feature-text">Her zaman yanınızdayız</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 
 
 <!-- Bülten Aboneliği - Daha modern bir tasarım -->
 <section class="index-newsletter-section">
-    <div class="container">
-        <div class="index-newsletter-container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <h3 class="index-newsletter-title">Bültenimize Abone Olun</h3>
-                    <p class="index-newsletter-text">En yeni ürünler, indirimler ve kampanyalardan haberdar olun.</p>
-                </div>
-                <div class="col-lg-6">
-                    <form class="index-newsletter-form">
-                        <div class="input-group">
-                            <input type="email" class="form-control newsletter-input" placeholder="E-posta adresiniz..." required>
-                            <button class="btn index-newsletter-button" type="submit">
-                                <span>Abone Ol</span>
-                                <i class="fas fa-paper-plane ms-2"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="container">
+		<div class="index-newsletter-container">
+			<div class="row align-items-center">
+				<div class="col-lg-6">
+					<h3 class="index-newsletter-title">Bültenimize Abone Olun</h3>
+					<p class="index-newsletter-text">En yeni ürünler, indirimler ve kampanyalardan haberdar olun.</p>
+				</div>
+				<div class="col-lg-6">
+					<form class="index-newsletter-form">
+						<div class="input-group">
+							<input type="email" class="form-control newsletter-input" placeholder="E-posta adresiniz..." required>
+							<button class="btn index-newsletter-button" type="submit">
+								<span>Abone Ol</span>
+								<i class="fas fa-paper-plane ms-2"></i>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 
 <!-- Instagram Feed / Sosyal Medya - Yeni eklenen bölüm -->
 <section class="index-instagram-section">
-    <div class="container">
-        <div class="text-center mb-4">
-            <h2 class="index-section-title">Instagram</h2>
-            <p class="index-section-subtitle">Bizi sosyal medyada takip edin</p>
-        </div>
-        <div class="row g-2">
-            <div class="col-4 col-md-2">
-                <div class="index-instagram-item">
-                    <img src="~/images/a1.jpeg" alt="Instagram Post 1">
-                    <div class="index-instagram-overlay">
-                        <a href="#" class="index-instagram-icon">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4 col-md-2">
-                <div class="index-instagram-item">
-                    <img src="~/images/a1.jpeg" alt="Instagram Post 2">
-                    <div class="index-instagram-overlay">
-                        <a href="#" class="index-instagram-icon">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4 col-md-2">
-                <div class="index-instagram-item">
-                    <img src="~/images/a1.jpeg" alt="Instagram Post 3">
-                    <div class="index-instagram-overlay">
-                        <a href="#" class="index-instagram-icon">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4 col-md-2">
-                <div class="index-instagram-item">
-                    <img src="~/images/a1.jpeg" alt="Instagram Post 4">
-                    <div class="index-instagram-overlay">
-                        <a href="#" class="index-instagram-icon">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4 col-md-2">
-                <div class="index-instagram-item">
-                    <img src="~/images/a1.jpeg" alt="Instagram Post 5">
-                    <div class="index-instagram-overlay">
-                        <a href="#" class="index-instagram-icon">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4 col-md-2">
-                <div class="index-instagram-item">
-                    <img src="~/images/a1.jpeg" alt="Instagram Post 6">
-                    <div class="index-instagram-overlay">
-                        <a href="#" class="index-instagram-icon">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="text-center mt-4">
-            <a href="#" class="btn btn-outline-dark index-instagram-btn">
-                <i class="fab fa-instagram me-2"></i> Takip Et
-            </a>
-        </div>
-    </div>
+	<div class="container">
+		<div class="text-center mb-4">
+			<h2 class="index-section-title">Instagram</h2>
+			<p class="index-section-subtitle">Bizi sosyal medyada takip edin</p>
+		</div>
+		<div class="row g-2">
+			<div class="col-4 col-md-2">
+				<div class="index-instagram-item">
+					<img src="~/images/a1.jpeg" alt="Instagram Post 1">
+					<div class="index-instagram-overlay">
+						<a href="#" class="index-instagram-icon">
+							<i class="fab fa-instagram"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-4 col-md-2">
+				<div class="index-instagram-item">
+					<img src="~/images/a1.jpeg" alt="Instagram Post 2">
+					<div class="index-instagram-overlay">
+						<a href="#" class="index-instagram-icon">
+							<i class="fab fa-instagram"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-4 col-md-2">
+				<div class="index-instagram-item">
+					<img src="~/images/a1.jpeg" alt="Instagram Post 3">
+					<div class="index-instagram-overlay">
+						<a href="#" class="index-instagram-icon">
+							<i class="fab fa-instagram"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-4 col-md-2">
+				<div class="index-instagram-item">
+					<img src="~/images/a1.jpeg" alt="Instagram Post 4">
+					<div class="index-instagram-overlay">
+						<a href="#" class="index-instagram-icon">
+							<i class="fab fa-instagram"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-4 col-md-2">
+				<div class="index-instagram-item">
+					<img src="~/images/a1.jpeg" alt="Instagram Post 5">
+					<div class="index-instagram-overlay">
+						<a href="#" class="index-instagram-icon">
+							<i class="fab fa-instagram"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-4 col-md-2">
+				<div class="index-instagram-item">
+					<img src="~/images/a1.jpeg" alt="Instagram Post 6">
+					<div class="index-instagram-overlay">
+						<a href="#" class="index-instagram-icon">
+							<i class="fab fa-instagram"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="text-center mt-4">
+			<a href="#" class="btn btn-outline-dark index-instagram-btn">
+				<i class="fab fa-instagram me-2"></i> Takip Et
+			</a>
+		</div>
+	</div>
 </section>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+	  const countdownDate = new Date().getTime() + 24 * 60 * 60 * 1000;
+
+	  const timer = setInterval(function () {
+		const now = new Date().getTime();
+		const distance = countdownDate - now;
+
+		if (distance < 0) {
+		  clearInterval(timer);
+		  document.getElementById("days").innerHTML = "00";
+		  document.getElementById("hours").innerHTML = "00";
+		  document.getElementById("minutes").innerHTML = "00";
+		  document.getElementById("seconds").innerHTML = "00";
+		  return;
+		}
+
+		const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+		const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+		const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+		const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+		document.getElementById("days").innerHTML = days.toString().padStart(2, '0');
+		document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
+		document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
+		document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+	  }, 1000);
+	});
+</script>
