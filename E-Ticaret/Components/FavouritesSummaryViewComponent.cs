@@ -17,8 +17,13 @@ namespace ETicaret.Components
         public async Task<string> InvokeAsync()
         {
             string? userId = (User as ClaimsPrincipal)?.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return "0";
+            }
+
             var user = await _manager.AuthService.GetOneUser(User.Identity?.Name ?? string.Empty);
-            int favouritesCount = user.FavouriteProductsId.Count();
+            int favouritesCount = user?.FavouriteProductsId?.Count() ?? 0;
             return favouritesCount.ToString();
         }
     }

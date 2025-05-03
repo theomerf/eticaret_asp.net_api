@@ -4557,6 +4557,88 @@
       ]
     },
     {
+      "Route": "images/comments/1.9bvu5rldib.png",
+      "AssetFile": "images/comments/1.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "405512"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Bfsoifux/DwYtdVMk6m+OnGJfn1jzlajKl0VqQGzYn0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 03 May 2025 03:40:23 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "9bvu5rldib"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Bfsoifux/DwYtdVMk6m+OnGJfn1jzlajKl0VqQGzYn0="
+        },
+        {
+          "Name": "label",
+          "Value": "images/comments/1.png"
+        }
+      ]
+    },
+    {
+      "Route": "images/comments/1.png",
+      "AssetFile": "images/comments/1.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "405512"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Bfsoifux/DwYtdVMk6m+OnGJfn1jzlajKl0VqQGzYn0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 03 May 2025 03:40:23 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Bfsoifux/DwYtdVMk6m+OnGJfn1jzlajKl0VqQGzYn0="
+        }
+      ]
+    },
+    {
       "Route": "images/hp.dt8szosdc7.png",
       "AssetFile": "images/hp.png",
       "Selectors": [],
