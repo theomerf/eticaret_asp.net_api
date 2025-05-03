@@ -48,6 +48,10 @@ namespace E_Ticaret.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
+                    b.PrimitiveCollection<int[]>("FavouriteProductsId")
+                        .IsRequired()
+                        .HasColumnType("integer[]");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("text");

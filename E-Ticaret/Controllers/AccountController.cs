@@ -69,7 +69,7 @@ namespace ETicaret.Controllers
 
 
 
-        public async Task<IActionResult> Logout([FromQuery(Name ="ReturnUrl")] string ReturnUrl="/")
+        public async Task<IActionResult> Logout([FromQuery(Name = "ReturnUrl")] string ReturnUrl = "/")
         {
             await _signInManager.SignOutAsync();
             return Redirect(ReturnUrl);
@@ -113,7 +113,7 @@ namespace ETicaret.Controllers
         }
 
 
-        public IActionResult AccessDenied([FromQuery(Name="ReturnUrl")] string returnUrl)
+        public IActionResult AccessDenied([FromQuery(Name = "ReturnUrl")] string returnUrl)
         {
             return View();
         }
@@ -136,7 +136,7 @@ namespace ETicaret.Controllers
             string userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             var userReviews = _manager.UserReviewService.GetAllUserReviews(false);
 
-            if(userReviews.Where(x => x.UserId == userId && x.UserReviewId == id).Any())
+            if (userReviews.Where(x => x.UserId == userId && x.UserReviewId == id).Any())
             {
                 var userReview = _manager.UserReviewService.GetOneUserReview(id, false);
                 if (userReview != null)
@@ -167,7 +167,7 @@ namespace ETicaret.Controllers
                     await file.CopyToAsync(stream);
                 }
 
-                userReviewDto.ReviewPictureUrl = $"{userReviewDto.UserReviewId.ToString()}.png";    
+                userReviewDto.ReviewPictureUrl = $"{userReviewDto.UserReviewId.ToString()}.png";
             }
             else
             {
@@ -288,6 +288,60 @@ namespace ETicaret.Controllers
             }
         }
 
+        public IActionResult Favourites()
+        {
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                TempData["error"] = "Kullanıcı oturumu bulunamadı.";
+                return RedirectToAction("Login");
+            }
+
+            var user = _manager.AuthService.GetOneUser(User.Identity?.Name ?? string.Empty).Result;
+            if (user == null)
+            {
+                TempData["error"] = "Kullanıcı bilgileri alınamadı.";
+                return RedirectToAction("Login");
+            }
+
+            var favouriteProducts = _manager.ProductService
+                .GetAllProducts(false)
+                .Where(x => user.FavouriteProductsId.Contains(x.ProductId))
+                .ToList();
+
+            return View(favouriteProducts);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddToFavourites(int id)
+        {
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                TempData["error"] = "Kullanıcı oturumu bulunamadı.";
+                return RedirectToAction("Login");
+            }
+
+            var user = await _manager.AuthService.GetOneUserForUpdate(User.Identity?.Name ?? string.Empty);
+            if (user == null)
+            {
+                TempData["error"] = "Kullanıcı bilgileri alınamadı.";
+                return RedirectToAction("Login");
+            }
+
+            if (!user.FavouriteProductsId.Contains(id))
+            {
+                user.FavouriteProductsId.Add(id);
+                await _manager.AuthService.Update(user);
+                TempData["success"] = "Ürün favorilere eklendi.";
+            }
+            else
+            {
+                TempData["error"] = "Ürün zaten favorilerde.";
+            }
+
+            return RedirectToAction("Index", "Product");
+        }
 
 
     }

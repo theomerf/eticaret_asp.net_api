@@ -12,7 +12,7 @@ using Repositories;
 namespace E_Ticaret.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20250426151803_init")]
+    [Migration("20250503013954_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -50,6 +50,10 @@ namespace E_Ticaret.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
+
+                    b.PrimitiveCollection<int[]>("FavouriteProductsId")
+                        .IsRequired()
+                        .HasColumnType("integer[]");
 
                     b.Property<string>("FirstName")
                         .IsRequired()

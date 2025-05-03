@@ -662,5 +662,4 @@ C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\m303xhdkmh-ilo7uva0vt.gz
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\logrv46b0f-qlccset4i1.gz
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\yfb7qalmut-xzw0cte36n.gz
-C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
-C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\623aw5bb6u-kps0x970s9.gz
+C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\623aw5bb6u-yqlp5pock6.gz

@@ -1,224 +1,222 @@
 ﻿@model ProductDetail
-<div class="container product-container my-5">
-	<!-- Breadcrumb -->
-	<nav aria-label="breadcrumb" class="mb-4">
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item"><a href="/">Ana Sayfa</a></li>
-			<li class="breadcrumb-item"><a href="/kategori">Kategoriler</a></li>
-			<li class="breadcrumb-item active" aria-current="page">@Model.Product.ProductName</li>
-		</ol>
-	</nav>
+<div class="container-fluid product-container my-5">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Ana Sayfa</a></li>
+            <li class="breadcrumb-item"><a href="/kategori">Kategoriler</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Product.ProductName</li>
+        </ol>
+    </nav>
 
-	<div class="row g-4">
-		<!-- Ürün Fotoğrafı ve Galeri -->
-		<div class="col-lg-6">
-			<div class="product-image-gallery">
-				<div class="main-image-container">
-					<div class="discount-badge">
-                        <p class="discount-badge-text">
-							%@Model.Product.Discount indirim
-                        </p>
+    <div class="row g-4">
+        <!-- Ürün Fotoğrafı ve Galeri -->
+        <div class="col-lg-6">
+            <div class="product-image-gallery">
+                <div class="main-image-container">
+                    <div class="discount-tag">
+                        <span>%@Model.Product.Discount</span>
+                        <span>indirim</span>
                     </div>
-					<div class="wishlist-icon">
-						<i class="far fa-heart"></i>
-					</div>
-					<img src="/images/@Model.Product.ImageUrl" class="main-image" alt="@Model.Product.ProductName" />
-				</div>
-				<div class="thumbnail-gallery">
-					<img src="/images/@Model.Product.ImageUrl" class="thumbnail active" alt="Thumbnail 1" />
-					<img src="/images/@Model.Product.ImageUrl" class="thumbnail" alt="Thumbnail 2" />
-					<img src="/images/@Model.Product.ImageUrl" class="thumbnail" alt="Thumbnail 3" />
-					<img src="/images/@Model.Product.ImageUrl" class="thumbnail" alt="Thumbnail 4" />
-				</div>
-			</div>
-		</div>
+                    <div class="wishlist-icon">
+                        <i class="far fa-heart"></i>
+                    </div>
+                    <img src="/images/@Model.Product.ImageUrl" class="main-image" alt="@Model.Product.ProductName" />
+                </div>
+                <div class="thumbnail-gallery">
+                    <img src="/images/@Model.Product.ImageUrl" class="thumbnail active" alt="Thumbnail 1" />
+                    <img src="/images/@Model.Product.ImageUrl" class="thumbnail" alt="Thumbnail 2" />
+                    <img src="/images/@Model.Product.ImageUrl" class="thumbnail" alt="Thumbnail 3" />
+                    <img src="/images/@Model.Product.ImageUrl" class="thumbnail" alt="Thumbnail 4" />
+                </div>
+            </div>
+        </div>
 
-		<!-- Ürün Detayları -->
-		<div class="col-lg-6">
-			<div class="product-details">
-				<div class="product-meta">
-					<span class="product-sku">SKU: #12345</span>
-					<span class="product-availability in-stock"><i class="fas fa-check-circle"></i> Stokta</span>
-				</div>
+        <!-- Ürün Detayları -->
+        <div class="col-lg-6">
+            <div class="product-details">
+                <div class="product-meta">
+                    <span class="product-sku">SKU: #12345</span>
+                    <span class="product-availability in-stock"><i class="fas fa-check-circle"></i> Stokta</span>
+                </div>
 
-				<h1 class="product-title">@Model.Product.ProductName</h1>
+                <h1 class="product-title">@Model.Product.ProductName</h1>
 
-				<!-- Yıldız Puanlama -->
-				<div class="product-rating">
-					<div class="star-rating">
+                <!-- Yıldız Puanlama -->
+                <div class="productdetail-rating">
+                    <div class="star-rating">
                         @await Component.InvokeAsync("RatingStars", new { productId = Model.Product.ProductId, Mode = "stars" })
-					</div>
+                    </div>
                     <span class="rating-count">
                         @await Component.InvokeAsync("RatingStars", new { productId = Model.Product.ProductId, Mode = "average" }) (@await Component.InvokeAsync("RatingStars", new { productId = Model.Product.ProductId, Mode = "count" }) Değerlendirme )
                     </span>
-				</div>
+                </div>
 
-				<div class="product-price-container">
-					<span class="old-price">@Model.Product.ActualPrice.ToString("c")</span>
-					<span class="product-price">@Model.Product.DiscountPrice?.ToString("c")</span>
-					<span class="price-discount">%@Model.Product.Discount indirim</span>
-				</div>
+                <div class="product-price-container">
+                    <span class="productdetail-old-price">@Model.Product.ActualPrice.ToString("c")</span>
+                    <span class="product-price">@Model.Product.DiscountPrice?.ToString("c")</span>
+                    <span class="price-discount">%@Model.Product.Discount indirim</span>
+                </div>
 
-				<div class="product-description">
-					<p>@Model.Product.Summary</p>
-				</div>
+                <div class="product-description">
+                    <p>@Model.Product.Summary</p>
+                </div>
 
-				<div class="product-variants">
-					<div class="variant-group">
-						<label>Renk Seçimi:</label>
-						<div class="color-options">
-							<div class="color-option active" style="background-color: #000000;" title="Siyah"></div>
-							<div class="color-option" style="background-color: #FFFFFF; border: 1px solid #ddd;" title="Beyaz"></div>
-							<div class="color-option" style="background-color: #FF0000;" title="Kırmızı"></div>
-							<div class="color-option" style="background-color: #0000FF;" title="Mavi"></div>
-						</div>
-					</div>
+                <div class="product-variants">
+                    <div class="variant-group">
+                        <label>Renk Seçimi:</label>
+                        <div class="color-options">
+                            <div class="color-option active" style="background-color: #000000;" title="Siyah"></div>
+                            <div class="color-option" style="background-color: #FFFFFF; border: 1px solid #ddd;" title="Beyaz"></div>
+                            <div class="color-option" style="background-color: #FF0000;" title="Kırmızı"></div>
+                            <div class="color-option" style="background-color: #0000FF;" title="Mavi"></div>
+                        </div>
+                    </div>
 
-					<div class="variant-group">
-						<label>Beden:</label>
-						<div class="size-options">
-							<div class="size-option">S</div>
-							<div class="size-option active">M</div>
-							<div class="size-option">L</div>
-							<div class="size-option sold-out">XL</div>
-						</div>
-					</div>
-				</div>
+                    <div class="variant-group">
+                        <label>Beden:</label>
+                        <div class="size-options">
+                            <div class="size-option">S</div>
+                            <div class="size-option active">M</div>
+                            <div class="size-option">L</div>
+                            <div class="size-option sold-out">XL</div>
+                        </div>
+                    </div>
+                </div>
 
-				<div class="product-actions">
-					<div class="quantity-selector">
-						<button class="quantity-btn minus"><i class="fas fa-minus"></i></button>
-						<input type="text" class="quantity-input" value="1" min="1" max="10">
-						<button class="quantity-btn plus"><i class="fas fa-plus"></i></button>
-					</div>
+                <div class="product-actions">
+                    <div class="quantity-selector">
+                        <button class="quantity-btn minus"><i class="fas fa-minus"></i></button>
+                        <input type="text" class="quantity-input" value="1" min="1" max="10">
+                        <button class="quantity-btn plus"><i class="fas fa-plus"></i></button>
+                    </div>
 
-					<div class="action-buttons">
-						<form asp-controller="Cart" asp-action="AddToCart" method="post" class="add-to-cart-form">
-							<input type="hidden" name="productId" value="@Model.Product.ProductId" />
-							<input type="hidden" name="returnUrl" value="@Context.Request.Path" />
-							<button type="submit" class="add-cart-btn">
-								<i class="fas fa-shopping-cart"></i> Sepete Ekle
-							</button>
-						</form>
-						<button class="buy-now-btn">Hemen Satın Al</button>
-					</div>
-				</div>
+                    <div class="action-buttons">
+                        <form asp-controller="Cart" asp-action="AddToCart" method="post" class="add-to-cart-form">
+                            <input type="hidden" name="productId" value="@Model.Product.ProductId" />
+                            <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+                            <button type="submit" class="add-cart-btn">
+                                <i class="fas fa-shopping-cart"></i> Sepete Ekle
+                            </button>
+                        </form>
+                        <button class="buy-now-btn">Hemen Satın Al</button>
+                    </div>
+                </div>
 
-				<div class="product-extras">
-					<div class="extra-item">
-						<i class="fas fa-truck"></i>
-						<span>Hızlı Teslimat</span>
-					</div>
-					<div class="extra-item">
-						<i class="fas fa-undo"></i>
-						<span>15 Gün İade Garantisi</span>
-					</div>
-					<div class="extra-item">
-						<i class="fas fa-shield-alt"></i>
-						<span>Güvenli Ödeme</span>
-					</div>
-				</div>
+                <div class="product-extras">
+                    <div class="extra-item">
+                        <i class="fas fa-truck"></i>
+                        <span>Hızlı Teslimat</span>
+                    </div>
+                    <div class="extra-item">
+                        <i class="fas fa-undo"></i>
+                        <span>15 Gün İade Garantisi</span>
+                    </div>
+                    <div class="extra-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Güvenli Ödeme</span>
+                    </div>
+                </div>
 
-				<!-- Paylaşım Butonları -->
-				<div class="social-share">
-					<span>Paylaş:</span>
-					<a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-					<a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-					<a href="#" class="social-icon"><i class="fab fa-pinterest"></i></a>
-					<a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
-				</div>
-			</div>
-		</div>
-	</div>
+                <!-- Paylaşım Butonları -->
+                <div class="social-share">
+                    <span>Paylaş:</span>
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-pinterest"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<!-- Ürün Detaylı Bilgi Tabları -->
-	<div class="product-tabs mt-5">
-		<ul class="nav nav-tabs" id="productTabs" role="tablist">
-			<li class="nav-item" role="presentation">
-				<button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="true">Ürün Detayları</button>
-			</li>
-			<li class="nav-item" role="presentation">
-				<button class="nav-link" id="specs-tab" data-bs-toggle="tab" data-bs-target="#specs" type="button" role="tab" aria-controls="specs" aria-selected="false">Teknik Özellikler</button>
-			</li>
-			<li class="nav-item" role="presentation">
+    <!-- Ürün Detaylı Bilgi Tabları -->
+    <div class="product-tabs mt-5">
+        <ul class="nav nav-tabs" id="productTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="true">Ürün Detayları</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="specs-tab" data-bs-toggle="tab" data-bs-target="#specs" type="button" role="tab" aria-controls="specs" aria-selected="false">Teknik Özellikler</button>
+            </li>
+            <li class="nav-item" role="presentation">
                 <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Yorumlar (@await Component.InvokeAsync("RatingStars", new { productId = Model.Product.ProductId, Mode = "count" }) )</button>
-			</li>
-			<li class="nav-item" role="presentation">
-				<button class="nav-link" id="shipping-tab" data-bs-toggle="tab" data-bs-target="#shipping" type="button" role="tab" aria-controls="shipping" aria-selected="false">Kargo ve İade</button>
-			</li>
-		</ul>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="shipping-tab" data-bs-toggle="tab" data-bs-target="#shipping" type="button" role="tab" aria-controls="shipping" aria-selected="false">Kargo ve İade</button>
+            </li>
+        </ul>
 
-		<div class="tab-content p-4" id="productTabContent">
-			<div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
-				<div class="product-description-content">
-					<p>@Model.Product.Summary</p>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu tincidunt consectetur, nisi nunc pretium nunc, eget tincidunt nisl nunc eget nisl. Sed euismod, urna eu tincidunt consectetur, nisi nunc pretium nunc, eget tincidunt nisl nunc eget nisl.</p>
-					<ul>
-						<li>Yüksek kaliteli malzeme</li>
-						<li>Dayanıklı ve uzun ömürlü</li>
-						<li>Şık ve modern tasarım</li>
-						<li>Kolay temizleme</li>
-					</ul>
-				</div>
-			</div>
+        <div class="tab-content p-4" id="productTabContent">
+            <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                <div class="product-description-content">
+                    <p>@Model.Product.Summary</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, urna eu tincidunt consectetur, nisi nunc pretium nunc, eget tincidunt nisl nunc eget nisl. Sed euismod, urna eu tincidunt consectetur, nisi nunc pretium nunc, eget tincidunt nisl nunc eget nisl.</p>
+                    <ul>
+                        <li>Yüksek kaliteli malzeme</li>
+                        <li>Dayanıklı ve uzun ömürlü</li>
+                        <li>Şık ve modern tasarım</li>
+                        <li>Kolay temizleme</li>
+                    </ul>
+                </div>
+            </div>
 
-			<div class="tab-pane fade" id="specs" role="tabpanel" aria-labelledby="specs-tab">
-				<div class="specs-table">
-					<div class="specs-row">
-						<div class="specs-title">Renk</div>
-						<div class="specs-value">Siyah, Beyaz, Kırmızı, Mavi</div>
-					</div>
-					<div class="specs-row">
-						<div class="specs-title">Malzeme</div>
-						<div class="specs-value">%100 Pamuk</div>
-					</div>
-					<div class="specs-row">
-						<div class="specs-title">Beden</div>
-						<div class="specs-value">S, M, L, XL</div>
-					</div>
-					<div class="specs-row">
-						<div class="specs-title">Ağırlık</div>
-						<div class="specs-value">250g</div>
-					</div>
-					<div class="specs-row">
-						<div class="specs-title">Üretim Yeri</div>
-						<div class="specs-value">Türkiye</div>
-					</div>
-					<div class="specs-row">
-						<div class="specs-title">Garanti</div>
-						<div class="specs-value">2 Yıl</div>
-					</div>
-				</div>
-			</div>
+            <div class="tab-pane fade" id="specs" role="tabpanel" aria-labelledby="specs-tab">
+                <div class="specs-table">
+                    <div class="specs-row">
+                        <div class="specs-title">Renk</div>
+                        <div class="specs-value">Siyah, Beyaz, Kırmızı, Mavi</div>
+                    </div>
+                    <div class="specs-row">
+                        <div class="specs-title">Malzeme</div>
+                        <div class="specs-value">%100 Pamuk</div>
+                    </div>
+                    <div class="specs-row">
+                        <div class="specs-title">Beden</div>
+                        <div class="specs-value">S, M, L, XL</div>
+                    </div>
+                    <div class="specs-row">
+                        <div class="specs-title">Ağırlık</div>
+                        <div class="specs-value">250g</div>
+                    </div>
+                    <div class="specs-row">
+                        <div class="specs-title">Üretim Yeri</div>
+                        <div class="specs-value">Türkiye</div>
+                    </div>
+                    <div class="specs-row">
+                        <div class="specs-title">Garanti</div>
+                        <div class="specs-value">2 Yıl</div>
+                    </div>
+                </div>
+            </div>
 
-			<div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
-				<!-- Yorum İstatistikleri -->
+            <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                <!-- Yorum İstatistikleri -->
                 @await Component.InvokeAsync("RatingStars", new { productId = Model.Product.ProductId, Mode = "ratings" })
 
-				<!-- Yorum Listesi -->
                 <!-- Yorum Listesi -->
                 <div class="comments">
-                   @foreach (var review in Model.UserReviews)
-                   {
-                       <div class="comment">
-                           <div class="comment-avatar">
-                               <img src="/images/profile.png" alt="User Avatar">
-                           </div>
-                           <div class="comment-content">
-                               <div class="comment-header">
-                                   @using Microsoft.AspNetCore.Identity  
-                                   @inject UserManager<Account> UserManager
+                    @foreach (var review in Model.UserReviews)
+                    {
+                        <div class="comment">
+                            <div class="comment-avatar">
+                                <img src="/images/profile.png" alt="User Avatar">
+                            </div>
+                            <div class="comment-content">
+                                <div class="comment-header">
+                                @using Microsoft.AspNetCore.Identity
+                                @inject UserManager<Account> UserManager
 
-									<strong>@((await UserManager.FindByIdAsync(review.UserId))?.UserName ?? "Bilinmeyen Kullanıcı")</strong>
-                                   <div class="comment-date">@review.ReviewDate</div>
-                               </div>
-                               <div class="row">
-                                   <div class="col col-md-11">
+                                    <strong>@((await UserManager.FindByIdAsync(review.UserId))?.UserName ?? "Bilinmeyen Kullanıcı")</strong>
+                                    <div class="comment-date">@review.ReviewDate</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col col-md-11">
                                         <div class="comment-text">
                                             <p>@review.ReviewTitle</p>
                                         </div>
-                                   </div>
-                                   <div class="col col-md-1 d-flex align-items-center justify-content-center">
+                                    </div>
+                                    <div class="col col-md-1 d-flex align-items-center justify-content-center">
 
                                         <div class="comment-rating">
                                             @for (int i = 1; i <= 5; i++)
@@ -233,154 +231,125 @@
                                                 }
                                             }
                                         </div>
-                                   </div>
-                               </div>
+                                    </div>
+                                </div>
 
-                               <div class="comment-text">
-                                   <p>@review.ReviewText</p>
-                               </div>
-								@if (review.ReviewPictureUrl != null && review.ReviewPictureUrl.Any())
-                               {
-                                   <div class="comment-photos">
-										<img src="/images/comments/@review.ReviewPictureUrl" alt="Kullanıcı Fotoğrafı">
-                                   </div>
-                               }
-                               <div class="comment-helpful">
-                                   <span>Bu yorum faydalı oldu mu?</span>
-                                   <button class="helpful-btn"><i class="far fa-thumbs-up"></i> Evet (1)</button>
-                                   <button class="helpful-btn"><i class="far fa-thumbs-down"></i> Hayır (2)</button>
-                               </div>
-                           </div>
-                       </div>
-                   }
+                                <div class="comment-text">
+                                    <p>@review.ReviewText</p>
+                                </div>
+                                @if (review.ReviewPictureUrl != null && review.ReviewPictureUrl.Any())
+                                {
+                                    <div class="comment-photos">
+                                        <img src="/images/comments/@review.ReviewPictureUrl" alt="Kullanıcı Fotoğrafı">
+                                    </div>
+                                }
+                                <div class="comment-helpful">
+                                    <span>Bu yorum faydalı oldu mu?</span>
+                                    <button class="helpful-btn"><i class="far fa-thumbs-up"></i> Evet (1)</button>
+                                    <button class="helpful-btn"><i class="far fa-thumbs-down"></i> Hayır (2)</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
 
-				<!-- Yorum Yazma Formu -->
-				<div class="write-review">
+                <!-- Yorum Yazma Formu -->
+                <div class="write-review">
 
-					<h4>Yorum Yazın</h4>
-					<div class="text-danger" asp-validation-summary="All"></div>
-					<form method="post" class="review-form" asp-action="Get" enctype="multipart/form-data">
-						<input type="hidden" asp-for="Product.ProductId" />
-						<div class="form-group">
-							<label asp-for="UserReviewDtoForInsertion.ReviewTitle">Başlık</label>
-							<input asp-for="UserReviewDtoForInsertion.ReviewTitle" type="text" class="form-control" placeholder="Yorumunuz için başlık ekleyin">
-							<span asp-validation-for="UserReviewDtoForInsertion.ReviewTitle" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label asp-for="UserReviewDtoForInsertion.ReviewText">Yorumunuz</label>
-							<textarea asp-for="UserReviewDtoForInsertion.ReviewText" class="form-control" rows="3" placeholder="Ürün hakkında düşüncelerinizi paylaşın"></textarea>
-							<span asp-validation-for="UserReviewDtoForInsertion.ReviewText" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label>Puanınız</label>
-							<select asp-for="UserReviewDtoForInsertion.Rating" class="form-control">
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-							</select>
-							<span asp-validation-for="UserReviewDtoForInsertion.Rating" class="text-danger"></span>
-						</div>
-						<div class="form-group">
-							<label class="admin-file-input-label">
-								<i class="fas fa-upload me-2"></i> Görsel Seçin
-								<input name="file" type="file" class="admin-file-input" id="imageInput" accept="image/*" />
-							</label>
-						</div>
-						<button type="submit" class="btn-submit-review">Yorumu Gönder</button>
-					</form>
-				</div>
-			</div>
+                    <h4>Yorum Yazın</h4>
+                    <div class="text-danger" asp-validation-summary="All"></div>
+                    <form method="post" class="review-form" asp-action="Get" enctype="multipart/form-data">
+                        <input type="hidden" asp-for="Product.ProductId" />
+                        <div class="form-group">
+                            <label asp-for="UserReviewDtoForInsertion.ReviewTitle">Başlık</label>
+                            <input asp-for="UserReviewDtoForInsertion.ReviewTitle" type="text" class="form-control" placeholder="Yorumunuz için başlık ekleyin">
+                            <span asp-validation-for="UserReviewDtoForInsertion.ReviewTitle" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="UserReviewDtoForInsertion.ReviewText">Yorumunuz</label>
+                            <textarea asp-for="UserReviewDtoForInsertion.ReviewText" class="form-control" rows="3" placeholder="Ürün hakkında düşüncelerinizi paylaşın"></textarea>
+                            <span asp-validation-for="UserReviewDtoForInsertion.ReviewText" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Puanınız</label>
+                            <select asp-for="UserReviewDtoForInsertion.Rating" class="form-control">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                            <span asp-validation-for="UserReviewDtoForInsertion.Rating" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="admin-file-input-label">
+                                <i class="fas fa-upload me-2"></i> Görsel Seçin
+                                <input name="file" type="file" class="admin-file-input" id="imageInput" accept="image/*" />
+                            </label>
+                        </div>
+                        <button type="submit" class="btn-submit-review">Yorumu Gönder</button>
+                    </form>
+                </div>
+            </div>
 
-			<div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">
-				<div class="shipping-info">
-					<h4>Kargo Bilgileri</h4>
-					<p>Siparişleriniz, ödeme onayından sonraki ilk iş günü içinde hazırlanıp kargoya verilmektedir.</p>
-					<ul>
-						<li>Standart teslimat süresi: 1-3 iş günü</li>
-						<li>Hızlı teslimat seçeneği: Aynı gün teslimat (saat 14:00'a kadar verilen siparişler için)</li>
-						<li>100 TL ve üzeri alışverişlerde kargo ücretsizdir</li>
-					</ul>
+            <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">
+                <div class="shipping-info">
+                    <h4>Kargo Bilgileri</h4>
+                    <p>Siparişleriniz, ödeme onayından sonraki ilk iş günü içinde hazırlanıp kargoya verilmektedir.</p>
+                    <ul>
+                        <li>Standart teslimat süresi: 1-3 iş günü</li>
+                        <li>Hızlı teslimat seçeneği: Aynı gün teslimat (saat 14:00'a kadar verilen siparişler için)</li>
+                        <li>100 TL ve üzeri alışverişlerde kargo ücretsizdir</li>
+                    </ul>
 
-					<h4>İade Koşulları</h4>
-					<p>Ürünü teslim aldığınız tarihten itibaren 15 gün içinde iade edebilirsiniz.</p>
-					<ul>
-						<li>Ürün kullanılmamış ve orijinal ambalajında olmalıdır</li>
-						<li>İade edeceğiniz ürünün yanında fatura ve irsaliye bulunmalıdır</li>
-						<li>İade kargo bedeli müşteriye aittir</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
+                    <h4>İade Koşulları</h4>
+                    <p>Ürünü teslim aldığınız tarihten itibaren 15 gün içinde iade edebilirsiniz.</p>
+                    <ul>
+                        <li>Ürün kullanılmamış ve orijinal ambalajında olmalıdır</li>
+                        <li>İade edeceğiniz ürünün yanında fatura ve irsaliye bulunmalıdır</li>
+                        <li>İade kargo bedeli müşteriye aittir</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<!-- Benzer Ürünler -->
-	<div class="similar-products mt-5">
-		<h3 class="section-title">Benzer Ürünler</h3>
-		<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
-			@for (int i = 0; i < 4; i++)
-			{
-				<div class="col">
-					<div class="product-card">
-						<div class="product-card-img">
-							<span class="discount-badge">-%10</span>
-							<img src="/images/@Model.Product.ImageUrl" alt="Benzer Ürün @i" class="img-fluid">
-							<div class="product-card-actions">
-								<button class="action-btn"><i class="far fa-heart"></i></button>
-								<button class="action-btn"><i class="fas fa-shopping-cart"></i></button>
-								<button class="action-btn"><i class="fas fa-eye"></i></button>
-							</div>
-						</div>
-						<div class="product-card-body">
-							<h5 class="product-card-title">Benzer Ürün @(i + 1)</h5>
-							<div class="product-card-rating">
-								<i class="fas fa-star"></i>
-								<i class="fas fa-star"></i>
-								<i class="fas fa-star"></i>
-								<i class="fas fa-star"></i>
-								<i class="fas fa-star-half-alt"></i>
-								<span>(18)</span>
-							</div>
-							<div class="product-card-price">
-								<span class="old-price">@(Model.Product.ActualPrice * 1.1m).ToString("c")</span>
-								<span class="current-price">@Model.Product.ActualPrice.ToString("c")</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			}
-		</div>
-	</div>
+    <!-- Benzer Ürünler -->
+    <div class="similar-products mt-5">
+        <h3 class="section-title">Benzer Ürünler</h3>
+        <div class="row g-3">
+                <partial name="_ProductCardSmall" model="@Model.Product" />
+                <partial name="_ProductCardSmall" model="@Model.Product" />
+                <partial name="_ProductCardSmall" model="@Model.Product" />
+                <partial name="_ProductCardSmall" model="@Model.Product" />
+        </div>
+    </div>
 </div>
 <style>
     /* Ana konteyner */
     .product-container {
-        max-width: 1200px;
         margin: 0 auto;
-        font-family: 'Poppins', sans-serif;
     }
 
     /* Breadcrumb */
     .breadcrumb {
         padding: 0.75rem 0;
         background-color: transparent;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
 
     .breadcrumb-item a {
-        color: #666;
+        color: #777;
         text-decoration: none;
         transition: color 0.3s ease;
     }
 
         .breadcrumb-item a:hover {
-            color: #3f51b5;
+            color: #6366f1;
         }
 
     .breadcrumb-item.active {
-        color: #333;
+        color: #444;
         font-weight: 500;
     }
 
@@ -388,9 +357,9 @@
     .main-image-container {
         position: relative;
         margin-bottom: 1.5rem;
-        border-radius: 12px;
+        border-radius: 20px;
         overflow: hidden;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
     }
 
     .main-image {
@@ -398,37 +367,41 @@
         height: auto;
         object-fit: cover;
         display: block;
-        transition: transform 0.5s ease;
+        transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
     }
 
         .main-image:hover {
-            transform: scale(1.03);
+            transform: scale(1.04);
         }
 
-    .discount-badge {
+    .discount-tag {
         position: absolute;
         top: 15px;
-        left: 5px;
-        background-color: #e53935;
+        left: 15px;
+        background: linear-gradient(135deg, #ff7676, #f54ea2);
         color: white;
-        border-radius: 4px;
+        border-radius: 50px;
+        padding: 5px 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        box-shadow: 0 3px 10px rgba(245, 78, 162, 0.3);
         z-index: 2;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        line-height: 1.1;
     }
 
-	.discount-badge-text {
-		margin-left: 300px;
-        font-size: 25px;
-        margin-top: 5px;
-		margin-bottom: -1px;
-	}
+        .discount-tag span:first-child {
+            font-size: 0.9rem;
+        }
 
     .wishlist-icon {
         position: absolute;
         top: 15px;
         right: 15px;
         background-color: rgba(255, 255, 255, 0.9);
-        color: #666;
+        color: #777;
         width: 40px;
         height: 40px;
         border-radius: 50%;
@@ -438,13 +411,13 @@
         cursor: pointer;
         transition: all 0.3s ease;
         z-index: 2;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     }
 
         .wishlist-icon:hover {
-            background-color: #ff4081;
+            background-color: #f54ea2;
             color: white;
-            transform: scale(1.1);
+            transform: scale(1.12) rotate(5deg);
         }
 
         .wishlist-icon i {
@@ -464,14 +437,15 @@
         }
 
     .thumbnail {
-        width: 80px;
-        height: 80px;
+        width: 75px;
+        height: 75px;
         object-fit: cover;
-        border-radius: 8px;
+        border-radius: 12px;
         cursor: pointer;
         transition: all 0.3s ease;
         border: 2px solid transparent;
         opacity: 0.7;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
     }
 
         .thumbnail:hover {
@@ -480,8 +454,9 @@
         }
 
         .thumbnail.active {
-            border-color: #3f51b5;
+            border-color: #6366f1;
             opacity: 1;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
         }
 
     /* Ürün Detayları */
@@ -494,11 +469,11 @@
         justify-content: space-between;
         margin-bottom: 0.8rem;
         font-size: 0.85rem;
-        color: #777;
+        color: #888;
     }
 
     .product-availability.in-stock {
-        color: #4caf50;
+        color: #10b981;
         font-weight: 500;
     }
 
@@ -510,11 +485,11 @@
         font-size: 2rem;
         font-weight: 700;
         margin-bottom: 1rem;
-        color: #212121;
+        color: #333;
         line-height: 1.2;
     }
 
-    .product-rating {
+    .productdetail-rating {
         display: flex;
         align-items: center;
         margin-bottom: 1.2rem;
@@ -526,86 +501,86 @@
     }
 
         .star-rating i {
-            color: #ffc107;
+            color: #facc15;
             font-size: 1rem;
             margin-right: 0.15rem;
         }
 
     .rating-count {
         font-size: 0.9rem;
-        color: #666;
+        color: #777;
     }
 
     .product-price-container {
         display: flex;
         align-items: center;
-        margin-bottom: 1.2rem;
+        margin-bottom: 1.5rem;
     }
 
-    .old-price {
+    .productdetail-old-price {
         text-decoration: line-through;
         color: #999;
         font-size: 1.1rem;
-        margin-right: 0.7rem;
+        margin-right: 0.8rem;
     }
 
     .product-price {
-        font-size: 1.8rem;
+        font-size: 1.9rem;
         font-weight: 700;
-        color: #e53935;
-        margin-right: 0.7rem;
+        color: #f43f5e;
+        margin-right: 0.8rem;
     }
 
     .price-discount {
-        background-color: rgba(229, 57, 53, 0.1);
-        color: #e53935;
-        padding: 0.2rem 0.5rem;
-        border-radius: 4px;
+        background-color: rgba(244, 63, 94, 0.1);
+        color: #f43f5e;
+        padding: 0.25rem 0.6rem;
+        border-radius: 20px;
         font-size: 0.85rem;
-        font-weight: 500;
+        font-weight: 600;
     }
 
     .product-description {
-        margin-bottom: 1.5rem;
-        color: #555;
-        line-height: 1.6;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 1.5rem;
+        margin-bottom: 1.8rem;
+        color: #666;
+        line-height: 1.7;
+        border-bottom: 1px solid #f0f0f0;
+        padding-bottom: 1.8rem;
     }
 
     /* Ürün Varyantları */
     .product-variants {
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.8rem;
     }
 
     .variant-group {
-        margin-bottom: 1.2rem;
+        margin-bottom: 1.4rem;
     }
 
         .variant-group label {
             display: block;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-            color: #333;
+            font-weight: 600;
+            margin-bottom: 0.7rem;
+            color: #444;
         }
 
     .color-options {
         display: flex;
-        gap: 10px;
+        gap: 12px;
     }
 
     .color-option {
-        width: 30px;
-        height: 30px;
+        width: 32px;
+        height: 32px;
         border-radius: 50%;
         cursor: pointer;
         position: relative;
-        transition: all 0.2s ease;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.1);
     }
 
         .color-option:hover {
-            transform: scale(1.1);
+            transform: scale(1.15);
         }
 
         .color-option.active:after {
@@ -615,45 +590,47 @@
             left: -4px;
             right: -4px;
             bottom: -4px;
-            border: 2px solid #3f51b5;
+            border: 2px solid #6366f1;
             border-radius: 50%;
         }
 
     .size-options {
         display: flex;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 12px;
     }
 
     .size-option {
-        min-width: 40px;
-        height: 40px;
+        min-width: 42px;
+        height: 42px;
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 1px solid #ddd;
-        border-radius: 4px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
         cursor: pointer;
         font-size: 0.9rem;
-        transition: all 0.2s ease;
+        transition: all 0.3s ease;
+        font-weight: 500;
     }
 
         .size-option:hover {
-            border-color: #3f51b5;
-            color: #3f51b5;
-            transform: translateY(-2px);
+            border-color: #6366f1;
+            color: #6366f1;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(99, 102, 241, 0.15);
         }
 
         .size-option.active {
-            background-color: #3f51b5;
-            border-color: #3f51b5;
+            background-color: #6366f1;
+            border-color: #6366f1;
             color: white;
-            box-shadow: 0 3px 8px rgba(63, 81, 181, 0.3);
+            box-shadow: 0 5px 12px rgba(99, 102, 241, 0.3);
         }
 
         .size-option.sold-out {
-            background-color: #f5f5f5;
-            border-color: #ddd;
+            background-color: #f9fafb;
+            border-color: #e5e7eb;
             color: #aaa;
             cursor: not-allowed;
             position: relative;
@@ -665,7 +642,7 @@
                 top: 50%;
                 left: 0;
                 right: 0;
-                border-top: 1px solid #aaa;
+                border-top: 1px solid #ccc;
                 transform: rotate(-45deg);
             }
 
@@ -673,8 +650,8 @@
     .product-actions {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
+        gap: 1.2rem;
+        margin-bottom: 1.8rem;
     }
 
     .quantity-selector {
@@ -682,18 +659,18 @@
         align-items: center;
         height: 48px;
         max-width: 150px;
-        border: 1px solid #ddd;
+        border: 1px solid #e5e7eb;
         border-radius: 24px;
         overflow: hidden;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        box-shadow: 0 3px 8px rgba(0,0,0,0.05);
     }
 
     .quantity-btn {
         width: 48px;
         height: 100%;
-        background-color: #f5f5f5;
+        background-color: #f9fafb;
         border: none;
-        color: #333;
+        color: #444;
         font-size: 0.9rem;
         display: flex;
         align-items: center;
@@ -703,7 +680,7 @@
     }
 
         .quantity-btn:hover {
-            background-color: #e0e0e0;
+            background-color: #e5e7eb;
         }
 
     .quantity-input {
@@ -712,7 +689,7 @@
         border: none;
         text-align: center;
         font-size: 1rem;
-        color: #333;
+        color: #444;
         -moz-appearance: textfield;
         background-color: #fff;
     }
@@ -1302,118 +1279,6 @@
                 background-color: #3f51b5;
                 border-radius: 3px;
             }
-
-    .product-card {
-        background: #fff;
-        border: none;
-        border-radius: 12px;
-        transition: all 0.3s ease;
-        overflow: hidden;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-    }
-
-        .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-
-    .product-card-img {
-        position: relative;
-        overflow: hidden;
-    }
-
-        .product-card-img img {
-            width: 100%;
-            height: auto;
-            transition: transform 0.5s ease;
-        }
-
-    .product-card:hover .product-card-img img {
-        transform: scale(1.1);
-    }
-
-    .product-card-actions {
-        position: absolute;
-        bottom: -50px;
-        left: 0;
-        right: 0;
-        display: flex;
-        justify-content: center;
-        gap: 0.5rem;
-        transition: bottom 0.3s ease;
-        padding: 1rem;
-        background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-    }
-
-    .product-card:hover .product-card-actions {
-        bottom: 0;
-    }
-
-    .action-btn {
-        background: rgba(255, 255, 255, 0.9);
-        border: none;
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        color: #666;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
-
-        .action-btn:hover {
-            background: #3f51b5;
-            color: #fff;
-            transform: translateY(-3px);
-        }
-
-    .product-card-body {
-        padding: 1.25rem;
-    }
-
-    .product-card-title {
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-bottom: 0.75rem;
-        color: #333;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .product-card-rating {
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
-        font-size: 0.85rem;
-        color: #ffc107;
-        margin-bottom: 0.75rem;
-    }
-
-        .product-card-rating span {
-            color: #666;
-            margin-left: 0.25rem;
-        }
-
-    .product-card-price {
-        display: flex;
-        align-items: baseline;
-        gap: 0.75rem;
-    }
-
-        .product-card-price .old-price {
-            text-decoration: line-through;
-            color: #999;
-            font-size: 0.9rem;
-        }
-
-        .product-card-price .current-price {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #e53935;
-        }
 
     /* Responsive Düzenlemeler */
     media (max-width: 991px) {

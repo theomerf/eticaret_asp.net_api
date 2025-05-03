@@ -1,13 +1,13 @@
-@model Product
+ï»¿@model Product
 
-<div class="col-sm-12 col-md-4 my-3 product-wrapper">
+<div class="col-sm-12 col-md-3 my-3 product-wrapper">
     <div class="product-card">
         <a asp-action="Get" asp-controller="Product" asp-route-id="@Model?.ProductId" class="product-link">
             @if (Model?.Discount > 0)
             {
                 <div class="discount-tag">
                     <span>%@Model?.Discount</span>
-                    <span>Ýndirim</span>
+                    <span>Ä°ndirim</span>
                 </div>
             }
 
@@ -23,7 +23,7 @@
                     </form>
                     <form asp-controller="Account" asp-action="AddToCompare" method="post">
                         <input type="hidden" name="id" value="@Model.ProductId" />
-                        <button type="submit" class="action-btn compare-btn" title="Karþýlaþtýr">
+                        <button type="submit" class="action-btn compare-btn" title="KarÅŸÄ±laÅŸtÄ±r">
                             <i class="fa fa-exchange-alt"></i>
                         </button>
                     </form>

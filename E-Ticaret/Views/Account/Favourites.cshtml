@@ -1,0 +1,35 @@
+﻿@model List<Product>
+
+<div class="favorites-container">
+    <div class="container p-4">
+        <div class="favorites-header mb-4">
+            <h2 class="favorites-title">Favori Ürünlerim</h2>
+            <div class="favorites-subtitle">Beğendiğiniz tüm ürünleri burada bulabilirsiniz</div>
+        </div>
+
+        @if (Model == null || !Model.Any())
+        {
+            <div class="favorites-empty">
+                <div class="text-center py-5">
+                    <i class="fa fa-heart-broken fa-3x mb-3"></i>
+                    <h4>Henüz favori ürününüz bulunmuyor</h4>
+                    <p>Beğendiğiniz ürünleri favorilerinize ekleyerek daha sonra kolayca ulaşabilirsiniz.</p>
+                    <a asp-controller="Product" asp-action="Index" class="btn favorites-shop-btn mt-3">
+                        <i class="fa fa-shopping-bag"></i> Alışverişe Başla
+                    </a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="favorites-products-wrapper p-5">
+                <div class="row g-4">
+                    @foreach (Product prd in Model)
+                    {
+                        <partial name="_ProductCardSmall" model="@prd" />
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>

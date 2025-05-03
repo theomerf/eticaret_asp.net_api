@@ -27,9 +27,11 @@
                <span class="position-absolute start-100 translate-middle badge rounded-pill bg-danger notification-badge">2</span>
            </a>
 
-           <a class="nav-link text-white nav-icon-link position-relative me-2" href="#" title="Favorilerim">
+           <a asp-controller="Account" asp-action="Favourites" class="nav-link text-white nav-icon-link position-relative me-2" title="Favorilerim">
                <i class="fa-regular fa-heart"></i>
-               <span class="position-absolute top-2 start-100 translate-middle badge rounded-pill bg-danger wishlist-badge">0</span>
+               <span class="position-absolute top-2 start-100 translate-middle badge rounded-pill bg-danger wishlist-badge">
+                    @await Component.InvokeAsync("FavouritesSummary")
+                </span>
            </a>
 
            <div class="nav-item">

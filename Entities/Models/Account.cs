@@ -11,5 +11,6 @@ namespace Entities.Models
         public DateTime MembershipDate { get; set; } = DateTime.UtcNow;
         public DateTime? BirthDate { get; set; }
         public DateTime? LastLoginDate { get; set; }
+        public ICollection<int> FavouriteProductsId { get; set; } = new List<int>();
     }
 }

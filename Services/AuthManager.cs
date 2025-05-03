@@ -103,6 +103,7 @@ namespace Services
             user.LastName = userDto.LastName;
             user.PhoneNumber = userDto.PhoneNumber;
             user.Email = userDto.Email;
+            user.FavouriteProductsId = userDto.FavouriteProductsId;
 
             var result = await _userManager.UpdateAsync(user);
             if (userDto.Roles.Count() > 0)

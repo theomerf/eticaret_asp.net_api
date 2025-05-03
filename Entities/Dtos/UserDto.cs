@@ -32,6 +32,8 @@ namespace Entities.Dtos
         [Required(ErrorMessage = "Doğum tarihi gerekli")]
         public DateTime BirthDate { get; set; }
 
+        public List<int> FavouriteProductsId { get; set; } = new List<int>();
+
         public HashSet<String>? Roles { get; set; } = new HashSet<String>();
     }
 }

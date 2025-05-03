@@ -1,0 +1,25 @@
+﻿using Entities.Models;
+using Microsoft.AspNetCore.Mvc;
+using Services.Contracts;
+using System.Security.Claims;
+
+namespace ETicaret.Components
+{
+    public class FavouritesSummaryViewComponent : ViewComponent
+    {
+        private readonly IServiceManager _manager;
+
+        public FavouritesSummaryViewComponent(IServiceManager manager)
+        {
+            _manager = manager;
+        }
+
+        public async Task<string> InvokeAsync()
+        {
+            string? userId = (User as ClaimsPrincipal)?.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _manager.AuthService.GetOneUser(User.Identity?.Name ?? string.Empty);
+            int favouritesCount = user.FavouriteProductsId.Count();
+            return favouritesCount.ToString();
+        }
+    }
+}
