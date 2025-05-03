@@ -161,32 +161,44 @@
       "PackagePath": "staticwebassets\\images\\a3.png"
     },
     {
-      "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\images\\avatars\\Admin.png",
-      "PackagePath": "staticwebassets\\images\\avatars\\Admin.png"
+      "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\images\\adidas.png",
+      "PackagePath": "staticwebassets\\images\\adidas.png"
+    },
+    {
+      "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\images\\apple.png",
+      "PackagePath": "staticwebassets\\images\\apple.png"
     },
     {
       "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\images\\avatars\\default.png",
       "PackagePath": "staticwebassets\\images\\avatars\\default.png"
     },
     {
-      "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\images\\comments\\1.png",
-      "PackagePath": "staticwebassets\\images\\comments\\1.png"
+      "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\images\\avatars\\theomerf.png",
+      "PackagePath": "staticwebassets\\images\\avatars\\theomerf.png"
     },
     {
-      "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\images\\comments\\2.png",
-      "PackagePath": "staticwebassets\\images\\comments\\2.png"
+      "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\images\\bershka.png",
+      "PackagePath": "staticwebassets\\images\\bershka.png"
     },
     {
-      "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\images\\comments\\3.png",
-      "PackagePath": "staticwebassets\\images\\comments\\3.png"
+      "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\images\\hp.png",
+      "PackagePath": "staticwebassets\\images\\hp.png"
     },
     {
-      "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\images\\comments\\4.png",
-      "PackagePath": "staticwebassets\\images\\comments\\4.png"
+      "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\images\\logo-placeholder.png",
+      "PackagePath": "staticwebassets\\images\\logo-placeholder.png"
     },
     {
       "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\images\\profile.png",
       "PackagePath": "staticwebassets\\images\\profile.png"
+    },
+    {
+      "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\images\\samsung.png",
+      "PackagePath": "staticwebassets\\images\\samsung.png"
+    },
+    {
+      "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\images\\zara.png",
+      "PackagePath": "staticwebassets\\images\\zara.png"
     },
     {
       "Id": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\js\\site.js",
