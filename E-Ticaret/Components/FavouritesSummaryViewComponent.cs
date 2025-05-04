@@ -1,5 +1,4 @@
-﻿using Entities.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 using System.Security.Claims;
 
@@ -14,17 +13,18 @@ namespace ETicaret.Components
             _manager = manager;
         }
 
-        public async Task<string> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
             string? userId = (User as ClaimsPrincipal)?.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId == null)
+            int favouritesCount = 0;
+
+            if (userId != null)
             {
-                return "0";
+                var user = await _manager.AuthService.GetOneUser(User.Identity?.Name ?? string.Empty);
+                favouritesCount = user?.FavouriteProductsId?.Count() ?? 0;
             }
 
-            var user = await _manager.AuthService.GetOneUser(User.Identity?.Name ?? string.Empty);
-            int favouritesCount = user?.FavouriteProductsId?.Count() ?? 0;
-            return favouritesCount.ToString();
+            return View(favouritesCount);
         }
     }
 }

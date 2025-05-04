@@ -1,13 +1,15 @@
+ï»¿@using System.Security.Claims
+@using Services.Contracts
 @model Product
 
 <div class="col-sm-12 col-md-4 my-3 product-wrapper">
     <div class="product-card">
-        <a asp-action="Get" asp-controller="Product" asp-route-id="@Model?.ProductId" class="product-link">
+        <a asp-action="Get" asp-controller="Product" asp-route-id="@Model?.ProductId" class="ajax-link product-link">
             @if (Model?.Discount > 0)
             {
                 <div class="discount-tag">
                     <span>%@Model?.Discount</span>
-                    <span>Ýndirim</span>
+                    <span>Ä°ndirim</span>
                 </div>
             }
 
@@ -15,15 +17,43 @@
                 <img src="/images/@Model?.ImageUrl" class="product-img" alt="@Model?.ProductName">
 
                 <div class="quick-actions">
-                    <form asp-controller="Account" asp-action="AddToFavourites" method="post">
-                        <input type="hidden" name="id" value="@Model.ProductId" />
-                        <button type="submit" class="action-btn favorite-btn" title="Favorilere Ekle">
+                    @if (User.Identity.IsAuthenticated && Context.User.FindFirstValue(ClaimTypes.NameIdentifier) != null)
+                    {
+                        var userId = Context.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                        var user = await ViewContext.HttpContext.RequestServices.GetRequiredService<IAuthService>().GetOneUserForUpdate(User.Identity?.Name ?? string.Empty);
+                        if (user != null && user.FavouriteProductsId.Contains(Model.ProductId))
+                        {
+                            <button type="button"
+                                    class="action-btn favorite-btn remove-btn"
+                                    data-product-id="@Model.ProductId"
+                                    title="Favorilerden KaldÄ±r">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="button"
+                                    class="action-btn favorite-btn add-btn"
+                                    data-product-id="@Model.ProductId"
+                                    title="Favorilere Ekle">
+                                <i class="far fa-heart"></i>
+                            </button>
+
+                        }
+                    }
+                    else
+                    {
+                        <button type="button"
+                                class="action-btn favorite-btn"
+                                data-product-id="@Model.ProductId"
+                                title="Favorilere Ekle">
                             <i class="far fa-heart"></i>
                         </button>
-                    </form>
+                    }
+
                     <form asp-controller="Account" asp-action="AddToCompare" method="post">
                         <input type="hidden" name="id" value="@Model.ProductId" />
-                        <button type="submit" class="action-btn compare-btn" title="Karþýlaþtýr">
+                        <button type="submit" class="action-btn compare-btn" title="KarÅŸÄ±laÅŸtÄ±r">
                             <i class="fa fa-exchange-alt"></i>
                         </button>
                     </form>
@@ -48,14 +78,25 @@
         </a>
 
         <div class="cart-action">
-            <form asp-controller="Cart" asp-action="AddToCart" method="post">
-                <input type="hidden" name="productId" value="@Model.ProductId" />
-                <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
-                <button type="submit" class="add-to-cart-btn">
-                    <span class="btn-text">Sepete Ekle</span>
-                    <span class="btn-icon"><i class="fas fa-cart-plus"></i></span>
-                </button>
-            </form>
+            @{
+                // Check if product is already in cart
+                var isInCart = Context.RequestServices.GetRequiredService<Cart>()?.Lines?.Any(l => l.Product.ProductId == Model.ProductId) ?? false;
+
+                if (isInCart)
+                {
+                    <button type="button" class="remove-from-cart-btn" data-product-id="@Model.ProductId">
+                        <span class="btn-text">Sepetten Ã‡Ä±kar</span>
+                        <span class="btn-icon"><i class="fas fa-trash-alt"></i></span>
+                    </button>
+                }
+                else
+                {
+                    <button type="button" class="add-to-cart-btn" data-product-id="@Model.ProductId">
+                        <span class="btn-text">Sepete Ekle</span>
+                        <span class="btn-icon"><i class="fas fa-cart-plus"></i></span>
+                    </button>
+                }
+            }
         </div>
     </div>
 </div>

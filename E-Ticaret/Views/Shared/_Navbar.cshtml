@@ -1,68 +1,77 @@
-﻿<nav class="navbar navbar-expand-lg navbar-dark custom-navbar shadow-sm sticky-top">
-   <div class="container">
-       <a class="navbar-brand fw-bold text-white d-flex align-items-center" href="/">
-           <div class="brand-logo">
-               <i class="fa-solid fa-store"></i>
-           </div>
-           <img src="~/images/logo-placeholder.png" class="logo-img" />
-       </a>
+﻿
+    @{  
+       var avatarUrl = "";  
+       if (User?.Identity?.IsAuthenticated == true)  
+       {  
+           var avatarContent = await Component.InvokeAsync("Avatar");  
+           using (var writer = new System.IO.StringWriter())  
+           {  
+               avatarContent.WriteTo(writer, System.Text.Encodings.Web.HtmlEncoder.Default);  
+               avatarUrl = writer.ToString();  
+           }  
+       }  
+    }
 
-       <form class="search-form d-none d-lg-block flex-grow-1">
-           <div class="input-group">
-               <input type="text" class="form-control" placeholder="Ürün, kategori, marka ara..." aria-label="Search">
-               <button class="btn search-button" type="submit">
-                   <i class="fa-solid fa-search"></i>
-               </button>
-           </div>
-       </form>
 
-       <div class="d-flex align-items-center">
-           <button class="btn nav-icon-btn d-lg-none me-2" type="button" data-bs-toggle="collapse"
-                   data-bs-target="#searchCollapse" aria-expanded="false" aria-label="Toggle search">
-               <i class="fa-solid fa-search text-white"></i>
-           </button>
+<nav class="navbar navbar-expand-lg navbar-dark custom-navbar shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand ajax-link fw-bold text-white d-flex align-items-center" href="/">
+            <div class="brand-logo">
+                <i class="fa-solid fa-store"></i>
+            </div>
+            <img src="~/images/logo-placeholder.png" class="logo-img" />
+        </a>
 
-           <a class="nav-link text-white nav-icon-link position-relative me-2" href="#" title="Bildirimler">
-               <i class="fa-regular fa-bell"></i>
-               <span class="position-absolute start-100 translate-middle badge rounded-pill bg-danger notification-badge">2</span>
-           </a>
+        <form class="search-form d-none d-lg-block flex-grow-1">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Ürün, kategori, marka ara..." aria-label="Search">
+                <button class="btn search-button" type="submit">
+                    <i class="fa-solid fa-search"></i>
+                </button>
+            </div>
+        </form>
 
-           <a asp-controller="Account" asp-action="Favourites" class="nav-link text-white nav-icon-link position-relative me-2" title="Favorilerim">
-               <i class="fa-regular fa-heart"></i>
-               <span class="position-absolute top-2 start-100 translate-middle badge rounded-pill bg-danger wishlist-badge">
+        <div class="d-flex align-items-center">
+            <button class="btn nav-icon-btn d-lg-none me-2" type="button" data-bs-toggle="collapse"
+            data-bs-target="#searchCollapse" aria-expanded="false" aria-label="Toggle search">
+                <i class="fa-solid fa-search text-white"></i>
+            </button>
+
+            <a class="nav-link text-white nav-icon-link position-relative me-2" href="#" title="Bildirimler">
+                <i class="fa-regular fa-bell"></i>
+                <span class="position-absolute start-100 translate-middle badge rounded-pill bg-danger notification-badge">2</span>
+            </a>
+
+            <a asp-controller="Account" asp-action="Favourites" class="nav-link ajax-link text-white nav-icon-link position-relative me-2" title="Favorilerim">
+                <i class="fa-regular fa-heart"></i>
+                <span class="position-absolute top-2 start-100 translate-middle badge rounded-pill bg-danger wishlist-badge">
                     @await Component.InvokeAsync("FavouritesSummary")
                 </span>
-           </a>
+            </a>
 
-           <div class="nav-item">
-               @if (User?.Identity?.IsAuthenticated == true)
-               {
-                   <div class="dropdown user-dropdown">
-                       <a class="nav-link dropdown-toggle text-white fw-semibold d-flex align-items-center" id="navbarDropdown"
-                          role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                           <div class="avatar-wrapper me-2">
-                               @{
-                                   var avatarUrl = await Component.InvokeAsync("Avatar");
-                               }
-                               <img src="/images/@avatarUrl"
-                                    alt="Avatar" class="rounded-circle" width="32" height="32">
-                           </div>
-                           <span class="d-none d-lg-inline">@User.Identity.Name</span>
-                       </a>
-                       <div class="dropdown-menu user-dropdown-menu" aria-labelledby="navbarDropdown">
-                           <div class="user-info p-3 text-center">
-                               <div class="avatar-lg mx-auto mb-3">
-                                   @{
-                                       var avatarUrll = await Component.InvokeAsync("Avatar");
-                                   }
-                                   <img src="/images/@avatarUrll" alt="Avatar" class="rounded-circle img-thumbnail">
+            <div class="nav-item">
+                @if (User?.Identity?.IsAuthenticated == true)
+                {
+                    <div class="dropdown user-dropdown">
+                        <a class="nav-link dropdown-toggle text-white fw-semibold d-flex align-items-center" id="navbarDropdown"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="avatar-wrapper me-2">
+                                <img src="/images/@avatarUrl"
+                                alt="Avatar" class="rounded-circle" width="32" height="32">
+                            </div>
+                            <span class="d-none d-lg-inline">@User.Identity.Name</span>
+                        </a>
+                        <div class="dropdown-menu user-dropdown-menu" aria-labelledby="navbarDropdown">
+                            <div class="user-info p-3 text-center">
+                                <div class="avatar-lg mx-auto mb-3">
+                                    <img src="/images/@avatarUrl" alt="Avatar" class="rounded-circle img-thumbnail">
                                </div>
                                <h6 class="mb-0">@User.Identity.Name</h6>
                                <small class="text-muted">@(User.IsInRole("Admin") ? "Admin" : "Üye")</small>
                            </div>
                            <div class="dropdown-divider"></div>
                            <div class="dropdown-items-wrapper">
-                               <a asp-controller="Account" asp-action="Profile" class="dropdown-item">
+                                <a asp-controller="Account" asp-action="Profile" class="ajax-link dropdown-item">
                                    <i class="fa-solid fa-user me-2"></i> Profilim
                                </a>
                                <a class="dropdown-item" href="#">
@@ -100,10 +109,10 @@
                }
            </div>
 
-           <a class="nav-link text-white nav-icon-link position-relative ms-2"
+            <a class="nav-link ajax-link text-white nav-icon-link position-relative ms-2"
               asp-controller="Cart" asp-action="Index" title="Sepetim">
                <i class="fa-solid fa-shopping-cart"></i>
-               <span class="position-absolute start-100 translate-middle badge rounded-pill bg-danger cart-badge">
+                <span class="cart-item-count position-absolute start-100 translate-middle badge rounded-pill bg-danger cart-badge">
                    @await Component.InvokeAsync("CartSummary")
                </span>
            </a>
@@ -175,7 +184,7 @@
                </li>
 
                <li class="nav-item category-main-item">
-                   <a class="nav-link text-white fw-semibold nav-hover-effect" asp-controller="Product" asp-action="Index">
+                    <a class="nav-link ajax-link text-white fw-semibold nav-hover-effect" asp-controller="Product" asp-action="Index">
                        <i class="fa-solid fa-box me-1"></i> Tüm Ürünler
                        <span class="small badge bg-light text-dark badge-pill">@await Component.InvokeAsync("ProductSummary")</span>
                    </a>

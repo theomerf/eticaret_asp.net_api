@@ -12,9 +12,11 @@ namespace ETicaret.Components
             _cart = cartService;
         }
 
-        public string Invoke() 
+        public IViewComponentResult Invoke() 
         {
-            return _cart.Lines.Count().ToString();
+            var cartSummary = _cart.Lines.Count().ToString();
+
+            return Content(cartSummary); 
         }
     }
 }

@@ -5,6 +5,7 @@ using ETicaret.Models;
 using Services.Contracts;
 using System.Security.Claims;
 using Entities.Models;
+using Microsoft.AspNetCore.Authentication;
 
 namespace ETicaret.Controllers
 {
@@ -56,6 +57,26 @@ namespace ETicaret.Controllers
                         user.LastLoginDate = DateTime.UtcNow;
                         await _userManager.UpdateAsync(user);
 
+                        // Kullanıcı adı ve rollerini cookie'ye claims olarak ekle
+                        var claims = new List<Claim>
+                {
+                        new Claim(ClaimTypes.Name, user.UserName),
+                        new Claim(ClaimTypes.NameIdentifier, user.Id)
+                };
+
+                        var roles = await _userManager.GetRolesAsync(user);
+                        foreach (var role in roles)
+                        {
+                            claims.Add(new Claim(ClaimTypes.Role, role));
+                        }
+
+                        var claimsIdentity = new ClaimsIdentity(claims, IdentityConstants.ApplicationScheme);
+
+                        await HttpContext.SignInAsync(
+                            IdentityConstants.ApplicationScheme,
+                            new ClaimsPrincipal(claimsIdentity)
+                        );
+
                         return Redirect(model.Login.ReturnUrl ?? "/");
                     }
                 }
@@ -66,8 +87,6 @@ namespace ETicaret.Controllers
             model.Login.ReturnUrl = model.Login.ReturnUrl ?? "/";
             return View(model);
         }
-
-
 
         public async Task<IActionResult> Logout([FromQuery(Name = "ReturnUrl")] string ReturnUrl = "/")
         {
@@ -318,30 +337,76 @@ namespace ETicaret.Controllers
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
             {
-                TempData["error"] = "Kullanıcı oturumu bulunamadı.";
-                return RedirectToAction("Login");
+                return Json(new { success = false, message = "Kullanıcı oturumu bulunamadı.", type = "warning" });
             }
 
             var user = await _manager.AuthService.GetOneUserForUpdate(User.Identity?.Name ?? string.Empty);
             if (user == null)
             {
-                TempData["error"] = "Kullanıcı bilgileri alınamadı.";
-                return RedirectToAction("Login");
+                return Json(new { success = false, message = "Kullanıcı bilgileri alınamadı.", type = "danger" });
             }
 
             if (!user.FavouriteProductsId.Contains(id))
             {
                 user.FavouriteProductsId.Add(id);
                 await _manager.AuthService.Update(user);
-                TempData["success"] = "Ürün favorilere eklendi.";
+                return Json(new { success = true, message = "Ürün favorilere eklendi.", type = "success" });
             }
             else
             {
-                TempData["error"] = "Ürün zaten favorilerde.";
+                return Json(new { success = false, message = "Ürün zaten favorilerde.", type = "info" });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveFromFavourites(int id)
+        {
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return Json(new { success = false, message = "Kullanıcı oturumu bulunamadı.", type = "warning" });
             }
 
-            return RedirectToAction("Index", "Product");
+            var user = await _manager.AuthService.GetOneUserForUpdate(User.Identity?.Name ?? string.Empty);
+            if (user == null)
+            {
+                return Json(new { success = false, message = "Kullanıcı bilgileri alınamadı.", type = "danger" });
+            }
+
+            if (user.FavouriteProductsId.Contains(id))
+            {
+                user.FavouriteProductsId.Remove(id);
+                await _manager.AuthService.Update(user);
+                return Json(new { success = true, message = "Ürün favorilerden kaldırıldı.", type = "success" });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Ürün favorilerde yok.", type = "info" });
+            }
         }
+        public IActionResult Summary()
+        {
+            // Eğer AJAX isteği değilse 404 döndür
+            if (!Request.Headers["X-Requested-With"].Equals("XMLHttpRequest"))
+            {
+                return View("AccessDenied","Account"); // veya Forbid() da kullanılabilir
+            }
+
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int favouritesCount = 0;
+
+            if (userId != null)
+            {
+                var user = _manager.AuthService.GetOneUser(User.Identity?.Name ?? string.Empty).Result;
+                favouritesCount = user?.FavouriteProductsId?.Count() ?? 0;
+            }
+
+            return Json(favouritesCount);
+        }
+
+
+
+
 
 
     }

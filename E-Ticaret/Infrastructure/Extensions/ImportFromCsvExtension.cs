@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Repositories;
 using Repositories.Contracts;
 using Services.Contracts;
+using System.Text;
 
 namespace ETicaret.Infrastructure.Extensions
 {
@@ -24,11 +25,11 @@ namespace ETicaret.Infrastructure.Extensions
             var products = new List<Product>();
             var mainCategories = new List<MainCategory>();
             var subCategories = new List<SubCategory>();
-            var lines = File.ReadAllLines(csvFilePath);
+            var lines = File.ReadAllLines(csvFilePath, Encoding.UTF8);
 
             for (int i = 1; i < lines.Length; i++)
             {
-                var columns = lines[i].Split(',');
+                var columns = lines[i].Split(';');
 
                 var product = new Product()
                 {
@@ -40,7 +41,6 @@ namespace ETicaret.Infrastructure.Extensions
                     DiscountPrice = decimal.TryParse(columns[7], out var discountPrice) ? discountPrice : 0,
                     Summary = columns[9].Trim(),
                     ShowCase = columns[10] == "true" ? true : false,
-                    Rating = int.TryParse(columns[11], out var rating) ? rating : 0,
                 };
 
                 products.Add(product);
