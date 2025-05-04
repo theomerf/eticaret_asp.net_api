@@ -11,5 +11,6 @@ namespace Repositories.Contracts
         void CreateUserReview(UserReview userReview);
         void DeleteOneUserReview(UserReview userReview);
         void UpdateOneUserReview(UserReview entity);
+        IQueryable<int> GetAllRatingsForProduct(int id, bool trackChanges);
     }
 }

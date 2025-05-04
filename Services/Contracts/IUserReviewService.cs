@@ -12,5 +12,6 @@ namespace Services.Contracts
         void CreateUserReview(UserReviewDtoForInsertion userReview);
         void DeleteOneUserReview(int id);
         void UpdateOneUserReview(UserReviewDtoForUpdate userReview);
+        IQueryable<int> GetAllRatingsForProduct(int id, bool trackChanges);
     }
 }

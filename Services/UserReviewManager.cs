@@ -49,6 +49,11 @@ namespace Services
             return _manager.UserReview.GetAllUserReviewsOfOneUser(id, trackChanges);
         }
 
+        public IQueryable<int> GetAllRatingsForProduct(int id, bool trackChanges)
+        {
+            return _manager.UserReview.GetAllRatingsForProduct(id, trackChanges);
+        }
+
         public UserReview? GetOneUserReview(int id, bool trackChanges)
         {
             var userReview = _manager.UserReview.GetOneUserReview(id, trackChanges);

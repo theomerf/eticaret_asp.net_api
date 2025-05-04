@@ -1,8 +1,8 @@
-﻿@model IEnumerable<UserReview>
+﻿@model IEnumerable<int>
 
 @{
     var totalReviews = Model.Count();
-    var averageRating = totalReviews > 0 ? Model.Average(r => r.Rating) : 0;
+    var averageRating = totalReviews > 0 ? Model.Average() : 0;
 }
 @for (int i = 1; i <= 5; i++)
 {

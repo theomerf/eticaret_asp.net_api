@@ -20,8 +20,8 @@
                     @if (User.Identity.IsAuthenticated && Context.User.FindFirstValue(ClaimTypes.NameIdentifier) != null)
                     {
                         var userId = Context.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                        var user = await ViewContext.HttpContext.RequestServices.GetRequiredService<IAuthService>().GetOneUserForUpdate(User.Identity?.Name ?? string.Empty);
-                        if (user != null && user.FavouriteProductsId.Contains(Model.ProductId))
+                        var userFavourites = await ViewContext.HttpContext.RequestServices.GetRequiredService<IAuthService>().GetOneUsersFavourites(User.Identity?.Name ?? string.Empty);
+                        if (userFavourites != null && userFavourites.Contains(Model.ProductId))
                         {
                             <button type="button"
                                     class="action-btn favorite-btn remove-btn"

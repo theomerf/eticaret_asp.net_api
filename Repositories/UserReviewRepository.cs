@@ -20,6 +20,12 @@ namespace Repositories
             return FindAll(trackChanges)
                 .Where(p => p.ProductId.Equals(id));
         }
+        public IQueryable<int> GetAllRatingsForProduct(int id, bool trackChanges)
+        {
+            return FindAll(trackChanges)
+                .Where(p => p.ProductId.Equals(id))
+                .Select(p => p.Rating);
+        }
         public IQueryable<UserReview> GetAllUserReviewsOfOneUser(string id, bool trackChanges)
         {
             return FindAll(trackChanges)

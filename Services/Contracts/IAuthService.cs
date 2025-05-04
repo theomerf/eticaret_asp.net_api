@@ -16,5 +16,6 @@ namespace Services.Contracts
         Task<IdentityResult> ResetPassword(ResetPasswordDto model);
         Task<IdentityResult> ChangePassword(ChangePasswordDto model);
         Task<IdentityResult> DeleteOneUser(string userName);
+        Task<ICollection<int>> GetOneUsersFavourites(string userName);
     }
 }

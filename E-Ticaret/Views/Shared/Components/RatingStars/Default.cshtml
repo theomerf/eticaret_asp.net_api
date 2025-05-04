@@ -1,15 +1,15 @@
-﻿@model IEnumerable<UserReview>
+﻿@model IEnumerable<int>
 
 
 	@{
 		var totalReviews = Model.Count();
-		var averageRating = totalReviews > 0 ? Model.Average(r => r.Rating) : 0;
+		var averageRating = totalReviews > 0 ? Model.Average() : 0;
 		var ratingCounts = Enumerable.Range(1, 5)
 			.Select(star => new
 			{
 				Star = star,
-				Count = Model.Count(r => r.Rating == star),
-				Percentage = totalReviews > 0 ? (Model.Count(r => r.Rating == star) * 100.0 / totalReviews) : 0
+				Count = Model.Count(r => r == star),
+				Percentage = totalReviews > 0 ? (Model.Count(r => r == star) * 100.0 / totalReviews) : 0
 			})
 			.OrderByDescending(r => r.Star);
 	}

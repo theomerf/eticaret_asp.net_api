@@ -2,6 +2,7 @@
 using Entities.Dtos;
 using Entities.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Services.Contracts;
 using System;
 using System.Collections.Generic;
@@ -79,6 +80,21 @@ namespace Services
             userDto.Roles = new HashSet<string>(Roles.Select(r => r.Name).ToList());
             userDto.UserRoles = new HashSet<string>(await _userManager.GetRolesAsync(user));
             return userDto;
+        }
+
+        public async Task<ICollection<int>> GetOneUsersFavourites(string userName)
+        {
+            var favourites = await _userManager.Users
+                .Where(u => u.UserName == userName)
+                .Select(u => u.FavouriteProductsId)
+                .FirstOrDefaultAsync();
+
+            if (favourites != null)
+            {
+                return favourites;
+            }
+
+            throw new Exception("User not found or no favourites available.");
         }
 
         public async Task<IdentityResult> ResetPassword(ResetPasswordDto model)

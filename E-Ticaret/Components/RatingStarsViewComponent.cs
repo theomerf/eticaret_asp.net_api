@@ -15,7 +15,7 @@ namespace ETicaret.Components
 
         public IViewComponentResult Invoke(int productId,string mode)
         {
-            IEnumerable<UserReview> ratings = _manager.UserReviewService.GetAllUserReviewsOfOneProduct(productId, false);
+            IEnumerable<int> ratings = _manager.UserReviewService.GetAllRatingsForProduct(productId, false);
             if (mode == "ratings"){
                 return View(ratings);
             }
