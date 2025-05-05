@@ -132,7 +132,7 @@
         }
 
         <div class="row g-3">
-            @foreach (Product prd in Model.Products)
+            @foreach (ProductWithRatingDto prd in Model.Products)
             {
                 <partial name="_ProductCard" model="@prd" />
             }

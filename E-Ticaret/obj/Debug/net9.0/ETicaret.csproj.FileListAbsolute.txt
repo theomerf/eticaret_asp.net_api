@@ -662,4 +662,4 @@ C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\d57l7ywok4-nrdlpwwz7i.gz
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\j4vn21i193-s9ov596oiw.gz
 C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\symeg1ux3e-s9ov596oiw.gz
-C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\xl4f85guwh-1yi8dneqhh.gz
+C:\Users\omerf\OneDrive\Masaüstü\Kodlama\.net\asp\E-Ticaret\eticaret_asp.net\E-Ticaret\obj\Debug\net9.0\compressed\xl4f85guwh-7qoj8wopfq.gz

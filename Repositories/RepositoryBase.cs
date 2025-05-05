@@ -26,12 +26,27 @@ namespace Repositories
             : _context.Set<T>().AsNoTracking();
         }
 
+        public int Count(bool trackChanges)
+        {
+            return trackChanges
+                ? _context.Set<T>().Count()
+                : _context.Set<T>().AsNoTracking().Count();
+        }
+
         public T? FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges)
         {
             return trackChanges
                 ? _context.Set<T>().Where(expression).SingleOrDefault()
                 : _context.Set<T>().Where(expression).AsNoTracking().SingleOrDefault();
         }
+
+        public IQueryable<T> FindAllByCondition(Expression<Func<T, bool>> expression, bool trackChanges)
+        {
+            return trackChanges
+                ? _context.Set<T>().Where(expression)
+                : _context.Set<T>().Where(expression).AsNoTracking();
+        }
+
 
         public void Remove(T entity)
         {

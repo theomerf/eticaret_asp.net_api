@@ -38,12 +38,31 @@ namespace Services
 
         public IEnumerable<Product> GetAllProducts(bool trackChanges)
         {
-            return _manager.Product.GetAllProducts(trackChanges);
+            var products = _manager.Product.GetAllProducts(trackChanges).ToList();
+            return products;
         }
 
-        public IQueryable<Product> GetAllProductsWithDetails(ProductRequestParameters p)
+        public IEnumerable<ProductWithRatingDto> GetFavouriteProducts(ICollection<int> favouriteProductIds, bool trackChanges)
         {
-            return _manager.Product.GetAllProductsWithDetails(p);
+            var products = _manager.Product.GetFavouriteProducts(favouriteProductIds, trackChanges).ToList();
+            return products;
+        }
+
+        public int GetCount(bool trackChanges)
+        {
+            return _manager.Product.GetCount(trackChanges);
+        }
+
+        public IEnumerable<ProductWithRatingDto> GetAllProductsWithDetails(ProductRequestParameters p)
+        {
+            var products = _manager.Product.GetAllProductsWithDetails(p).ToList();
+            return products;
+        }
+
+        public IEnumerable<Product> GetAllProductsWithDetailsAdmin(ProductRequestParameters p)
+        {
+            var products = _manager.Product.GetAllProductsWithDetailsAdmin(p).ToList();
+            return products;
         }
 
         public IEnumerable<Product> GetLastestProducts(int n, bool trackChanges)
@@ -52,7 +71,8 @@ namespace Services
                 Product
                 .FindAll(trackChanges)
                 .OrderByDescending(prd => prd.ProductId)
-                .Take(n);
+                .Take(n)
+                .ToList();
         }
 
         public Product? GetOneProduct(int id, bool trackChanges)
@@ -74,7 +94,13 @@ namespace Services
 
         public IEnumerable<Product> GetShowcaseProducts(bool trackChanges)
         {
-            var products = _manager.Product.GetShowcaseProducts(trackChanges);
+            var products = _manager.Product.GetShowcaseProducts(trackChanges).ToList();
+            return products;
+        }
+
+        public IEnumerable<ProductWithRatingDto> GetShowcaseProductsWithRatings(bool trackChanges)
+        {
+            var products = _manager.Product.GetShowcaseProductsWithRatings(trackChanges).ToList();
             return products;
         }
 
@@ -84,5 +110,6 @@ namespace Services
             _manager.Product.UpdateOneProduct(entity);
             _manager.Save();
         }
+
     }
 }

@@ -1,8 +1,3 @@
-﻿@model IEnumerable<int>
+﻿@model double
 
-@{
-	var totalReviews = Model.Count();
-	var averageRating = totalReviews > 0 ? Model.Average() : 0;
-}
-
-@averageRating
+@Model

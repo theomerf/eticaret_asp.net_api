@@ -17,5 +17,6 @@ namespace Services.Contracts
         Task<IdentityResult> ChangePassword(ChangePasswordDto model);
         Task<IdentityResult> DeleteOneUser(string userName);
         Task<ICollection<int>> GetOneUsersFavourites(string userName);
+        Task<IdentityResult> UpdateUserFavourites(List<int> favouritesId, string userName);
     }
 }

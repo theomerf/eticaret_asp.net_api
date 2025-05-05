@@ -13,23 +13,24 @@ namespace ETicaret.Components
             _manager = manager;
         }
 
-        public IViewComponentResult Invoke(int productId,string mode)
+        public IViewComponentResult Invoke(int productId,double averageRating,string mode)
         {
-            IEnumerable<int> ratings = _manager.UserReviewService.GetAllRatingsForProduct(productId, false);
             if (mode == "ratings"){
+                IEnumerable<int> ratings = _manager.UserReviewService.GetAllRatingsForProduct(productId, false);
                 return View(ratings);
             }
             else if(mode == "average")
             {;
-                return View("average",ratings);
+                return View("average", averageRating);
             }
             else if (mode == "count")
             {
+                IEnumerable<int> ratings = _manager.UserReviewService.GetAllRatingsForProduct(productId, false);
                 return View("count", ratings);
             }
             else if (mode == "stars")
             {
-                return View("stars", ratings);
+                return View("stars", averageRating);
             }
             else
             {

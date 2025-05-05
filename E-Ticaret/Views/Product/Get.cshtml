@@ -318,10 +318,22 @@
     <div class="similar-products mt-5">
         <h3 class="section-title">Benzer Ürünler</h3>
         <div class="row g-3">
-                <partial name="_ProductCardSmall" model="@Model.Product" />
-                <partial name="_ProductCardSmall" model="@Model.Product" />
-                <partial name="_ProductCardSmall" model="@Model.Product" />
-                <partial name="_ProductCardSmall" model="@Model.Product" />
+            @{
+                var product = new ProductWithRatingDto()
+                {
+				ProductId = Model.Product.ProductId,
+                ProductName = Model.Product.ProductName,
+                ImageUrl = Model.Product.ImageUrl,
+                ActualPrice = Model.Product.ActualPrice,
+                DiscountPrice = Model.Product.DiscountPrice,
+                AverageRating = 1,
+                isFavourite = false
+                };
+            }
+            <partial name="_ProductCardSmall" model="@product" />
+            <partial name="_ProductCardSmall" model="@product" />
+            <partial name="_ProductCardSmall" model="@product" />
+            <partial name="_ProductCardSmall" model="@product" />
         </div>
     </div>
 </div>

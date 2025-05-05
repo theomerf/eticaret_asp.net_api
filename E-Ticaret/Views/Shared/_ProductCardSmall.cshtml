@@ -1,77 +1,87 @@
-﻿@using Services.Contracts
-@using System.Security.Claims
-@model Product
+﻿@using System.Security.Claims
+@using Services.Contracts
+@model ProductWithRatingDto
+
 <div class="col-sm-12 col-md-3 my-3 product-wrapper">
     <div class="product-card">
-        <a asp-action="Get" asp-controller="Product" asp-route-id="@Model?.ProductId" class="ajax-link product-link">
-            @if (Model?.Discount > 0)
+        <!-- Bu kısım ürün bilgisi ve resmi için ajax-link ile sarmalı -->
+        <div class="product-info-container">
+            <a asp-action="Get" asp-controller="Product" asp-route-id="@Model?.ProductId" class="ajax-link product-link">
+                @if (Model?.Discount > 0)
+                {
+                    <div class="discount-tag">
+                        <span>%@Model?.Discount</span>
+                        <span>İndirim</span>
+                    </div>
+                }
+
+                <div class="img-wrapper">
+                    <img src="/images/@Model?.ImageUrl" class="product-img" alt="@Model?.ProductName">
+                </div>
+
+                <div class="product-info">
+                    <h5 class="product-name">@Model?.ProductName</h5>
+
+                    <div class="product-rating">
+                        @await Component.InvokeAsync("RatingStars", new { productId = Model.ProductId, averageRating = Model.AverageRating, Mode = "stars" })
+                    </div>
+
+                    <div class="price-info">
+                        @if (Model?.ActualPrice > Model?.DiscountPrice)
+                        {
+                            <span class="old-price">@Model?.ActualPrice.ToString("c")</span>
+                        }
+                        <span class="current-price">@Model?.DiscountPrice?.ToString("c")</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Butonlar kısmı a etiketinin dışına çıkartılmış -->
+        <div class="quick-actions">
+            @if (User.Identity.IsAuthenticated && Context.User.FindFirstValue(ClaimTypes.NameIdentifier) != null)
             {
-                <div class="discount-tag">
-                    <span>%@Model?.Discount</span>
-                    <span>İndirim</span>
-                </div>
+                if (Model.isFavourite)
+                {
+                    <button type="button"
+                            class="action-btn favorite-btn remove-btn"
+                            data-product-id="@Model.ProductId"
+                            title="Favorilerden Kaldır">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                }
+                else
+                {
+                    <button type="button"
+                            class="action-btn favorite-btn add-btn"
+                            data-product-id="@Model.ProductId"
+                            title="Favorilere Ekle">
+                        <i class="far fa-heart"></i>
+                    </button>
+                }
             }
-            <div class="img-wrapper">
-                <img src="/images/@Model?.ImageUrl" class="product-img" alt="@Model?.ProductName">
-                <div class="quick-actions">
-                    @if (User.Identity.IsAuthenticated && Context.User.FindFirstValue(ClaimTypes.NameIdentifier) != null)
-                    {
-                        var userId = Context.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                        var userFavourites = await ViewContext.HttpContext.RequestServices.GetRequiredService<IAuthService>().GetOneUsersFavourites(User.Identity?.Name ?? string.Empty);
-                        if (userFavourites != null && userFavourites.Contains(Model.ProductId))
-                        {
-                            <button type="button"
-                                    class="action-btn favorite-btn remove-btn"
-                                    data-product-id="@Model.ProductId"
-                                    title="Favorilerden Kaldır">
-                                <i class="fas fa-heart"></i>
-                            </button>
-                        }
-                        else
-                        {
-                            <button type="button"
-                                    class="action-btn favorite-btn add-btn"
-                                    data-product-id="@Model.ProductId"
-                                    title="Favorilere Ekle">
-                                <i class="far fa-heart"></i>
-                            </button>
+            else
+            {
+                <button type="button"
+                        class="action-btn favorite-btn"
+                        data-product-id="@Model.ProductId"
+                        title="Favorilere Ekle">
+                    <i class="far fa-heart"></i>
+                </button>
+            }
 
-                        }
-                    }
-                    else
-                    {
-                        <button type="button"
-                                class="action-btn favorite-btn"
-                                data-product-id="@Model.ProductId"
-                                title="Favorilere Ekle">
-                            <i class="far fa-heart"></i>
-                        </button>
-                    }
+            <form asp-controller="Account" asp-action="AddToCompare" method="post">
+                <input type="hidden" name="id" value="@Model.ProductId" />
+                <button type="submit" class="action-btn compare-btn" title="Karşılaştır">
+                    <i class="fa fa-exchange-alt"></i>
+                </button>
+            </form>
+        </div>
 
-                    <form asp-controller="Account" asp-action="AddToCompare" method="post">
-                        <input type="hidden" name="id" value="@Model.ProductId" />
-                        <button type="submit" class="action-btn compare-btn" title="Karşılaştır">
-                            <i class="fa fa-exchange-alt"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-            <div class="product-info">
-                <h5 class="product-name">@Model?.ProductName</h5>
-                <div class="product-rating">
-                    @await Component.InvokeAsync("RatingStars", new { productId = Model.ProductId, Mode = "stars" })
-                </div>
-                <div class="price-info">
-                    @if (Model?.ActualPrice > Model?.DiscountPrice)
-                    {
-                        <span class="old-price">@Model?.ActualPrice.ToString("c")</span>
-                    }
-                    <span class="current-price">@Model?.DiscountPrice?.ToString("c")</span>
-                </div>
-            </div>
-        </a>
+        <!-- Sepet butonları -->
         <div class="cart-action">
             @{
+                // Check if product is already in cart
                 var isInCart = Context.RequestServices.GetRequiredService<Cart>()?.Lines?.Any(l => l.Product.ProductId == Model.ProductId) ?? false;
 
                 if (isInCart)

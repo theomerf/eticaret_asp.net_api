@@ -6,6 +6,8 @@ using Services.Contracts;
 using System.Security.Claims;
 using Entities.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.IdentityModel.Tokens;
+using System.Threading.Tasks;
 
 namespace ETicaret.Controllers
 {
@@ -44,14 +46,12 @@ namespace ETicaret.Controllers
                 if (user != null)
                 {
                     await _signInManager.SignOutAsync();
-
                     var result = await _signInManager.PasswordSignInAsync(
                         user.UserName,
                         model.Login.Password,
                         model.Login.RememberMe,
                         lockoutOnFailure: false
                     );
-
                     if (result.Succeeded)
                     {
                         user.LastLoginDate = DateTime.UtcNow;
@@ -60,18 +60,53 @@ namespace ETicaret.Controllers
                         // Kullanıcı adı ve rollerini cookie'ye claims olarak ekle
                         var claims = new List<Claim>
                 {
-                        new Claim(ClaimTypes.Name, user.UserName),
-                        new Claim(ClaimTypes.NameIdentifier, user.Id)
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id)
                 };
 
+                        // Kullanıcı rollerini claim olarak ekle
                         var roles = await _userManager.GetRolesAsync(user);
                         foreach (var role in roles)
                         {
                             claims.Add(new Claim(ClaimTypes.Role, role));
                         }
 
-                        var claimsIdentity = new ClaimsIdentity(claims, IdentityConstants.ApplicationScheme);
+                        // Favori ürünleri cookie'ye kaydet
+                        if (user.FavouriteProductsId != null && user.FavouriteProductsId.Any())
+                        {
+                            // ICollection<int> koleksiyonunu virgülle ayrılmış bir string'e dönüştür
+                            var favouriteProductIdsString = string.Join("|", user.FavouriteProductsId);
 
+
+                            // SameSite=Lax ve güvenlik ayarlarıyla cookie'yi kaydet
+                            Response.Cookies.Append("FavouriteProducts", favouriteProductIdsString, new CookieOptions
+                            {
+                                Expires = DateTime.Now.AddMonths(1),
+                                IsEssential = true,
+                                Path = "/",            // Tüm site genelinde erişilebilir
+                                SameSite = SameSiteMode.Lax, 
+                                HttpOnly = false
+                            });
+                        }
+                        else
+                        {
+
+                            // Varolan cookie'yi temizle
+                            Response.Cookies.Delete("FavouriteProducts");
+
+                            // Boş bir cookie oluştur
+                            Response.Cookies.Append("FavouriteProducts", "", new CookieOptions
+                            {
+                                Expires = DateTime.Now.AddMonths(1),
+                                IsEssential = true,
+                                Path = "/",
+                                SameSite = SameSiteMode.Lax,
+                                HttpOnly = false
+                            });
+                        }
+
+                        // ClaimsIdentity oluştur ve giriş yap
+                        var claimsIdentity = new ClaimsIdentity(claims, IdentityConstants.ApplicationScheme);
                         await HttpContext.SignInAsync(
                             IdentityConstants.ApplicationScheme,
                             new ClaimsPrincipal(claimsIdentity)
@@ -80,13 +115,12 @@ namespace ETicaret.Controllers
                         return Redirect(model.Login.ReturnUrl ?? "/");
                     }
                 }
-
                 ModelState.AddModelError("Error", "Kullanıcı adı veya şifre hatalı.");
             }
-
             model.Login.ReturnUrl = model.Login.ReturnUrl ?? "/";
             return View(model);
         }
+
 
         public async Task<IActionResult> Logout([FromQuery(Name = "ReturnUrl")] string ReturnUrl = "/")
         {
@@ -307,8 +341,9 @@ namespace ETicaret.Controllers
             }
         }
 
-        public IActionResult Favourites()
+        public async Task<IActionResult> Favourites()
         {
+            // Kullanıcı giriş yapmış mı kontrol et
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId == null)
             {
@@ -316,18 +351,62 @@ namespace ETicaret.Controllers
                 return RedirectToAction("Login");
             }
 
-            var user = _manager.AuthService.GetOneUser(User.Identity?.Name ?? string.Empty).Result;
+            // Kullanıcı bilgilerini veritabanından al
+            var user = await _manager.AuthService.GetOneUsersFavourites(User.Identity?.Name ?? string.Empty);
             if (user == null)
             {
                 TempData["error"] = "Kullanıcı bilgileri alınamadı.";
                 return RedirectToAction("Login");
             }
 
-            var favouriteProducts = _manager.ProductService
-                .GetAllProducts(false)
-                .Where(x => user.FavouriteProductsId.Contains(x.ProductId))
-                .ToList();
+            // Cookie'deki favori ürünleri al
+            var favouriteProductsCookie = Request.Cookies["FavouriteProducts"];
+            Console.WriteLine($"Favourites - Cookie value: {favouriteProductsCookie ?? "null"}");
 
+            // Favori ürün ID'lerini parse et
+            var favouriteProductIds = new List<int>();
+            if (!string.IsNullOrEmpty(favouriteProductsCookie))
+            {
+                try
+                {
+                    favouriteProductIds = favouriteProductsCookie
+                        .Split('|', StringSplitOptions.RemoveEmptyEntries)
+                        .Where(id => !string.IsNullOrWhiteSpace(id))
+                        .Select(id =>
+                        {
+                            if (int.TryParse(id.Trim(), out int productId))
+                                return productId;
+                            Console.WriteLine($"Favourites - Invalid product ID: {id}");
+                            return -1; // Geçersiz ID'ler için -1 döndür
+                        })
+                        .Where(id => id > 0) // Sadece geçerli ID'leri al
+                        .Distinct() // Tekrarları kaldır
+                        .ToList();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Favourites - Error parsing cookie: {ex.Message}");
+                }
+            }
+
+            // Cookie'de değişiklik varsa kullanıcı favorilerini güncelle
+            if (favouriteProductIds.Any())
+            {
+                // Kullanıcının veritabanındaki favori ürünlerini al
+                var dbFavorites = user.ToList() ?? new List<int>();
+
+                // Cookie'deki verilerle veritabanındakiler aynı değilse güncelle
+                if (!favouriteProductIds.OrderBy(id => id).SequenceEqual(dbFavorites.OrderBy(id => id)))
+                {
+                    await _manager.AuthService.UpdateUserFavourites(favouriteProductIds, User.Identity.Name);
+
+                    // Güncellenmiş kullanıcı bilgilerini tekrar al
+                    user = await _manager.AuthService.GetOneUsersFavourites(User.Identity?.Name ?? string.Empty);
+                }
+            }
+
+            // Kullanıcının favori ürünlerini göster
+            var favouriteProducts = _manager.ProductService.GetFavouriteProducts(user, false);
             return View(favouriteProducts);
         }
 
@@ -397,8 +476,8 @@ namespace ETicaret.Controllers
 
             if (userId != null)
             {
-                var user = _manager.AuthService.GetOneUser(User.Identity?.Name ?? string.Empty).Result;
-                favouritesCount = user?.FavouriteProductsId?.Count() ?? 0;
+                var user = _manager.AuthService.GetOneUsersFavourites(User.Identity?.Name ?? string.Empty).Result;
+                favouritesCount = user?.Count() ?? 0;
             }
 
             return Json(favouritesCount);

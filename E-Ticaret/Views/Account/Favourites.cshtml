@@ -1,4 +1,4 @@
-﻿@model List<Product>
+﻿@model List<ProductWithRatingDto>
 
 <div class="favorites-container">
     <div class="container p-4">
@@ -24,7 +24,7 @@
         {
             <div class="favorites-products-wrapper p-5">
                 <div class="row g-4">
-                    @foreach (Product prd in Model)
+                    @foreach (ProductWithRatingDto prd in Model)
                     {
                         <partial name="_ProductCardSmall" model="@prd" />
                     }

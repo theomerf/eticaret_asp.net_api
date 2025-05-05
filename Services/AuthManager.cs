@@ -97,6 +97,17 @@ namespace Services
             throw new Exception("User not found or no favourites available.");
         }
 
+        public async Task<IdentityResult> UpdateUserFavourites(List<int> favouritesId,string userName)
+        {
+            var user = await GetOneUser(userName);
+            user.FavouriteProductsId = favouritesId;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            return result;
+
+        }
+
         public async Task<IdentityResult> ResetPassword(ResetPasswordDto model)
         {
             var user = await GetOneUser(model.UserName);

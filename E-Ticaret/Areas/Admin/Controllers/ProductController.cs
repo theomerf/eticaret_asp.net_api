@@ -24,14 +24,14 @@ namespace ETicaret.Areas.Admin.Controllers
         public IActionResult Index([FromQuery] ProductRequestParameters p)
         {
             ViewData["Title"] = "Products";
-            var products = _manager.ProductService.GetAllProductsWithDetails(p).ToList();
+            var products = _manager.ProductService.GetAllProductsWithDetailsAdmin(p);
             var paginaton = new Pagination()
             {
                 CurrentPage = p.PageNumber,
                 ItemsPerPage = p.PageSize,
                 TotalItems = _manager.ProductService.GetAllProducts(false).Count()
             };
-            var productlist = new ProductListViewModel()
+            var productlist = new ProductListViewModelAdmin()
             {
                 Products = products,
                 Pagination = paginaton

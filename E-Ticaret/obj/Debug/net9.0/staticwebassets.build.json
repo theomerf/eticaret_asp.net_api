@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "vAqRa/KdCzT3xKuG9hx/vnoyU2oZFOnocvw6JhmOhcQ=",
+  "Hash": "qekzrXT4tBiVOggivd9NN6cNjIfkGrnUG3ZoKXqHgGQ=",
   "Source": "ETicaret",
   "BasePath": "_content/ETicaret",
   "Mode": "Default",
@@ -2873,12 +2873,12 @@
       "OriginalItemSpec": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\lib\\jquery\\jquery.min.map"
     },
     {
-      "Identity": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\obj\\Debug\\net9.0\\compressed\\xl4f85guwh-1yi8dneqhh.gz",
+      "Identity": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\obj\\Debug\\net9.0\\compressed\\xl4f85guwh-7qoj8wopfq.gz",
       "SourceId": "ETicaret",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/ETicaret",
-      "RelativePath": "js/site#[.{fingerprint=1yi8dneqhh}]?.js.gz",
+      "RelativePath": "js/site#[.{fingerprint=7qoj8wopfq}]?.js.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -2887,8 +2887,8 @@
       "RelatedAsset": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\js\\site.js",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "vieup51a0m",
-      "Integrity": "ByIRpTzpA8Jc+5AL4oav/3cubCVMQPcOgN1rJ+dMVFI=",
+      "Fingerprint": "lj1xz66oom",
+      "Integrity": "7z538c59mlGX8dK5ogvJ2fK68YmlhfGyU7/F25X3oZY=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\js\\site.js"
@@ -4126,8 +4126,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "1yi8dneqhh",
-      "Integrity": "F6VNRcPPNUiQQa7nxrJgCaoeL/3v2Ov/UiX7qTrVDBY=",
+      "Fingerprint": "7qoj8wopfq",
+      "Integrity": "70tEhZ2V+iVLMwGGNi/UNeTmeYvjgUZO2epm+3ZVhk0=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\site.js"
@@ -14477,13 +14477,13 @@
       ]
     },
     {
-      "Route": "js/site.1yi8dneqhh.js",
-      "AssetFile": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\obj\\Debug\\net9.0\\compressed\\xl4f85guwh-1yi8dneqhh.gz",
+      "Route": "js/site.7qoj8wopfq.js",
+      "AssetFile": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\obj\\Debug\\net9.0\\compressed\\xl4f85guwh-7qoj8wopfq.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000362318841"
+          "Quality": "0.000274273176"
         }
       ],
       "ResponseHeaders": [
@@ -14493,15 +14493,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2759"
+          "Value": "3645"
         },
         {
           "Name": "ETag",
-          "Value": "\"ByIRpTzpA8Jc+5AL4oav/3cubCVMQPcOgN1rJ+dMVFI=\""
+          "Value": "\"7z538c59mlGX8dK5ogvJ2fK68YmlhfGyU7/F25X3oZY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 04 May 2025 01:25:08 GMT"
+          "Value": "Mon, 05 May 2025 01:54:26 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -14521,13 +14521,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"F6VNRcPPNUiQQa7nxrJgCaoeL/3v2Ov/UiX7qTrVDBY=\""
+          "Value": "W/\"70tEhZ2V+iVLMwGGNi/UNeTmeYvjgUZO2epm+3ZVhk0=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "1yi8dneqhh"
+          "Value": "7qoj8wopfq"
         },
         {
           "Name": "label",
@@ -14535,12 +14535,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-F6VNRcPPNUiQQa7nxrJgCaoeL/3v2Ov/UiX7qTrVDBY="
+          "Value": "sha256-70tEhZ2V+iVLMwGGNi/UNeTmeYvjgUZO2epm+3ZVhk0="
         }
       ]
     },
     {
-      "Route": "js/site.1yi8dneqhh.js",
+      "Route": "js/site.7qoj8wopfq.js",
       "AssetFile": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\wwwroot\\js\\site.js",
       "Selectors": [],
       "ResponseHeaders": [
@@ -14550,7 +14550,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "12251"
+          "Value": "14434"
         },
         {
           "Name": "Content-Type",
@@ -14558,11 +14558,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"F6VNRcPPNUiQQa7nxrJgCaoeL/3v2Ov/UiX7qTrVDBY=\""
+          "Value": "\"70tEhZ2V+iVLMwGGNi/UNeTmeYvjgUZO2epm+3ZVhk0=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 04 May 2025 01:25:08 GMT"
+          "Value": "Mon, 05 May 2025 01:54:26 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -14572,7 +14572,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "1yi8dneqhh"
+          "Value": "7qoj8wopfq"
         },
         {
           "Name": "label",
@@ -14580,13 +14580,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-F6VNRcPPNUiQQa7nxrJgCaoeL/3v2Ov/UiX7qTrVDBY="
+          "Value": "sha256-70tEhZ2V+iVLMwGGNi/UNeTmeYvjgUZO2epm+3ZVhk0="
         }
       ]
     },
     {
-      "Route": "js/site.1yi8dneqhh.js.gz",
-      "AssetFile": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\obj\\Debug\\net9.0\\compressed\\xl4f85guwh-1yi8dneqhh.gz",
+      "Route": "js/site.7qoj8wopfq.js.gz",
+      "AssetFile": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\obj\\Debug\\net9.0\\compressed\\xl4f85guwh-7qoj8wopfq.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -14595,7 +14595,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2759"
+          "Value": "3645"
         },
         {
           "Name": "Content-Type",
@@ -14603,11 +14603,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ByIRpTzpA8Jc+5AL4oav/3cubCVMQPcOgN1rJ+dMVFI=\""
+          "Value": "\"7z538c59mlGX8dK5ogvJ2fK68YmlhfGyU7/F25X3oZY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 04 May 2025 01:25:08 GMT"
+          "Value": "Mon, 05 May 2025 01:54:26 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -14625,7 +14625,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "1yi8dneqhh"
+          "Value": "7qoj8wopfq"
         },
         {
           "Name": "label",
@@ -14633,18 +14633,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-ByIRpTzpA8Jc+5AL4oav/3cubCVMQPcOgN1rJ+dMVFI="
+          "Value": "sha256-7z538c59mlGX8dK5ogvJ2fK68YmlhfGyU7/F25X3oZY="
         }
       ]
     },
     {
       "Route": "js/site.js",
-      "AssetFile": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\obj\\Debug\\net9.0\\compressed\\xl4f85guwh-1yi8dneqhh.gz",
+      "AssetFile": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\obj\\Debug\\net9.0\\compressed\\xl4f85guwh-7qoj8wopfq.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000362318841"
+          "Quality": "0.000274273176"
         }
       ],
       "ResponseHeaders": [
@@ -14654,15 +14654,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2759"
+          "Value": "3645"
         },
         {
           "Name": "ETag",
-          "Value": "\"ByIRpTzpA8Jc+5AL4oav/3cubCVMQPcOgN1rJ+dMVFI=\""
+          "Value": "\"7z538c59mlGX8dK5ogvJ2fK68YmlhfGyU7/F25X3oZY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 04 May 2025 01:25:08 GMT"
+          "Value": "Mon, 05 May 2025 01:54:26 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -14682,13 +14682,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"F6VNRcPPNUiQQa7nxrJgCaoeL/3v2Ov/UiX7qTrVDBY=\""
+          "Value": "W/\"70tEhZ2V+iVLMwGGNi/UNeTmeYvjgUZO2epm+3ZVhk0=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-F6VNRcPPNUiQQa7nxrJgCaoeL/3v2Ov/UiX7qTrVDBY="
+          "Value": "sha256-70tEhZ2V+iVLMwGGNi/UNeTmeYvjgUZO2epm+3ZVhk0="
         }
       ]
     },
@@ -14703,7 +14703,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "12251"
+          "Value": "14434"
         },
         {
           "Name": "Content-Type",
@@ -14711,11 +14711,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"F6VNRcPPNUiQQa7nxrJgCaoeL/3v2Ov/UiX7qTrVDBY=\""
+          "Value": "\"70tEhZ2V+iVLMwGGNi/UNeTmeYvjgUZO2epm+3ZVhk0=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 04 May 2025 01:25:08 GMT"
+          "Value": "Mon, 05 May 2025 01:54:26 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -14725,13 +14725,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-F6VNRcPPNUiQQa7nxrJgCaoeL/3v2Ov/UiX7qTrVDBY="
+          "Value": "sha256-70tEhZ2V+iVLMwGGNi/UNeTmeYvjgUZO2epm+3ZVhk0="
         }
       ]
     },
     {
       "Route": "js/site.js.gz",
-      "AssetFile": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\obj\\Debug\\net9.0\\compressed\\xl4f85guwh-1yi8dneqhh.gz",
+      "AssetFile": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\E-Ticaret\\obj\\Debug\\net9.0\\compressed\\xl4f85guwh-7qoj8wopfq.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -14740,7 +14740,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2759"
+          "Value": "3645"
         },
         {
           "Name": "Content-Type",
@@ -14748,11 +14748,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ByIRpTzpA8Jc+5AL4oav/3cubCVMQPcOgN1rJ+dMVFI=\""
+          "Value": "\"7z538c59mlGX8dK5ogvJ2fK68YmlhfGyU7/F25X3oZY=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 04 May 2025 01:25:08 GMT"
+          "Value": "Mon, 05 May 2025 01:54:26 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -14770,7 +14770,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-ByIRpTzpA8Jc+5AL4oav/3cubCVMQPcOgN1rJ+dMVFI="
+          "Value": "sha256-7z538c59mlGX8dK5ogvJ2fK68YmlhfGyU7/F25X3oZY="
         }
       ]
     },

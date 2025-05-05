@@ -14,10 +14,18 @@ namespace ETicaret.Components
 
         public IViewComponentResult Invoke(string page = "default")
         {
-            var products = _manager.ProductService.GetShowcaseProducts(false).ToList();
-            return page.Equals("default") 
-                ? View(products) 
-                : View("List", products);
+            if (page == "default")
+            {
+                var products = _manager.ProductService.GetShowcaseProductsWithRatings(false).ToList();
+
+                return View(products); 
+            }
+            else
+            {
+                var products = _manager.ProductService.GetShowcaseProducts(false).ToList();
+                return View("List", products); 
+            }
         }
+
     }
 }

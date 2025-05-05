@@ -14,7 +14,7 @@ namespace ETicaret.Components
 
         public string Invoke()
         {
-            return _manager.ProductService.GetAllProducts(false).Count().ToString();
+            return _manager.ProductService.GetCount(false).ToString();
         }
     }
 }

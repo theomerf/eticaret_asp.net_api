@@ -1,8 +1,7 @@
-﻿@model IEnumerable<int>
+﻿@model double
 
 @{
-    var totalReviews = Model.Count();
-    var averageRating = totalReviews > 0 ? Model.Average() : 0;
+    var averageRating = Model > 0 ? Model : 0;
 }
 @for (int i = 1; i <= 5; i++)
 {
