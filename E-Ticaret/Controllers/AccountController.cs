@@ -175,11 +175,29 @@ namespace ETicaret.Controllers
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = _manager.AuthService.GetOneUserForUpdate(User.Identity.Name).Result;
+            var orders = _manager.OrderService.GetUserOrders(User.Identity.Name).ToList();
+            foreach (var order in orders)
+            {
+                foreach (var line in order.Lines)
+                {
+                    var product = _manager.ProductService.GetOneProduct(line.ProductId, false);
+                    if (product != null)
+                    {
+                        line.ProductName = product.ProductName;
+                        line.ImageUrl = product.ImageUrl;
+                        line.DiscountPrice = product.DiscountPrice;
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Error", "Ürün bulunamadı.");
+                    }
+                }
+            }
 
             return View(new ProfileModel()
             {
                 User = _userManager.FindByNameAsync(User.Identity.Name).Result,
-                Orders = _manager.OrderService.GetUserOrders(User.Identity.Name).ToList(),
+                Orders = orders,
                 UserReviews = _manager.UserReviewService.GetAllUserReviewsOfOneUser(userId, false),
                 UserDtoForUpdate = user
             });

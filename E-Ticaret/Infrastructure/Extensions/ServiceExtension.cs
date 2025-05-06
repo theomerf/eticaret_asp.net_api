@@ -60,6 +60,7 @@ namespace ETicaret.Infrastructure.Extensions
             services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IUserReviewRepository, UserReviewRepository>();
+            services.AddScoped<ICartRepository, CartRepository>();
         }
 
         public static void ConfigureServiceRegistration(this IServiceCollection services)
@@ -71,6 +72,7 @@ namespace ETicaret.Infrastructure.Extensions
             services.AddScoped<IOrderService, OrderManager>();
             services.AddScoped<IAuthService, AuthManager>();
             services.AddScoped<IUserReviewService, UserReviewManager>();
+            services.AddScoped<ICartService, CartManager>();
         }
 
 

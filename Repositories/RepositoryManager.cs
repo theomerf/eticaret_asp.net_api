@@ -15,9 +15,10 @@ namespace Repositories
         private readonly ISubCategoryRepository _subCategoryRepository;
 
         private readonly IUserReviewRepository _userReviewRepository;
+        private readonly ICartRepository _cartRepository;
 
 
-        public RepositoryManager(IProductRepository productRepository, RepositoryContext context, IMainCategoryRepository mainCategoryRepository, IOrderRepository orderRepository, ISubCategoryRepository subCategoryRepository, IUserReviewRepository userReviewRepository)
+        public RepositoryManager(IProductRepository productRepository, RepositoryContext context, IMainCategoryRepository mainCategoryRepository, IOrderRepository orderRepository, ISubCategoryRepository subCategoryRepository, IUserReviewRepository userReviewRepository, ICartRepository cartRepository)
         {
             _context = context;
             _productRepository = productRepository;
@@ -25,6 +26,7 @@ namespace Repositories
             _orderRepository = orderRepository;
             _subCategoryRepository = subCategoryRepository;
             _userReviewRepository = userReviewRepository;
+            _cartRepository = cartRepository;
         }
 
         public IProductRepository Product => _productRepository;
@@ -36,6 +38,7 @@ namespace Repositories
         public ISubCategoryRepository SubCategory => _subCategoryRepository;
 
         public IUserReviewRepository UserReview => _userReviewRepository;
+        public ICartRepository Cart => _cartRepository;
 
         public void Save()
         {

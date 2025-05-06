@@ -1,6 +1,6 @@
 ﻿@model Order
 @{
-    var total = @Model.Lines.Sum(c => c.Product.ActualPrice * c.Quantity);
+    var total = @Model.Lines.Sum(c => c.ActualPrice * c.Quantity);
     var orderStatus = Model.Shipped ? "Tamamlandı" : "İşlemde";
     var statusColor = Model.Shipped ? "success" : "warning";
 }
@@ -94,9 +94,9 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="product-img-small me-3">
-                                                        @if (!string.IsNullOrEmpty(cartItem.Product.ImageUrl))
+                                                        @if (!string.IsNullOrEmpty(cartItem.ImageUrl))
                                                         {
-                                                            <img src="/images/@cartItem.Product.ImageUrl" class="img-thumbnail" width="250" alt="@cartItem.Product.ProductName">
+                                                            <img src="/images/@cartItem.ImageUrl" class="img-thumbnail" width="75" alt="@cartItem.ProductName">
                                                         }
                                                         else
                                                         {
@@ -106,24 +106,19 @@
                                                         }
                                                     </div>
                                                     <div>
-                                                        <h6 class="mb-0">@cartItem.Product.ProductName</h6>
-                                                        @if (!string.IsNullOrEmpty(cartItem.Product.Summary))
-                                                        {
-                                                            <small class="text-muted">@cartItem.Product.Summary</small>
-                                                        }
-                                                    </div>
+                                                        <h6 class="mb-0">@cartItem.ProductName</h6>
                                                 </div>
                                             </td>
                                             <td class="text-center">@cartItem.Quantity</td>
-                                            <td class="text-end">@cartItem.Product.ActualPrice.ToString("C2")</td>
-                                            <td class="text-end fw-bold">@((cartItem.Quantity * cartItem.Product.ActualPrice).ToString("C2"))</td>
+                                            <td class="text-end">@cartItem.ActualPrice?.ToString("C2")</td>
+                                            <td class="text-end fw-bold">@((cartItem.Quantity * cartItem.ActualPrice)?.ToString("C2"))</td>
                                         </tr>
                                     }
                                 </tbody>
                                 <tfoot class="table-group-divider">
                                     <tr>
                                         <th colspan="3" class="text-end">Toplam:</th>
-                                        <th class="text-end text-danger h5">@total.ToString("C2")</th>
+                                        <th class="text-end text-danger h5">@total?.ToString("C2")</th>
                                     </tr>
                                 </tfoot>
                             </table>

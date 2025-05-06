@@ -5,6 +5,7 @@ namespace Repositories.Contracts{
         ISubCategoryRepository SubCategory { get; }
         IOrderRepository Order { get; }
         IUserReviewRepository UserReview { get; }
+        ICartRepository Cart { get; }
         void Save();
     }
 }

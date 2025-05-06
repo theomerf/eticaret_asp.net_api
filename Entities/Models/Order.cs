@@ -8,7 +8,7 @@ namespace Entities.Models
     {
         public int OrderId { get; set; }
         public String? UserName{ get; set; }
-        public ICollection<CartLine> Lines { get; set; } = new List<CartLine>();
+        public ICollection<OrderLine> Lines { get; set; } = new List<OrderLine>();
 
         [Required(ErrorMessage ="Name is required.")]
         public String? Name { get; set; }
@@ -21,5 +21,16 @@ namespace Entities.Models
         public bool GiftWrap { get; set; }
         public bool Shipped { get; set; } = false;
         public DateTime? OrderedAt { get; set; } = DateTime.UtcNow;
+    }
+
+    public class OrderLine
+    {
+        public int Id { get; set; }
+        public int ProductId { get; set; }
+        public int Quantity { get; set; }
+        public String? ProductName { get; set; } = null;
+        public decimal? DiscountPrice { get; set; } = null;
+        public decimal? ActualPrice { get; set; } = null;
+        public string? ImageUrl { get; set; } = null;
     }
 }

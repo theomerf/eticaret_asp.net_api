@@ -19,6 +19,24 @@ namespace ETicaret.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var orders = _manager.OrderService.Orders;
+            foreach (var order in orders)
+            {
+                foreach (var line in order.Lines)
+                {
+                    var product = _manager.ProductService.GetOneProduct(line.ProductId, false);
+                    if (product != null)
+                    {
+                        line.ProductName = product.ProductName;
+                        line.ImageUrl = product.ImageUrl;
+                        line.DiscountPrice = product.DiscountPrice;
+                        line.ActualPrice = product.ActualPrice;
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Error", "Ürün bulunamadı.");
+                    }
+                }
+            }
             return View(orders);
         }
 

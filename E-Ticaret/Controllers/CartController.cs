@@ -1,7 +1,10 @@
-﻿using Entities.Models;
+﻿using Entities.Dtos;
+using Entities.Models;
+using ETicaret.Models;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
+using System.Security.Claims;
 
 namespace ETicaret.Controllers
 {
@@ -19,11 +22,18 @@ namespace ETicaret.Controllers
 
         public IActionResult Index(string returnUrl = "/")
         {
-            ViewBag.ReturnUrl = returnUrl;
-            return View(_cart);
-        }
+            var cart = SessionCart.GetCart(HttpContext.RequestServices);
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-        // Add these methods to your CartController.cs file
+            if (userId != null)
+            {
+                var cartDto = SessionCart.GetCartDto(HttpContext.RequestServices);
+                cartDto.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                _manager.CartService.AddOrUpdateCart(cartDto,userId);
+            }
+            ViewBag.ReturnUrl = returnUrl;
+            return View(cart);
+        }
 
         [HttpPost]
         public IActionResult AddToCart(int productId, string returnUrl)
@@ -36,7 +46,6 @@ namespace ETicaret.Controllers
             return RedirectToAction("Index", new { returnUrl });
         }
 
-        // New AJAX version of AddToCart
         [HttpPost]
         public IActionResult AddToCartAjax(int productId)
         {
@@ -63,22 +72,21 @@ namespace ETicaret.Controllers
         [HttpPost]
         public IActionResult RemoveFromCart(int id, string returnUrl)
         {
-            var line = _cart.Lines.FirstOrDefault(cl => cl.Product.ProductId == id);
+            var line = _cart.Lines.FirstOrDefault(cl => cl.ProductId == id);
             if (line != null)
             {
-                _cart.RemoveLine(line.Product);
+                _cart.RemoveLine(id);
             }
             return RedirectToAction("Index", new { returnUrl });
         }
 
-        // Remove from cart method for AJAX
         [HttpPost]
         public IActionResult RemoveFromCartAjax(int productId)
         {
             Product? product = _manager.ProductService.GetOneProduct(productId, false);
             if (product != null)
             {
-                _cart.RemoveLine(product);
+                _cart.RemoveLine(productId);
                 return Json(new
                 {
                     success = true,
@@ -98,7 +106,6 @@ namespace ETicaret.Controllers
         [HttpGet]
         public IActionResult GetCartItemCount()
         {
-            // Ensure this is an AJAX request to prevent direct access
             if (!Request.Headers["X-Requested-With"].Equals("XMLHttpRequest"))
             {
                 return Forbid();
@@ -111,10 +118,10 @@ namespace ETicaret.Controllers
         [HttpPost]
         public IActionResult DecreaseQuantity(int id, string returnUrl, int itemQuantity)
         {
-            var line = _cart.Lines.FirstOrDefault(cl => cl.Product.ProductId == id);
+            var line = _cart.Lines.FirstOrDefault(cl => cl.ProductId == id);
             if (line != null)
             {
-                _cart.DecreaseQuantity(line.Product, 1);
+                _cart.DecreaseQuantity(line.ProductId, 1);
             }
             return RedirectToAction("Index", new { returnUrl });
         }
@@ -122,10 +129,10 @@ namespace ETicaret.Controllers
         [HttpPost]
         public IActionResult IncreaseQuantity(int id, string returnUrl)
         {
-            var line = _cart.Lines.FirstOrDefault(cl => cl.Product.ProductId == id);
+            var line = _cart.Lines.FirstOrDefault(cl => cl.ProductId == id);
             if (line != null)
             {
-                _cart.IncreaseQuantity(line.Product, 1);
+                _cart.IncreaseQuantity(line.ProductId, 1);
             }
             return RedirectToAction("Index", new { returnUrl });
         }

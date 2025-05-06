@@ -1,7 +1,11 @@
-﻿namespace Entities.Models
+﻿using Entities.Dtos;
+
+namespace Entities.Models
 {
     public class Cart
     {
+        public int CartId { get; set; }
+        public string? UserId { get; set; }
         public List<CartLine> Lines { get; set; }
         public Cart()
         {
@@ -10,13 +14,19 @@
 
         public virtual void AddItem(Product product, int quantity)
         {
-            CartLine? line = Lines.Where(l => l.Product.ProductId.Equals(product.ProductId)).FirstOrDefault();
+            CartLine? line = Lines.Where(l => l.ProductId.Equals(product.ProductId)).FirstOrDefault();
 
             if (line == null)
             {
                 Lines.Add(new CartLine
                 {
-                    Product = product,
+                    ProductId = product.ProductId,
+                    ProductName = product.ProductName,
+                    ImageUrl = product.ImageUrl,
+                    ActualPrice = product.ActualPrice,
+                    DiscountPrice = product.DiscountPrice ?? 0,
+                    CartId = CartId,
+                    Cart = this,
                     Quantity = quantity
                 });
             }
@@ -26,14 +36,14 @@
             }
         }
 
-        public virtual void RemoveLine(Product product)
+        public virtual void RemoveLine(int productId)
         {
-            Lines.RemoveAll(l => l.Product.ProductId.Equals(product.ProductId));
+            Lines.RemoveAll(l => l.ProductId.Equals(productId));
         }
 
-        public virtual void IncreaseQuantity(Product product, int quantity)
+        public virtual void IncreaseQuantity(int productId, int quantity)
         {
-            CartLine? line = Lines.Where(l => l.Product.ProductId.Equals(product.ProductId)).FirstOrDefault();
+            CartLine? line = Lines.Where(l => l.ProductId.Equals(productId)).FirstOrDefault();
 
             if (line != null)
             {
@@ -41,9 +51,9 @@
             }
         }
 
-        public virtual void DecreaseQuantity(Product product, int quantity)
+        public virtual void DecreaseQuantity(int productId, int quantity)
         {
-            CartLine? line = Lines.Where(l => l.Product.ProductId.Equals(product.ProductId)).FirstOrDefault();
+            CartLine? line = Lines.Where(l => l.ProductId.Equals(productId)).FirstOrDefault();
 
             if (line != null)
             {
@@ -52,10 +62,10 @@
         }
 
         public decimal ComputeTotalValue() =>
-            Lines.Sum((Func<CartLine, decimal>)(e => (decimal)(e.Product.ActualPrice * e.Quantity)));
+            Lines.Sum((Func<CartLine, decimal>)(e => (decimal)(e.ActualPrice * e.Quantity)));
 
         public decimal ComputeTotalDiscountValue() =>
-            Lines.Sum((Func<CartLine, decimal>)(e => (decimal)(e.Product.DiscountPrice * e.Quantity)));
+            Lines.Sum((Func<CartLine, decimal>)(e => (decimal)(e.DiscountPrice * e.Quantity)));
 
         public virtual void Clear() => Lines.Clear();
     }

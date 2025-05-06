@@ -18,7 +18,7 @@ namespace Repositories
             _manager = manager;
         }
 
-        public IQueryable<Order> Orders => _manager.Order.Orders;
+        public IEnumerable<Order> Orders => _manager.Order.Orders.ToList();
 
         public int NumberOfInProcess => _manager.Order.NumberOfInProcess;
 

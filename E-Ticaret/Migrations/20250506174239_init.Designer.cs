@@ -12,7 +12,7 @@ using Repositories;
 namespace E_Ticaret.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20250503013954_init")]
+    [Migration("20250506174239_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -114,6 +114,22 @@ namespace E_Ticaret.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Entities.Models.Cart", b =>
+                {
+                    b.Property<int>("CartId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CartId"));
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
+                    b.HasKey("CartId");
+
+                    b.ToTable("Carts");
+                });
+
             modelBuilder.Entity("Entities.Models.CartLine", b =>
                 {
                     b.Property<int>("CartLineId")
@@ -122,22 +138,34 @@ namespace E_Ticaret.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CartLineId"));
 
-                    b.Property<int?>("OrderId")
+                    b.Property<decimal>("ActualPrice")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("CartId")
                         .HasColumnType("integer");
+
+                    b.Property<decimal?>("DiscountPrice")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
                     b.HasKey("CartLineId");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("CartId");
 
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("CartLine");
+                    b.ToTable("CartLines");
                 });
 
             modelBuilder.Entity("Entities.Models.MainCategory", b =>
@@ -197,6 +225,42 @@ namespace E_Ticaret.Migrations
                     b.HasKey("OrderId");
 
                     b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Entities.Models.OrderLine", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal?>("ActualPrice")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal?>("DiscountPrice")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ProductName")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderLine");
                 });
 
             modelBuilder.Entity("Entities.Models.Product", b =>
@@ -462,17 +526,20 @@ namespace E_Ticaret.Migrations
 
             modelBuilder.Entity("Entities.Models.CartLine", b =>
                 {
-                    b.HasOne("Entities.Models.Order", null)
+                    b.HasOne("Entities.Models.Cart", "Cart")
                         .WithMany("Lines")
-                        .HasForeignKey("OrderId");
-
-                    b.HasOne("Entities.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Product");
+                    b.Navigation("Cart");
+                });
+
+            modelBuilder.Entity("Entities.Models.OrderLine", b =>
+                {
+                    b.HasOne("Entities.Models.Order", null)
+                        .WithMany("Lines")
+                        .HasForeignKey("OrderId");
                 });
 
             modelBuilder.Entity("Entities.Models.Product", b =>
@@ -573,6 +640,11 @@ namespace E_Ticaret.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Entities.Models.Cart", b =>
+                {
+                    b.Navigation("Lines");
                 });
 
             modelBuilder.Entity("Entities.Models.MainCategory", b =>

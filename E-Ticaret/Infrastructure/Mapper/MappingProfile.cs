@@ -19,6 +19,8 @@ namespace ETicaret.Infrastructe.Mapper
             CreateMap<SubCategoryDtoForUpdate, SubCategory>().ReverseMap();
             CreateMap<UserReviewDtoForInsertion, UserReview>();
             CreateMap<UserReviewDtoForUpdate, UserReview>().ReverseMap();
+            CreateMap<CartDto, Cart>();
+            CreateMap<CartLineDto, CartLine>();
         }
     }
 }

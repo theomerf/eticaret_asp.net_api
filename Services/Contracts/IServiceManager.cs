@@ -8,5 +8,6 @@
         IOrderService OrderService { get; }
         IAuthService AuthService { get; }
         IUserReviewService UserReviewService { get; }
+        ICartService CartService { get; }
     }
 }

@@ -61,6 +61,19 @@ namespace E_Ticaret.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Carts",
+                columns: table => new
+                {
+                    CartId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Carts", x => x.CartId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MainCategories",
                 columns: table => new
                 {
@@ -201,6 +214,31 @@ namespace E_Ticaret.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CartLines",
+                columns: table => new
+                {
+                    CartLineId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
+                    ProductName = table.Column<string>(type: "text", nullable: false),
+                    ImageUrl = table.Column<string>(type: "text", nullable: false),
+                    ActualPrice = table.Column<decimal>(type: "numeric", nullable: false),
+                    DiscountPrice = table.Column<decimal>(type: "numeric", nullable: true),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    CartId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CartLines", x => x.CartLineId);
+                    table.ForeignKey(
+                        name: "FK_CartLines_Carts_CartId",
+                        column: x => x.CartId,
+                        principalTable: "Carts",
+                        principalColumn: "CartId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SubCategories",
                 columns: table => new
                 {
@@ -217,6 +255,30 @@ namespace E_Ticaret.Migrations
                         column: x => x.MainCategoryId,
                         principalTable: "MainCategories",
                         principalColumn: "MainCategoryId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderLine",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    ProductName = table.Column<string>(type: "text", nullable: true),
+                    DiscountPrice = table.Column<decimal>(type: "numeric", nullable: true),
+                    ActualPrice = table.Column<decimal>(type: "numeric", nullable: true),
+                    ImageUrl = table.Column<string>(type: "text", nullable: true),
+                    OrderId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderLine", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrderLine_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "OrderId");
                 });
 
             migrationBuilder.CreateTable(
@@ -248,32 +310,6 @@ namespace E_Ticaret.Migrations
                         column: x => x.SubCategoryId,
                         principalTable: "SubCategories",
                         principalColumn: "SubCategoryId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CartLine",
-                columns: table => new
-                {
-                    CartLineId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ProductId = table.Column<int>(type: "integer", nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false),
-                    OrderId = table.Column<int>(type: "integer", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CartLine", x => x.CartLineId);
-                    table.ForeignKey(
-                        name: "FK_CartLine_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "OrderId");
-                    table.ForeignKey(
-                        name: "FK_CartLine_Products_ProductId",
-                        column: x => x.ProductId,
-                        principalTable: "Products",
-                        principalColumn: "ProductId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -356,14 +392,14 @@ namespace E_Ticaret.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartLine_OrderId",
-                table: "CartLine",
-                column: "OrderId");
+                name: "IX_CartLines_CartId",
+                table: "CartLines",
+                column: "CartId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CartLine_ProductId",
-                table: "CartLine",
-                column: "ProductId");
+                name: "IX_OrderLine_OrderId",
+                table: "OrderLine",
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_MainCategoryId",
@@ -410,13 +446,19 @@ namespace E_Ticaret.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "CartLine");
+                name: "CartLines");
+
+            migrationBuilder.DropTable(
+                name: "OrderLine");
 
             migrationBuilder.DropTable(
                 name: "UserReviews");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Carts");
 
             migrationBuilder.DropTable(
                 name: "Orders");

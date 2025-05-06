@@ -16,13 +16,13 @@
                                     <!-- Ürün Fotoğrafı -->
                                     <div class="col-md-2 text-center">
                                         <div class="cart-img-container">
-                                            <img src="/images/@line.Product.ImageUrl" class="cart-img" alt="@line.Product.ProductName" onerror="this.onerror=null;this.src='https://via.placeholder.com/100';">
+                                            <img src="/images/@line.ImageUrl" class="cart-img" alt="@line.ProductName" onerror="this.onerror=null;this.src='https://via.placeholder.com/100';">
                                         </div>
                                     </div>
                                     <!-- Ürün Detayları -->
                                     <div class="col-md-6">
-                                        <h5 class="cart-product-title">@line.Product.ProductName</h5>
-                                        <p class="cart-product-sku mb-0">SKU: @line.Product.ProductId</p>
+                                        <h5 class="cart-product-title">@line.ProductName</h5>
+                                        <p class="cart-product-sku mb-0">SKU: @line.ProductId</p>
                                         <div class="cart-product-attributes">
                                             <!-- Ürün özellikleri -->
                                             <span class="cart-product-attribute">Stokta</span>
@@ -41,7 +41,7 @@
                                                 <div class="cart-quantity-wrapper">
                                                     <span class="cart-quantity-value">@line.Quantity</span>
                                                     <form asp-action="IncreaseQuantity" method="post" class="m-0">
-                                                        <input type="hidden" name="id" value="@line.Product.ProductId" />
+                                                        <input type="hidden" name="id" value="@line.ProductId" />
                                                         <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
                                                         <button type="submit" class="cart-quantity-btn">
                                                             <i class="fa fa-plus"></i>
@@ -53,7 +53,7 @@
                                             {
                                                 <div class="cart-quantity-wrapper">
                                                     <form asp-action="DecreaseQuantity" method="post" class="m-0">
-                                                        <input type="hidden" name="id" value="@line.Product.ProductId" />
+                                                        <input type="hidden" name="id" value="@line.ProductId" />
                                                         <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
                                                         <button type="submit" class="cart-quantity-btn">
                                                             <i class="fa fa-minus"></i>
@@ -61,7 +61,7 @@
                                                     </form>
                                                     <span class="cart-quantity-value">@line.Quantity</span>
                                                     <form asp-action="IncreaseQuantity" method="post" class="m-0">
-                                                        <input type="hidden" name="id" value="@line.Product.ProductId" />
+                                                        <input type="hidden" name="id" value="@line.ProductId" />
                                                         <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
                                                         <button type="submit" class="cart-quantity-btn">
                                                             <i class="fa fa-plus"></i>
@@ -73,11 +73,11 @@
                                     </div>
                                     <!-- Fiyat ve Silme -->
                                     <div class="col-md-2 text-end">
-                                        <div class="cart-price">@((line.Quantity * line.Product.DiscountPrice)?.ToString("c"))</div>
+                                        <div class="cart-price">@((line.Quantity * line.DiscountPrice)?.ToString("c"))</div>
                                         <!-- Birim fiyatı (yeni eklendi) -->
-                                        <div class="cart-unit-price">Birim: @line.Product.DiscountPrice?.ToString("c")</div>
+                                        <div class="cart-unit-price">Birim: @line.DiscountPrice?.ToString("c")</div>
                                         <form asp-action="RemoveFromCart" method="post" class="mt-2">
-                                            <input type="hidden" name="id" value="@line.Product.ProductId" />
+                                            <input type="hidden" name="id" value="@line.ProductId" />
                                             <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
                                             <button type="submit" class="cart-remove-btn" title="Ürünü Sil">
                                                 <i class="fa fa-trash"></i> Kaldır

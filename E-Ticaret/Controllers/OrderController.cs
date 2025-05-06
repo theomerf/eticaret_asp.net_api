@@ -1,8 +1,10 @@
 ﻿using Entities.Models;
+using ETicaret.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
+using System.Security.Claims;
 
 namespace ETicaret.Controllers
 {
@@ -37,9 +39,19 @@ namespace ETicaret.Controllers
             }
             if (ModelState.IsValid) 
             {
-                order.Lines = _cart.Lines.ToArray();
-                order.UserName = _userManager.FindByNameAsync(User.Identity.Name).Result.UserName;
+                foreach (var line in _cart.Lines)
+                {
+                    order.Lines.Add(new OrderLine
+                    {
+                        ProductId = line.ProductId,
+                        Quantity = line.Quantity
+                    });
+                }
+                order.UserName = User.Identity.Name;
                 _manager.OrderService.SaveOrder(order);
+                var cartDto = SessionCart.GetCartDto(HttpContext.RequestServices);
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                _manager.CartService.AddOrUpdateCart(cartDto, userId);
                 _cart.Clear();
                 return RedirectToAction("Complete", new { orderId = order.OrderId });
 

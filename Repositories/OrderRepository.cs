@@ -15,7 +15,6 @@ namespace Repositories
 
         public IQueryable<Order> Orders => _context.Orders
         .Include(o => o.Lines)
-        .ThenInclude(c => c.Product)
         .OrderBy(o => o.Shipped)
         .ThenByDescending(o => o.Shipped);
 
@@ -41,14 +40,12 @@ namespace Repositories
             return _context
                 .Orders
                 .Where(o => o.UserName == userName)
-                .Include(mc => mc.Lines)
-                .ThenInclude(c => c.Product);
-                
+                .Include(mc => mc.Lines);
         }
 
         public void SaveOrder(Order order)
         {
-            _context.AttachRange(order.Lines.Select(l => l.Product));
+            _context.AttachRange(order.Lines.Select(l => l));
             if(order.OrderId == 0)
             {
                 _context.Orders.Add(order);

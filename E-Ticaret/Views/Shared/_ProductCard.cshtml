@@ -84,7 +84,7 @@
         <div class="cart-action">
             @{
                 // Check if product is already in cart
-                var isInCart = Context.RequestServices.GetRequiredService<Cart>()?.Lines?.Any(l => l.Product.ProductId == Model.ProductId) ?? false;
+                var isInCart = Context.RequestServices.GetRequiredService<Cart>()?.Lines?.Any(l => l.ProductId == Model.ProductId) ?? false;
 
                 if (isInCart)
                 {
