@@ -189,6 +189,7 @@ namespace ETicaret.Controllers
 
             // AJAX isteği olup olmadığını kontrol eden yardımcı metot
             bool isAjaxRequest = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+            Response.Cookies.Delete("FavouriteProducts");
 
             if (isAjaxRequest)
             {

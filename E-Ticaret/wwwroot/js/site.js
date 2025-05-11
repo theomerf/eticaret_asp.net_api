@@ -1,6 +1,6 @@
 ﻿// Cookie yönetimi için geliştirilmiş fonksiyonlar
 function getFavoritesFromCookie() {
-    const favoriteCookie = getCookie("FavouriteProducts");
+    const favoriteCookie = decodeURIComponent(getCookie("FavouriteProducts"));
 
     if (!favoriteCookie || favoriteCookie.trim() === "") {
         return [];
