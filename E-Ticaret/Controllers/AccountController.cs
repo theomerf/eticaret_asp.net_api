@@ -82,7 +82,6 @@ namespace ETicaret.Controllers
                             // SameSite=Lax ve güvenlik ayarlarıyla cookie'yi kaydet
                             Response.Cookies.Append("FavouriteProducts", favouriteProductIdsString, new CookieOptions
                             {
-                                Expires = DateTime.Now.AddMonths(1),
                                 IsEssential = true,
                                 Path = "/",            // Tüm site genelinde erişilebilir
                                 SameSite = SameSiteMode.Lax,
@@ -96,7 +95,6 @@ namespace ETicaret.Controllers
                             // Boş bir cookie oluştur
                             Response.Cookies.Append("FavouriteProducts", "", new CookieOptions
                             {
-                                Expires = DateTime.Now.AddMonths(1),
                                 IsEssential = true,
                                 Path = "/",
                                 SameSite = SameSiteMode.Lax,
