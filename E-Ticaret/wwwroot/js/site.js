@@ -460,7 +460,7 @@ $(document).ready(function () {
         const productId = parseInt(button.data("product-id"));
 
         // Eğer kullanıcı giriş yapmamışsa login sayfasına yönlendir
-        if (window.isUserAuthenticated === false || window.isUserAuthenticated === "false") {
+        if (document.cookie.indexOf("FavouriteProducts") == -1) {
             const currentUrl = window.location.pathname + window.location.search;
             window.location.href = "/Account/Login?returnUrl=" + encodeURIComponent(currentUrl);
             return;
