@@ -157,6 +157,288 @@ $(document).ready(function () {
         });
     });
 
+    $('body').on('submit', '#loginForm', function (e) {
+        e.preventDefault();
+
+        clearFormErrors();
+
+        var token = $('input[name="__RequestVerificationToken"]').val();
+        if (!token) {
+            console.error("CSRF token bulunamadı!");
+            return;
+        }
+
+        var formData = $(this).serialize();
+
+        $.ajax({
+            url: $(this).attr("action"),
+            type: "POST",
+            data: formData,
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            success: function (response) {
+                if (response.success) {
+                    showMessage(response.message || "Giriş başarılı!", "success");
+
+                    // Favori butonlarını güncelle
+                    updateFavoriteButtons();
+
+                    // Giriş başarılı olduktan sonra returnUrl'e AJAX ile git
+                    $.ajax({
+                        url: response.redirectUrl || "/",
+                        type: 'GET',
+                        success: function (data) {
+                            let $data = $(data);
+
+                            // Navbar elementlerini bul ve güncelle
+                            let newNavbar = $data.filter('.custom-navbar, .navbar.custom-navbar').first();
+                            let newCategoryNavbar = $data.filter('.category-navbar, .navbar.category-navbar').first();
+
+                            // Navbar yoksa HTML içinden bul
+                            if (newNavbar.length === 0) {
+                                newNavbar = $data.find('.custom-navbar, .navbar.custom-navbar').first();
+                            }
+
+                            if (newCategoryNavbar.length === 0) {
+                                newCategoryNavbar = $data.find('.category-navbar, .navbar.category-navbar').first();
+                            }
+
+                            if (newNavbar.length > 0) {
+                                $('.custom-navbar').replaceWith(newNavbar);
+                            }
+
+                            if (newCategoryNavbar.length > 0) {
+                                $('.category-navbar').replaceWith(newCategoryNavbar);
+                            }
+
+                            // Ana içeriği güncelle
+                            let newContent = $data.find('#main-content').html();
+                            if (newContent) {
+                                $('#main-content').html(newContent);
+                            }
+                            window.history.pushState({}, '', response.redirectUrl || "/");
+                            window.scrollTo(0, 0);
+
+                            // Yeni sayfadaki favori butonlarını güncelle
+                            updateFavoriteButtons();
+                            // Cart sayısını güncelle
+                            updateCartItemCount();
+
+                            reinitializeNavbarScripts();
+                        },
+                        error: function () {
+                            window.location.href = response.redirectUrl || "/";
+                        }
+                    });
+                } else {
+                    showMessage(response.message || "Giriş başarısız!", "error");
+
+                    if (response.errors && response.errors.length > 0) {
+                        displayFormErrors(response.errors);
+                    }
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Login error:", error);
+                showMessage("Giriş sırasında bir hata oluştu. Lütfen tekrar deneyin.", "error");
+            }
+        });
+    });
+
+
+    $("#registerForm").submit(function (e) {
+        e.preventDefault();
+
+        clearFormErrors();
+
+        var formData = $(this).serialize();
+
+        $.ajax({
+            url: $(this).attr("action"),
+            type: "POST",
+            data: formData,
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            success: function (response) {
+                if (response.success) {
+                    showMessage(response.message || "Kayıt başarılı!", "success");
+
+                    // Login tab'ına geç
+                    $('#loginTabBtn').tab('show');
+
+                    // Kayıt formunu temizle
+                    $('#registerForm')[0].reset();
+                } else {
+                    showMessage(response.message || "Kayıt başarısız!", "error");
+
+                    if (response.errors && response.errors.length > 0) {
+                        displayFormErrors(response.errors);
+                    }
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Register error:", error);
+                showMessage("Kayıt sırasında bir hata oluştu. Lütfen tekrar deneyin.", "error");
+            }
+        });
+    });
+
+    $('body').on('click', '.logout-item', function (e) {
+        e.preventDefault();
+
+        var logoutUrl = $(this).attr("href");
+        var returnUrl = window.location.pathname + window.location.search;
+
+        $.ajax({
+            url: logoutUrl,
+            type: "GET",
+            data: { ReturnUrl: returnUrl },
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            },
+            success: function (response) {
+                // Navbar'ı AJAX ile güncelle, tam sayfa şeklinde alıp ilgili kısımları yerleştiriyoruz
+                $.ajax({
+                    url: returnUrl,
+                    type: 'GET',
+                    success: function (data) {
+                        // HTML yanıtını bir jQuery nesnesine dönüştür
+                        let $data = $(data);
+
+                        // Navbar elementlerini bul ve güncelle
+                        let newNavbar = $data.filter('.custom-navbar, .navbar.custom-navbar').first();
+                        let newCategoryNavbar = $data.filter('.category-navbar, .navbar.category-navbar').first();
+
+                        // Navbar yoksa HTML içinden bul
+                        if (newNavbar.length === 0) {
+                            newNavbar = $data.find('.custom-navbar, .navbar.custom-navbar').first();
+                        }
+
+                        if (newCategoryNavbar.length === 0) {
+                            newCategoryNavbar = $data.find('.category-navbar, .navbar.category-navbar').first();
+                        }
+
+                        if (newNavbar.length > 0) {
+                            $('.custom-navbar').replaceWith(newNavbar);
+                        }
+
+                        if (newCategoryNavbar.length > 0) {
+                            $('.category-navbar').replaceWith(newCategoryNavbar);
+                        }
+
+                        // Ana içeriği güncelle
+                        let newContent = $data.find('#main-content').html();
+                        if (newContent) {
+                            $('#main-content').html(newContent);
+                        }
+
+                        // Favori butonlarını ve sepet sayısını güncelle
+                        updateFavoriteButtons();
+                        updateCartItemCount();
+
+                        // Navbardaki scriptleri yeniden çalıştır
+                        reinitializeNavbarScripts();
+
+                        showToast("Başarıyla çıkış yapıldı", "success");
+                    },
+                    error: function () {
+                        // Hata durumunda sayfayı yenilemeye geri dön
+                        window.location.reload();
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Logout error:", error);
+                window.location = logoutUrl;
+            }
+        });
+    });
+
+    // Navbar scriptlerini yeniden başlatan yardımcı fonksiyon
+    function reinitializeNavbarScripts() {
+        var topNavbar = document.querySelector('.custom-navbar');
+        var categoryNavbar = document.querySelector('.category-navbar');
+
+        if (topNavbar && categoryNavbar) {
+            // Dropdown menüleri yeniden başlat
+            var dropdownElementList = [].slice.call(document.querySelectorAll('.user-dropdown .dropdown-toggle'));
+
+            dropdownElementList.forEach(function (dropdownToggleEl) {
+                var dropdownMenu = dropdownToggleEl.nextElementSibling;
+
+                if (dropdownMenu) {
+                    dropdownMenu.classList.add('animate__animated');
+
+                    // Event listener'ları kaldırıp yeniden ekle
+                    dropdownToggleEl.removeEventListener('shown.bs.dropdown', dropdownAnimateIn);
+                    dropdownToggleEl.removeEventListener('hide.bs.dropdown', dropdownAnimateOut);
+
+                    dropdownToggleEl.addEventListener('shown.bs.dropdown', dropdownAnimateIn);
+                    dropdownToggleEl.addEventListener('hide.bs.dropdown', dropdownAnimateOut);
+                }
+            });
+
+            // Bootstrap bileşenlerini yeniden başlat
+            var dropdowns = [].slice.call(document.querySelectorAll('[data-bs-toggle="dropdown"]'));
+            dropdowns.map(function (dropdownToggleEl) {
+                return new bootstrap.Dropdown(dropdownToggleEl);
+            });
+        }
+    }
+
+    // Dropdown animasyon fonksiyonları
+    function dropdownAnimateIn() {
+        var dropdownMenu = this.nextElementSibling;
+        dropdownMenu.classList.remove('animate__fadeOutDown');
+        dropdownMenu.classList.add('animate__fadeInUp');
+    }
+
+    function dropdownAnimateOut(e) {
+        var dropdownMenu = this.nextElementSibling;
+        if (!dropdownMenu.classList.contains('animate__fadeOutDown')) {
+            e.preventDefault();
+
+            dropdownMenu.classList.remove('animate__fadeInUp');
+            dropdownMenu.classList.add('animate__fadeOutDown');
+
+            setTimeout(function () {
+                this.click();
+                dropdownMenu.classList.remove('animate__fadeOutDown');
+            }.bind(this), 300);
+        }
+    }
+
+    function clearFormErrors() {
+        $(".text-danger").html(""); // Tüm hata mesajlarını temizle
+        $(".login-message").remove(); // Varolan uyarı mesajlarını temizle
+    }
+
+    // Hata mesajını gösteren yardımcı fonksiyon
+    function showMessage(message, type) {
+        // Mevcut mesajları temizle
+        $(".login-message").remove();
+
+        // Mesaj stilini belirle
+        var alertClass = type === "success" ? "alert alert-success" : "alert alert-danger";
+
+        // Mesajı form üstüne ekle
+        var alertHtml = '<div class="' + alertClass + ' login-message">' + message + '</div>';
+        $("#loginForm").prepend(alertHtml);
+    }
+
+    // Form hatalarını gösteren yardımcı fonksiyon
+    function displayFormErrors(errors) {
+        errors.forEach(function (error) {
+            var fieldName = error.Key;
+            var errorMessages = error.Errors.join("<br>");
+
+            // Hata mesajını ilgili span'a ekle
+            $("span[data-valmsg-for='" + fieldName + "']").html(errorMessages);
+        });
+    }
+
     window.addEventListener('popstate', function () {
         $.get(location.href, function (data) {
             let newContent = $(data).find('#main-content').html();
@@ -176,6 +458,13 @@ $(document).ready(function () {
         e.preventDefault(); // Sayfa yenilenmesini engeller
         const button = $(this);
         const productId = parseInt(button.data("product-id"));
+
+        // Eğer kullanıcı giriş yapmamışsa login sayfasına yönlendir
+        if (window.isUserAuthenticated === false || window.isUserAuthenticated === "false") {
+            const currentUrl = window.location.pathname + window.location.search;
+            window.location.href = "/Account/Login?returnUrl=" + encodeURIComponent(currentUrl);
+            return;
+        }
 
         // Çift tıklama ve birden fazla istek göndermeyi engelle
         if (button.hasClass('processing')) return;
@@ -207,6 +496,7 @@ $(document).ready(function () {
         showToast("Ürün favorilerinize eklendi.", "success");
         button.removeClass('processing');
     });
+
 
     // Favorilerden kaldır butonuna tıklandığında - BUTTON için event handler
     $(document).on("click", ".favorite-btn.remove-btn", function (e) {

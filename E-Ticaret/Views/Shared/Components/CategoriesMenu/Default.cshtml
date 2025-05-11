@@ -1,53 +1,192 @@
 ﻿@model IEnumerable<MainCategory>
 
-<div class="card filter-card border-0 mb-0">
-    <div class="card-body p-0">
-        <ul class="list-group list-group-flush category-list">
-            <li class="list-group-item border-0 @(string.IsNullOrEmpty(Context.Request.Query["categoryId"]) ? "active" : "")">
-                <a asp-action="Index" class="category-link d-flex justify-content-between align-items-center">
-                    <span><i class="fa-solid fa-globe me-2"></i>Tüm Ürünler</span>
-                    <span class="badge bg-light text-dark rounded-pill">Tümü</span>
-                </a>
-            </li>
+<div class="categoriesmenu-container">
+	<div class="card filter-card border-0 mb-0">
+		<div class="card-body p-0">
+			<ul class="list-group list-group-flush category-list" id="categoriesMainList">
+				<li class="list-group-item border-0 @(string.IsNullOrEmpty(Context.Request.Query["categoryId"]) ? "active" : "")" data-category="all">
+					<a asp-action="Index" class="category-link d-flex justify-content-between align-items-center">
+						<span><i class="fa-solid fa-globe me-2"></i>Tüm Ürünler</span>
+						<span class="badge bg-light text-dark rounded-pill">Tümü</span>
+					</a>
+				</li>
+				@foreach (var cat in Model)
+				{
+					<li class="list-group-item border-0 @(Context.Request.Query["categoryId"] == cat.MainCategoryId.ToString() ? "active" : "")"
+						data-category="@cat.MainCategoryId">
+						<a asp-action="Index" asp-route-categoryId="@cat.MainCategoryId"
+						   class="category-link d-flex justify-content-between align-items-center">
+							<span>
+								@* Kategori simgeleri özelleştirilebilir *@
+								@if (cat.CategoryName.Contains("Telefon"))
+								{
+									<i class="fa-solid fa-mobile-alt me-2"></i>
+								}
+								else if (cat.CategoryName.Contains("Bilgisayar"))
+								{
+									<i class="fa-solid fa-laptop me-2"></i>
+								}
+								else if (cat.CategoryName.Contains("Tablet"))
+								{
+									<i class="fa-solid fa-tablet-alt me-2"></i>
+								}
+								else if (cat.CategoryName.Contains("Kamera"))
+								{
+									<i class="fa-solid fa-camera me-2"></i>
+								}
+								else if (cat.CategoryName.Contains("TV"))
+								{
+									<i class="fa-solid fa-tv me-2"></i>
+								}
+								else
+								{
+									<i class="fa-solid fa-box me-2"></i>
+								}
+								@cat.CategoryName
+							</span>
+						</a>
+					</li>
+				}
+			</ul>
+		</div>
+	</div>
 
-            @foreach (var cat in Model)
-            {
-                <li class="list-group-item border-0 @(Context.Request.Query["categoryId"] == cat.MainCategoryId.ToString() ? "active" : "")">
-                    <a asp-action="Index" asp-route-categoryId="@cat.MainCategoryId"
-                       class="category-link d-flex justify-content-between align-items-center">
-                        <span>
-                            @* Kategori simgeleri özelleştirilebilir *@
-                            @if (cat.CategoryName.Contains("Telefon"))
-                            {
-                                <i class="fa-solid fa-mobile-alt me-2"></i>
-                            }
-                            else if (cat.CategoryName.Contains("Bilgisayar"))
-                            {
-                                <i class="fa-solid fa-laptop me-2"></i>
-                            }
-                            else if (cat.CategoryName.Contains("Tablet"))
-                            {
-                                <i class="fa-solid fa-tablet-alt me-2"></i>
-                            }
-                            else if (cat.CategoryName.Contains("Kamera"))
-                            {
-                                <i class="fa-solid fa-camera me-2"></i>
-                            }
-                            else if (cat.CategoryName.Contains("TV"))
-                            {
-                                <i class="fa-solid fa-tv me-2"></i>
-                            }
-                            else
-                            {
-                                <i class="fa-solid fa-box me-2"></i>
-                            }
-                            @cat.CategoryName
-                        </span>
-                        @* Kategori sayacı eklenebilir *@
-                        @* <span class="badge bg-light text-dark rounded-pill">12</span> *@
-                    </a>
-                </li>
-            }
-        </ul>
-    </div>
+	<div class="categoriesmenu-subcategories-container" id="subcategoriesContainer">
+		<!-- Tüm Ürünler için varsayılan içerik -->
+		<div class="categoriesmenu-subcategory-panel active" data-category="all">
+			<h4 class="categoriesmenu-panel-title">Tüm Ürünler</h4>
+			<div class="categoriesmenu-subcategory-grid">
+				<div class="categoriesmenu-subcategory-item">
+					<a href="#">
+						<div class="categoriesmenu-subcategory-icon">
+							<i class="fa-solid fa-star"></i>
+						</div>
+						<div class="categoriesmenu-subcategory-name">Öne Çıkanlar</div>
+					</a>
+				</div>
+				<div class="categoriesmenu-subcategory-item">
+					<a href="#">
+						<div class="categoriesmenu-subcategory-icon">
+							<i class="fa-solid fa-percent"></i>
+						</div>
+						<div class="categoriesmenu-subcategory-name">İndirimli Ürünler</div>
+					</a>
+				</div>
+				<div class="categoriesmenu-subcategory-item">
+					<a href="#">
+						<div class="categoriesmenu-subcategory-icon">
+							<i class="fa-solid fa-fire"></i>
+						</div>
+						<div class="categoriesmenu-subcategory-name">Çok Satanlar</div>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		@foreach (var cat in Model)
+		{
+			<div class="categoriesmenu-subcategory-panel" data-category="@cat.MainCategoryId">
+				<h4 class="categoriesmenu-panel-title">@cat.CategoryName</h4>
+				<div class="categoriesmenu-subcategory-grid">
+					@foreach (var sub in cat.SubCategories)
+					{
+						<div class="categoriesmenu-subcategory-item">
+							<a asp-action="Index" asp-route-subCategoryId="@sub.SubCategoryId">
+								<div class="categoriesmenu-subcategory-icon">
+									<i class="fa-solid fa-box"></i>
+								</div>
+								<div class="categoriesmenu-subcategory-name">@sub.CategoryName</div>
+							</a>
+						</div>
+					}
+				</div>
+			</div>
+		}
+	</div>
 </div>
+
+<script>
+		// categoriesmenu-script.js
+
+	document.addEventListener('DOMContentLoaded', function() {
+		const categoryItems = document.querySelectorAll('#categoriesMainList .list-group-item');
+		const subcategoryPanels = document.querySelectorAll('.categoriesmenu-subcategory-panel');
+
+		// İlk açılışta, aktif kategoriyi göster veya ilk kategoriyi aktif yap
+		let activeFound = false;
+
+		categoryItems.forEach(item => {
+			if (item.classList.contains('active')) {
+				const categoryId = item.getAttribute('data-category');
+				showSubcategories(categoryId);
+				activeFound = true;
+			}
+		});
+
+		// Eğer aktif kategori yoksa, ilk kategoriyi aktif yap
+		if (!activeFound && categoryItems.length > 0) {
+			const firstItem = categoryItems[0];
+			firstItem.classList.add('active');
+			const categoryId = firstItem.getAttribute('data-category');
+			showSubcategories(categoryId);
+		}
+
+		// Kategori hover olayları
+		categoryItems.forEach(item => {
+			item.addEventListener('mouseenter', function() {
+				// Tüm kategorilerdeki aktif sınıfı kaldır
+				categoryItems.forEach(cat => cat.classList.remove('active'));
+
+				// Hover olan kategoriye aktif sınıfı ekle
+				this.classList.add('active');
+
+				// Kategori ID'sini al ve ilgili alt kategorileri göster
+				const categoryId = this.getAttribute('data-category');
+				showSubcategories(categoryId);
+			});
+		});
+
+		// Alt kategorileri gösterme fonksiyonu
+		function showSubcategories(categoryId) {
+			// Tüm alt kategori panellerini gizle
+			subcategoryPanels.forEach(panel => {
+				panel.classList.remove('active');
+			});
+
+			// İlgili alt kategori panelini göster
+			const targetPanel = document.querySelector(`.categoriesmenu-subcategory-panel[data-category="${categoryId}"]`);
+			if (targetPanel) {
+				targetPanel.classList.add('active');
+			}
+		}
+
+		// Ana menü konteynerinin üzerinden çıkıldığında da aktif kategorinin görünmesini sağla
+		const menuContainer = document.querySelector('.categoriesmenu-container');
+
+		menuContainer.addEventListener('mouseleave', function() {
+			// Tüm kategorilerdeki aktif sınıfı kaldır
+			categoryItems.forEach(cat => cat.classList.remove('active'));
+
+			// URL'de belirtilen kategoriyi veya ilk öğeyi aktif et
+			let urlActiveFound = false;
+
+			categoryItems.forEach(item => {
+				const originalActive = item.classList.contains('active');
+				if (originalActive) {
+					item.classList.add('active');
+					const categoryId = item.getAttribute('data-category');
+					showSubcategories(categoryId);
+					urlActiveFound = true;
+				}
+			});
+
+			// Eğer URL'de aktif kategori yoksa, ilk kategoriyi aktif yap
+			if (!urlActiveFound && categoryItems.length > 0) {
+				const firstItem = categoryItems[0];
+				firstItem.classList.add('active');
+				const categoryId = firstItem.getAttribute('data-category');
+				showSubcategories(categoryId);
+			}
+		});
+	});
+</script>

@@ -1,16 +1,16 @@
 ﻿
-    @{  
-       var avatarUrl = "";  
-       if (User?.Identity?.IsAuthenticated == true)  
-       {  
-           var avatarContent = await Component.InvokeAsync("Avatar");  
-           using (var writer = new System.IO.StringWriter())  
-           {  
-               avatarContent.WriteTo(writer, System.Text.Encodings.Web.HtmlEncoder.Default);  
-               avatarUrl = writer.ToString();  
-           }  
-       }  
-    }
+@{  
+    var avatarUrl = "";  
+    if (User?.Identity?.IsAuthenticated == true)  
+    {  
+        var avatarContent = await Component.InvokeAsync("Avatar");  
+        using (var writer = new System.IO.StringWriter())  
+        {  
+            avatarContent.WriteTo(writer, System.Text.Encodings.Web.HtmlEncoder.Default);  
+            avatarUrl = writer.ToString();  
+        }  
+    }  
+}
 
 
 <nav class="navbar navbar-expand-lg navbar-dark custom-navbar shadow-sm sticky-top">
@@ -36,18 +36,20 @@
             data-bs-target="#searchCollapse" aria-expanded="false" aria-label="Toggle search">
                 <i class="fa-solid fa-search text-white"></i>
             </button>
+            @if (User?.Identity?.IsAuthenticated == true)
+            {
+                <a class="nav-link text-white nav-icon-link position-relative me-2" href="#" title="Bildirimler">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="position-absolute start-100 translate-middle badge rounded-pill bg-danger notification-badge">2</span>
+                </a>
 
-            <a class="nav-link text-white nav-icon-link position-relative me-2" href="#" title="Bildirimler">
-                <i class="fa-regular fa-bell"></i>
-                <span class="position-absolute start-100 translate-middle badge rounded-pill bg-danger notification-badge">2</span>
-            </a>
-
-            <a asp-controller="Account" asp-action="Favourites" class="nav-link ajax-link text-white nav-icon-link position-relative me-2" title="Favorilerim">
-                <i class="fa-regular fa-heart"></i>
+                <a asp-controller="Account" asp-action="Favourites" class="nav-link ajax-link text-white nav-icon-link position-relative me-2" title="Favorilerim">
+                    <i class="fa-regular fa-heart"></i>
                 <span class="position-absolute top-2 start-100 translate-middle badge rounded-pill bg-danger wishlist-badge">
                     @await Component.InvokeAsync("FavouritesSummary")
                 </span>
             </a>
+            }
 
             <div class="nav-item">
                 @if (User?.Identity?.IsAuthenticated == true)
@@ -102,7 +104,7 @@
                }
                else
                {
-                   <a class="nav-link text-white fw-semibold btn btn-login ms-lg-2"
+                   <a class="nav-link ajax-link text-white fw-semibold btn btn-login ms-lg-2"
                       asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Context.Request.PathAndQuery()">
                        <i class="fa-solid fa-right-to-bracket me-1"></i> Giriş Yap
                    </a>
@@ -149,8 +151,7 @@
                    <div class="dropdown-menu mega-dropdown w-100" aria-labelledby="categoriesDropdown">
                        <div class="container">
                            <div class="row mega-dropdown-inner">
-                               <div class="col-lg-3 mega-dropdown-column">
-                                   <h6 class="category-header gradient-text">Popüler Kategoriler</h6>
+                               <div class="col-lg-12 mega-dropdown-column">
                                    <div class="category-links">
                                        @await Component.InvokeAsync("CategoriesMenu")
                                    </div>

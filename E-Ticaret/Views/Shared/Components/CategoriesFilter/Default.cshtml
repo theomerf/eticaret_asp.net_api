@@ -1,0 +1,53 @@
+﻿@model IEnumerable<MainCategory>
+<div class="card filter-card border-0 mb-0">
+    <div class="card-body p-0">
+        <ul class="list-group list-group-flush category-list">
+            <li class="list-group-item border-0 @(string.IsNullOrEmpty(Context.Request.Query["categoryId"]) ? "active" : "")">
+                <a asp-action="Index" class="category-link d-flex align-items-center">
+                    <div class="category-icon">
+                        <i class="fa-solid fa-globe"></i>
+                    </div>
+                    <span class="category-name">Tüm Ürünler</span>
+                    <span class="category-badge">Tümü</span>
+                </a>
+            </li>
+            @foreach (var cat in Model)
+            {
+                <li class="list-group-item border-0 @(Context.Request.Query["categoryId"] == cat.MainCategoryId.ToString() ? "active" : "")">
+                    <a asp-action="Index" asp-route-categoryId="@cat.MainCategoryId"
+                       class="category-link d-flex align-items-center">
+                        <div class="category-icon">
+                            @if (cat.CategoryName.Contains("Telefon"))
+                            {
+                                <i class="fa-solid fa-mobile-alt"></i>
+                            }
+                            else if (cat.CategoryName.Contains("Bilgisayar"))
+                            {
+                                <i class="fa-solid fa-laptop"></i>
+                            }
+                            else if (cat.CategoryName.Contains("Tablet"))
+                            {
+                                <i class="fa-solid fa-tablet-alt"></i>
+                            }
+                            else if (cat.CategoryName.Contains("Kamera"))
+                            {
+                                <i class="fa-solid fa-camera"></i>
+                            }
+                            else if (cat.CategoryName.Contains("TV"))
+                            {
+                                <i class="fa-solid fa-tv"></i>
+                            }
+                            else
+                            {
+                                <i class="fa-solid fa-box"></i>
+                            }
+                        </div>
+                        <span class="category-name">@cat.CategoryName</span>
+                        @* İstenirse kategori sayacı eklenebilir *@
+                        @* <span class="category-badge">12</span> *@
+                    </a>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

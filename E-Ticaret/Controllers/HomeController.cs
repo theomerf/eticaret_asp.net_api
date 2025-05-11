@@ -5,6 +5,12 @@ namespace ETicaret.Controllers{
         public IActionResult Index(){
             ViewData["Title"] = "Welcome";
             return View();
-        } 
+        }
+
+        [HttpGet]
+        public IActionResult PartialNavbar()
+        {
+            return PartialView("_Navbar");
+        }
     }
 }

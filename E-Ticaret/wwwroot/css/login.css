@@ -1,0 +1,83 @@
+﻿.login-card-hover {
+    transition: box-shadow 0.3s ease;
+}
+
+    .login-card-hover:hover {
+        box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    }
+
+.login-card-header {
+    padding: 0;
+    border: 1px solid black;
+}
+
+.nav-btn {
+    flex: 1;
+    background-color: white;
+    border: none;
+    padding: 12px 0;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    color: black;
+}
+
+    .nav-btn.active {
+        background: linear-gradient(45deg, #6a11cb, #2575fc);
+        color: #fff;
+    }
+
+    .nav-btn:not(:last-child) {
+        border-right: 1px solid black;
+    }
+
+.tab-content {
+    border: 1px solid black;
+    border-top: none;
+}
+
+.login-submit-btn {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    border-color: black;
+    color: #fff;
+}
+
+.social-row .social-btn {
+    height: 45px;
+    font-size: 0.9rem;
+    border: none;
+    transition: 0.3s;
+}
+
+.social-btn:hover {
+    opacity: 0.8;
+}
+
+.facebook-btn {
+    background-color: #3b5998;
+    color: #fff;
+}
+
+.google-btn {
+    background-color: #db4437;
+    color: #fff;
+}
+
+.login-submit-btn:hover {
+    background-color: #0b5ed7 !important;
+    border-color: #0a58ca !important;
+    color: white !important;
+}
+
+.facebook-btn:hover {
+    background-color: #2d4373 !important;
+    color: white !important;
+}
+
+.google-btn:hover {
+    background-color: #c1351d !important;
+    color: white !important;
+}
+
+.auth-container {
+    max-width: 400px;
+}

@@ -1,0 +1,36 @@
+﻿.dashboard-card {
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+    .dashboard-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
+    }
+
+        .dashboard-card:hover .dashboard-card-header {
+            background-size: 150% !important;
+        }
+
+.dashboard-card-header {
+    transition: all 0.5s ease;
+    background-size: 100%;
+    background-position: center;
+}
+
+.dashboard-card:hover .fs-1 i {
+    transform: scale(1.2);
+    transition: transform 0.3s ease;
+}
+
+.activity-item {
+    transition: background-color 0.3s ease;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+    .activity-item:hover {
+        background-color: #f8f9fa;
+        cursor: pointer;
+    }
+

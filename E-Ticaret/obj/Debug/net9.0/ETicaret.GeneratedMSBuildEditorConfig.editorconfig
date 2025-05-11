@@ -172,6 +172,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQ2FydFN1bW1hcnlcRGVmYXVsdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/omerf/OneDrive/Masaüstü/Kodlama/.net/asp/E-Ticaret/eticaret_asp.net/E-Ticaret/Views/Shared/Components/CategoriesFilter/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQ2F0ZWdvcmllc0ZpbHRlclxEZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/omerf/OneDrive/Masaüstü/Kodlama/.net/asp/E-Ticaret/eticaret_asp.net/E-Ticaret/Views/Shared/Components/CategoriesMenu/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQ2F0ZWdvcmllc01lbnVcRGVmYXVsdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -208,20 +212,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcU2hvd2Nhc2VcTGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/omerf/OneDrive/Masaüstü/Kodlama/.net/asp/E-Ticaret/eticaret_asp.net/E-Ticaret/Views/Shared/_CategoriesMenu.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9DYXRlZ29yaWVzTWVudS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/omerf/OneDrive/Masaüstü/Kodlama/.net/asp/E-Ticaret/eticaret_asp.net/E-Ticaret/Views/Shared/_CategoriesNavbar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9DYXRlZ29yaWVzTmF2YmFyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/omerf/OneDrive/Masaüstü/Kodlama/.net/asp/E-Ticaret/eticaret_asp.net/E-Ticaret/Views/Shared/_Footer.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Gb290ZXIuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/omerf/OneDrive/Masaüstü/Kodlama/.net/asp/E-Ticaret/eticaret_asp.net/E-Ticaret/Views/Shared/_LoginMenu.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpbk1lbnUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/omerf/OneDrive/Masaüstü/Kodlama/.net/asp/E-Ticaret/eticaret_asp.net/E-Ticaret/Views/Shared/_Navbar.cshtml]

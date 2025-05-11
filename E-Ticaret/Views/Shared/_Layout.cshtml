@@ -7,10 +7,22 @@
     <title>E-Commerce - @ViewData["Title"]</title>
     <link rel="stylesheet" asp-append-version="true" href="~/lib/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" asp-append-version="true" href="~/css/site.css">
+    <link rel="stylesheet" asp-append-version="true" href="~/css/navbar-main.css" />
+    <link rel="stylesheet" asp-append-version="true" href="~/css/filters.css" />
+    <link rel="stylesheet" asp-append-version="true" href="~/css/product-card.css" />
+    <link rel="stylesheet" asp-append-version="true" href="~/css/profile.css" />
+    <link rel="stylesheet" asp-append-version="true" href="~/css/login.css" />
+    <link rel="stylesheet" asp-append-version="true" href="~/css/favourites.css" />
+    <link rel="stylesheet" asp-append-version="true" href="~/css/cart.css" />
+    <link rel="stylesheet" asp-append-version="true" href="~/css/index.css" />
+    <link rel="stylesheet" asp-append-version="true" href="~/css/checkout.css" />
+    <link rel="stylesheet" asp-append-version="true" href="~/css/order-complete.css" />
     <link rel="stylesheet" asp-append-version="true" href="~/lib/font-awesome/css/all.css">
+    <link asp-append-version="true" href="https://cdn.jsdelivr.net/npm/nouislider@15.7.0/dist/nouislider.min.css" rel="stylesheet">
     <link rel="stylesheet" asp-append-version="true" href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css'/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.css">
     <script asp-append-version="true" src="~/lib/jquery/jquery.min.js"></script>
+    <script asp-append-version="true" src="https://cdn.jsdelivr.net/npm/nouislider@15.7.0/dist/nouislider.min.js"></script>
     <script asp-append-version="true" src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script asp-append-version="true" src="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
@@ -54,3 +66,6 @@
 </body>
 
 </html>
+<script>
+    window.isUserAuthenticated = @(User.Identity.IsAuthenticated.ToString().ToLower());
+</script>

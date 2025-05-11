@@ -8,6 +8,7 @@ using Entities.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.IdentityModel.Tokens;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ETicaret.Controllers
 {
@@ -40,6 +41,8 @@ namespace ETicaret.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login([FromForm] UserModel model)
         {
+            // AJAX isteği olup olmadığını kontrol eden yardımcı metot
+            bool isAjaxRequest = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByNameAsync(model.Login.Name);
@@ -59,10 +62,10 @@ namespace ETicaret.Controllers
 
                         // Kullanıcı adı ve rollerini cookie'ye claims olarak ekle
                         var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.NameIdentifier, user.Id)
-                };
+                        {
+                            new Claim(ClaimTypes.Name, user.UserName),
+                            new Claim(ClaimTypes.NameIdentifier, user.Id)
+                        };
 
                         // Kullanıcı rollerini claim olarak ekle
                         var roles = await _userManager.GetRolesAsync(user);
@@ -76,24 +79,20 @@ namespace ETicaret.Controllers
                         {
                             // ICollection<int> koleksiyonunu virgülle ayrılmış bir string'e dönüştür
                             var favouriteProductIdsString = string.Join("|", user.FavouriteProductsId);
-
-
                             // SameSite=Lax ve güvenlik ayarlarıyla cookie'yi kaydet
                             Response.Cookies.Append("FavouriteProducts", favouriteProductIdsString, new CookieOptions
                             {
                                 Expires = DateTime.Now.AddMonths(1),
                                 IsEssential = true,
                                 Path = "/",            // Tüm site genelinde erişilebilir
-                                SameSite = SameSiteMode.Lax, 
+                                SameSite = SameSiteMode.Lax,
                                 HttpOnly = false
                             });
                         }
                         else
                         {
-
                             // Varolan cookie'yi temizle
                             Response.Cookies.Delete("FavouriteProducts");
-
                             // Boş bir cookie oluştur
                             Response.Cookies.Append("FavouriteProducts", "", new CookieOptions
                             {
@@ -112,11 +111,73 @@ namespace ETicaret.Controllers
                             new ClaimsPrincipal(claimsIdentity)
                         );
 
+                        // AJAX isteği ise JSON yanıtı döndür
+                        if (isAjaxRequest)
+                        {
+                            return Json(new
+                            {
+                                success = true,
+                                redirectUrl = model.Login.ReturnUrl ?? "/",
+                                message = "Giriş başarılı!"
+                            });
+                        }
+
+                        // Normal istek ise yönlendirme yap
                         return Redirect(model.Login.ReturnUrl ?? "/");
                     }
+                    else
+                    {
+                        // Giriş başarısız olduğunda
+                        if (isAjaxRequest)
+                        {
+                            return Json(new
+                            {
+                                success = false,
+                                message = "Kullanıcı adı veya şifre hatalı."
+                            });
+                        }
+
+                        ModelState.AddModelError("Login.Name", "Kullanıcı adı veya şifre hatalı.");
+                    }
                 }
-                ModelState.AddModelError("Error", "Kullanıcı adı veya şifre hatalı.");
+                else
+                {
+                    // Kullanıcı bulunamadığında
+                    if (isAjaxRequest)
+                    {
+                        return Json(new
+                        {
+                            success = false,
+                            message = "Kullanıcı adı veya şifre hatalı."
+                        });
+                    }
+
+                    ModelState.AddModelError("Login.Name", "Kullanıcı adı veya şifre hatalı.");
+                }
             }
+            else
+            {
+                // Model doğrulama hatası olduğunda
+                if (isAjaxRequest)
+                {
+                    var errors = ModelState
+                        .Where(x => x.Value.Errors.Count > 0)
+                        .Select(x => new {
+                            Key = x.Key,
+                            Errors = x.Value.Errors.Select(e => e.ErrorMessage).ToList()
+                        })
+                        .ToList();
+
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Form doğrulama hatası.",
+                        errors = errors
+                    });
+                }
+            }
+
+            // AJAX isteği değilse ve başarısızsa - normal akışa devam et
             model.Login.ReturnUrl = model.Login.ReturnUrl ?? "/";
             return View(model);
         }
@@ -125,6 +186,20 @@ namespace ETicaret.Controllers
         public async Task<IActionResult> Logout([FromQuery(Name = "ReturnUrl")] string ReturnUrl = "/")
         {
             await _signInManager.SignOutAsync();
+
+            // AJAX isteği olup olmadığını kontrol eden yardımcı metot
+            bool isAjaxRequest = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+
+            if (isAjaxRequest)
+            {
+                return Json(new
+                {
+                    success = true,
+                    redirectUrl = ReturnUrl,
+                    message = "Başarıyla çıkış yapıldı."
+                });
+            }
+
             return Redirect(ReturnUrl);
         }
 
@@ -132,6 +207,7 @@ namespace ETicaret.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register([FromForm] UserModel model)
         {
+            bool isAjaxRequest = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
 
             var user = new Account
             {
@@ -149,6 +225,15 @@ namespace ETicaret.Controllers
                 var roleResult = await _userManager.AddToRoleAsync(user, "User");
                 if (roleResult.Succeeded)
                 {
+                    if (isAjaxRequest)
+                    {
+                        return Json(new
+                        {
+                            success = true,
+                            message = "Başarıyla kayıt oldunuz, giriş yapın."
+                        });
+                    }
+
                     TempData["visible"] = "false";
                     TempData["success"] = "Başarıyla kayıt oldunuz, giriş yapın.";
                     return RedirectToAction("Login");
@@ -156,11 +241,47 @@ namespace ETicaret.Controllers
             }
             else
             {
+                if (isAjaxRequest)
+                {
+                    var errors = result.Errors
+                        .Select(e => new {
+                            Key = "Register.UserName",
+                            Errors = new List<string> { e.Description }
+                        })
+                        .ToList();
+
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Kayıt işlemi başarısız.",
+                        errors = errors
+                    });
+                }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
+
+            if (isAjaxRequest)
+            {
+                var modelErrors = ModelState
+                    .Where(x => x.Value.Errors.Count > 0)
+                    .Select(x => new {
+                        Key = x.Key,
+                        Errors = x.Value.Errors.Select(e => e.ErrorMessage).ToList()
+                    })
+                    .ToList();
+
+                return Json(new
+                {
+                    success = false,
+                    message = "Form doğrulama hatası.",
+                    errors = modelErrors
+                });
+            }
+
             model.isRegister = true;
             return View("Login", model);
         }
@@ -171,6 +292,7 @@ namespace ETicaret.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Profile()
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -428,6 +550,7 @@ namespace ETicaret.Controllers
             return View(favouriteProducts);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddToFavourites(int id)
         {

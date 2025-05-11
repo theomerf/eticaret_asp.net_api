@@ -1,0 +1,97 @@
+﻿.favorites-container {
+    min-height: 400px;
+}
+
+.favorites-title {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.favorites-subtitle {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.favorites-empty {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 2rem;
+}
+
+    .favorites-empty i {
+        color: #ccc;
+    }
+
+    .favorites-empty h4 {
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+
+    .favorites-empty p {
+        color: #666;
+        margin-bottom: 1.5rem;
+    }
+
+.favorites-shop-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+    .favorites-shop-btn:hover {
+        background-color: #218838;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+.favorites-products-wrapper {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.05);
+}
+
+/* Animasyon için ek stiller */
+.product-wrapper {
+    transition: all 0.5s ease;
+}
+
+.animate__fadeOut {
+    animation-duration: 0.5s !important;
+}
+
+/* Favori butonları için hover efekti */
+.favorite-btn {
+    transition: all 0.2s ease;
+}
+
+    .favorite-btn:hover {
+        transform: scale(1.1);
+    }
+
+    .favorite-btn i.fas {
+        color: #dc3545; /* Kalp dolu olunca kırmızı olsun */
+    }
+
+    .favorite-btn i.far:hover {
+        color: #dc3545; /* Kalp boş olunca hover'da kırmızı olsun */
+    }
+
+/* Responsive Adjustments */
+@media (max-width: 767.98px) {
+    .favorites-title {
+        font-size: 1.8rem;
+    }
+
+    .favorites-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .favorites-products-wrapper {
+        padding: 0.5rem;
+    }
+}
