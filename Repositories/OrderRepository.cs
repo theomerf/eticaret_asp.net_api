@@ -6,51 +6,50 @@ using Repositories.Extensions;
 
 namespace Repositories
 {
-    public class OrderRepository : RepositoryBase<Order>, IOrderRepository
+    public sealed class OrderRepository : RepositoryBase<Order>, IOrderRepository
     {
         public OrderRepository(RepositoryContext context) : base(context)
         {
 
         }
 
-        public IQueryable<Order> Orders => _context.Orders
-        .Include(o => o.Lines)
-        .OrderBy(o => o.Shipped)
-        .ThenByDescending(o => o.Shipped);
+        public async Task<IEnumerable<Order>> GetAllOrdersAsync() => await FindAll(false)
+            .Include(o => o.Lines)
+            .OrderByDescending(o => o.Shipped)
+            .ToListAsync();
 
-        public int NumberOfInProcess => _context.Orders.Count(o => o.Shipped.Equals(false));
+        public async Task<int> GetNumberOfInProcessAsync() => await FindAllByCondition(o => o.Shipped.Equals(false), false).CountAsync();
 
-        public void Complete(int id)
+        public async Task CompleteAsync(int id)
         {
-            var order = FindByCondition(O => O.OrderId.Equals(id), true);
-            if(order is null)
+            var order = await FindByCondition(O => O.OrderId.Equals(id), true).SingleOrDefaultAsync();
+            if (order is null)
             {
                 throw new Exception("Order could not found");
             }
             order.Shipped = true;
         }
 
-        public Order? GetOneOrder(int id)
+        public async Task<Order?> GetOneOrderAsync(int id)
         {
-            return FindByCondition(o => o.OrderId.Equals(id), false);
+            return await FindByCondition(o => o.OrderId.Equals(id), false).SingleOrDefaultAsync();
         }
 
-        public IQueryable<Order> GetUserOrders(string userName)
+        public async Task<IEnumerable<Order>> GetUserOrdersAsync(string? userName)
         {
-            return _context
-                .Orders
-                .Where(o => o.UserName == userName)
-                .Include(mc => mc.Lines);
+            return await FindAllByCondition(o => o.UserName == userName, false)
+                .Include(mc => mc.Lines)
+                .ToListAsync();
         }
 
-        public void SaveOrder(Order order)
+        public async Task SaveOrderAsync(Order order)
         {
             _context.AttachRange(order.Lines.Select(l => l));
-            if(order.OrderId == 0)
+            if (order.OrderId == 0)
             {
-                _context.Orders.Add(order);
+                await _context.Orders.AddAsync(order);
             }
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

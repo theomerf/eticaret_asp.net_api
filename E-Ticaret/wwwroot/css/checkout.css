@@ -7,11 +7,6 @@
     --input-border: #dee2e6;
 }
 
-body {
-    background-color: #f5f7ff;
-    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-}
-
 .checkout-container {
     padding: 3rem 1rem;
 }

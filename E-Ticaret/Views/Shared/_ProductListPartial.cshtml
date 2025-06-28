@@ -1,0 +1,299 @@
+﻿@model ProductListViewModel
+
+<!-- Modern Header Section -->
+<div class="productlist-header">
+    <div class="productlist-header-content">
+        <div class="productlist-results-info">
+            <div class="productlist-results-icon">
+                <i class="fa-solid fa-list"></i>
+            </div>
+            <div class="productlist-results-text">
+                <h5 class="productlist-results-title">Ürün Kataloğu</h5>
+                <p class="productlist-results-count">
+                    <span class="productlist-count-number">@Model.Pagination?.TotalItems</span>ürün bulundu
+                </p>
+            </div>
+        </div>
+        <div class="productlist-sort-container">
+            <div class="productlist-sort-wrapper">
+                <label class="productlist-sort-label">
+                    <i class="fa-solid fa-sort me-2"></i>Sırala
+                </label>    
+                <select class="productlist-sort-select" id="sortOptions">
+                    <option value="default">Varsayılan</option>
+                    <option value="priceLow">Fiyat: Düşükten Yükseğe</option>
+                    <option value="priceHigh">Fiyat: Yüksekten Düşüğe</option>
+                    <option value="newest">En Yeniler</option>
+                </select>
+                <div class="productlist-sort-arrow">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Active Filters Section -->
+@if (!string.IsNullOrEmpty(Context.Request.Query["SearchTerm"]) ||
+!string.IsNullOrEmpty(Context.Request.Query["MinPrice"]) ||
+!string.IsNullOrEmpty(Context.Request.Query["MaxPrice"]) ||
+!string.IsNullOrEmpty(Context.Request.Query["Brand"]) ||
+Context.Request.Query["IsShowCase"] == "true" ||
+Context.Request.Query["IsDiscount"] == "true")
+{
+    <div class="productlist-filters-section">
+        <div class="productlist-filters-header">
+            <div class="productlist-filters-title">
+                <i class="fa-solid fa-filter me-2"></i>
+                <span>Aktif Filtreler</span>
+            </div>
+            <a href="@Url.Action("Index")" class="productlist-clear-all">
+                <i class="fa-solid fa-xmark me-1"></i>
+                Tümünü Temizle
+            </a>
+        </div>
+        <div class="productlist-filters-container">
+            @if (!string.IsNullOrEmpty(Context.Request.Query["SearchTerm"]))
+            {
+                <div class="productlist-filter-tag productlist-filter-search">
+                    <span class="productlist-filter-icon">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                    <span class="productlist-filter-text">@Context.Request.Query["SearchTerm"]</span>
+                    <a href="@Url.Action("Index", new {
+                        MainCategoryId = Context.Request.Query["MainCategoryId"],
+                        SubCategoryId = Context.Request.Query["SubCategoryId"],
+                        MinPrice = Context.Request.Query["MinPrice"],
+                        MaxPrice = Context.Request.Query["MaxPrice"],
+                        Brand = Context.Request.Query["Brand"],
+                        IsShowCase = Context.Request.Query["IsShowCase"],
+                        IsDiscount = Context.Request.Query["IsDiscount"]
+                    })" class="productlist-filter-remove">
+                        <i class="fa-solid fa-xmark"></i>
+                    </a>
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(Context.Request.Query["MinPrice"]) || !string.IsNullOrEmpty(Context.Request.Query["MaxPrice"]))
+            {
+                <div class="productlist-filter-tag productlist-filter-price">
+                    <span class="productlist-filter-icon">
+                        <i class="fa-solid fa-turkish-lira-sign"></i>
+                    </span>
+                    <span class="productlist-filter-text">
+                        @(string.IsNullOrEmpty(Context.Request.Query["MinPrice"]) ? "0" : Context.Request.Query["MinPrice"]) - 
+                        @(string.IsNullOrEmpty(Context.Request.Query["MaxPrice"]) ? "Max" : Context.Request.Query["MaxPrice"]) TL
+                    </span>
+                    <a href="@Url.Action("Index", new {
+                        categoryId = Context.Request.Query["categoryId"],
+                        SearchTerm = Context.Request.Query["SearchTerm"],
+                        Brand = Context.Request.Query["Brand"],
+                        IsShowCase = Context.Request.Query["IsShowCase"],
+                        IsDiscount = Context.Request.Query["IsDiscount"]
+                    })" class="productlist-filter-remove">
+                        <i class="fa-solid fa-xmark"></i>
+                    </a>
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(Context.Request.Query["Brand"]))
+            {
+                <div class="productlist-filter-tag productlist-filter-brand">
+                    <span class="productlist-filter-icon">
+                        <i class="fa-solid fa-tag"></i>
+                    </span>
+                    <span class="productlist-filter-text">@Context.Request.Query["Brand"]</span>
+                    <a href="@Url.Action("Index", new {
+                        categoryId = Context.Request.Query["categoryId"],
+                        SearchTerm = Context.Request.Query["SearchTerm"],
+                        MinPrice = Context.Request.Query["MinPrice"],
+                        MaxPrice = Context.Request.Query["MaxPrice"],
+                        IsShowCase = Context.Request.Query["IsShowCase"],
+                        IsDiscount = Context.Request.Query["IsDiscount"]
+                    })" class="productlist-filter-remove">
+                        <i class="fa-solid fa-xmark"></i>
+                    </a>
+                </div>
+            }
+            @if (Context.Request.Query["IsShowCase"] == "true")
+            {
+                <div class="productlist-filter-tag productlist-filter-showcase">
+                    <span class="productlist-filter-icon">
+                        <i class="fa-solid fa-fire"></i>
+                    </span>
+                    <span class="productlist-filter-text">En Çok Satanlar</span>
+                    <a href="@Url.Action("Index", new {
+                        categoryId = Context.Request.Query["categoryId"],
+                        SearchTerm = Context.Request.Query["SearchTerm"],
+                        MinPrice = Context.Request.Query["MinPrice"],
+                        MaxPrice = Context.Request.Query["MaxPrice"],
+                        Brand = Context.Request.Query["Brand"],
+                        IsDiscount = Context.Request.Query["IsDiscount"]
+                    })" class="productlist-filter-remove">
+                        <i class="fa-solid fa-xmark"></i>
+                    </a>
+                </div>
+            }
+            @if (Context.Request.Query["IsDiscount"] == "true")
+            {
+                <div class="productlist-filter-tag productlist-filter-discount">
+                    <span class="productlist-filter-icon">
+                        <i class="fa-solid fa-percent"></i>
+                    </span>
+                    <span class="productlist-filter-text">İndirimli Ürünler</span>
+                    <a href="@Url.Action("Index", new {
+                        categoryId = Context.Request.Query["categoryId"],
+                        SearchTerm = Context.Request.Query["SearchTerm"],
+                        MinPrice = Context.Request.Query["MinPrice"],
+                        MaxPrice = Context.Request.Query["MaxPrice"],
+                        Brand = Context.Request.Query["Brand"],
+                        IsShowCase = Context.Request.Query["IsShowCase"],
+                    })" class="productlist-filter-remove">
+                        <i class="fa-solid fa-xmark"></i>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+<!-- Products Grid -->
+<div class="row g-3">
+    @foreach (ProductWithRatingDto prd in Model.Products ?? new List<ProductWithRatingDto>())
+    {
+        <partial name="_ProductCard" model="@prd" />
+    }
+</div>
+
+<!-- No Results Message -->
+@if (Model.TotalCount == 0)
+{
+    <div class="productlist-no-results">
+        <div class="productlist-no-results-icon">
+            <i class="fa-solid fa-search"></i>
+        </div>
+        <h4 class="productlist-no-results-title">Ürün Bulunamadı</h4>
+        <p class="productlist-no-results-text">Arama kriterlerinize uygun ürün bulunamadı.</p>
+        <a href="@Url.Action("Index")" class="productlist-no-results-button">
+            <i class="fa-solid fa-grid-2 me-2"></i>
+            Tüm Ürünleri Göster
+        </a>
+    </div>
+}
+
+@{
+    var query = Context.Request.Query;
+    var pageSize = query["PageSize"].ToString();
+    var otherQuery = new Dictionary<string, string>();
+    foreach (var key in query.Keys)
+    {
+        if (key != "PageNumber" && key != "PageSize")
+        {
+            otherQuery[key] = query[key]!;
+        }
+    }
+    string BuildPageUrl(int pageNumber)
+    {
+        var queryParams = new List<string>();
+        foreach (var kv in otherQuery)
+        {
+            queryParams.Add($"{kv.Key}={kv.Value}");
+        }
+        if (!string.IsNullOrEmpty(pageSize))
+        {
+            queryParams.Add($"PageSize={pageSize}");
+        }
+        queryParams.Add($"PageNumber={pageNumber}");
+        return Url.Action("Index") + "?" + string.Join("&", queryParams);
+    }
+    var pagination = Model?.Pagination ?? new Pagination();
+}
+
+<!-- Pagination Section -->
+<div class="productlist-pagination-wrapper">
+    @if (pagination.TotalPages > 1)
+    {
+        <div class="productlist-pagination">
+            @if (pagination.CurrentPage > 1)
+            {
+                <a href="@BuildPageUrl(1)" class="ajax-link productlist-page-btn productlist-page-first">
+                    <i class="fa-solid fa-angles-left"></i>
+                </a>
+                <a href="@BuildPageUrl(pagination.CurrentPage - 1)" class="ajax-link productlist-page-btn productlist-page-prev">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </a>
+            }
+            
+            @{
+                int startPage = Math.Max(1, pagination.CurrentPage - 2);
+                int endPage = Math.Min(pagination.TotalPages, pagination.CurrentPage + 2);
+            }
+            
+            @if (startPage > 1)
+            {
+                <a href="@BuildPageUrl(1)" class="ajax-link productlist-page-btn">1</a>
+                @if (startPage > 2)
+                {
+                    <span class="productlist-page-dots">...</span>
+                }
+            }
+            
+            @for (int i = startPage; i <= endPage; i++)
+            {
+                var isActive = i == pagination.CurrentPage;
+                <a href="@BuildPageUrl(i)" 
+                   class="ajax-link productlist-page-btn @(isActive ? "productlist-page-active" : "")">
+                    @i
+                </a>
+            }
+            
+            @if (endPage < pagination.TotalPages)
+            {
+                @if (endPage < pagination.TotalPages - 1)
+                {
+                    <span class="productlist-page-dots">...</span>
+                }
+                <a href="@BuildPageUrl(pagination.TotalPages)" class="ajax-link productlist-page-btn">@pagination.TotalPages</a>
+            }
+            
+            @if (pagination.CurrentPage < pagination.TotalPages)
+            {
+                <a href="@BuildPageUrl(pagination.CurrentPage + 1)" class="ajax-link productlist-page-btn productlist-page-next">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </a>
+                <a href="@BuildPageUrl(pagination.TotalPages)" class="ajax-link productlist-page-btn productlist-page-last">
+                    <i class="fa-solid fa-angles-right"></i>
+                </a>
+            }
+        </div>
+    }
+    
+    @if(pagination.TotalItems > 6)
+    {
+        <div class="productlist-pagesize-container">
+            <form method="get" asp-action="Index" class="productlist-pagesize-form">
+                <div class="productlist-pagesize-wrapper">
+                    <label for="PageSize" class="productlist-pagesize-label">
+                        <i class="fa-solid fa-list me-2"></i>Sayfa başına
+                    </label>
+                    <select name="PageSize" id="PageSize" class="productlist-pagesize-select" onchange="this.form.submit()">
+                        <option value="6" selected="@(Context.Request.Query["PageSize"] == "6" ? "selected" : null)">6</option>
+                        <option value="12" selected="@(Context.Request.Query["PageSize"] == "12" ? "selected" : null)">12</option>
+                        @if (pagination.TotalItems > 12)
+                        {
+                            <option value="24" selected="@(Context.Request.Query["PageSize"] == "24" ? "selected" : null)">24</option>                    
+                        }
+                    </select>
+                    <div class="productlist-pagesize-arrow">
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                </div>
+                @foreach (var key in Context.Request.Query.Keys)
+                {
+                    if (key != "PageSize")
+                    {
+                        <input type="hidden" name="@key" value="@Context.Request.Query[key]" />
+                    }
+                }
+            </form>
+        </div>
+    }
+</div>

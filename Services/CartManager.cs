@@ -22,18 +22,18 @@ namespace Services
             _mapper = mapper;
         }
 
-        public void AddOrUpdateCart(CartDto cartDto, string userId)
+        public async Task AddOrUpdateCartAsync(CartDto cartDto, string? userId)
         {
-            if (!cartDto.Lines.Any())
+            if (!cartDto.Lines.Any() && userId != null)
             {
-                var existingCart = _manager.Cart.GetCartByUserId(userId);
+                var existingCart = await _manager.Cart.GetCartByUserIdAsync(userId);
                 if (existingCart == null || !existingCart.Lines.Any())
                 {
                     return;
                 }
             }
 
-            var cartDb = _manager.Cart.GetCartByUserId(userId);
+            var cartDb = await  _manager.Cart.GetCartByUserIdAsync(userId);
             Cart cart = _mapper.Map<Cart>(cartDto);
             bool dbUpdate = false;
 
@@ -95,7 +95,7 @@ namespace Services
                 if (dbUpdate)
                 {
                     _manager.Cart.UpdateCart(cartDb);
-                    _manager.Save();
+                    await _manager.SaveAsync();
                 }
             }
         }

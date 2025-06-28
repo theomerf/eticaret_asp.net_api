@@ -18,13 +18,13 @@
     <link rel="stylesheet" asp-append-version="true" href="~/css/checkout.css" />
     <link rel="stylesheet" asp-append-version="true" href="~/css/order-complete.css" />
     <link rel="stylesheet" asp-append-version="true" href="~/lib/font-awesome/css/all.css">
-    <link asp-append-version="true" href="https://cdn.jsdelivr.net/npm/nouislider@15.7.0/dist/nouislider.min.css" rel="stylesheet">
-    <link rel="stylesheet" asp-append-version="true" href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css'/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.css">
+    <link rel="stylesheet" asp-append-version="true" href="~/css/product-detail.css"/>
+    <link rel="stylesheet" asp-append-version="true" href="~/css/product-list.css" />
+    <link rel="stylesheet" asp-append-version="true" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" asp-append-version="true" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.css">
+    <script asp-append-version="true" src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
     <script asp-append-version="true" src="~/lib/jquery/jquery.min.js"></script>
-    <script asp-append-version="true" src="https://cdn.jsdelivr.net/npm/nouislider@15.7.0/dist/nouislider.min.js"></script>
     <script asp-append-version="true" src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script asp-append-version="true" src="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </head>
 
@@ -42,7 +42,7 @@
         </div>
 
 
-        <main role="main" class="pb-3" id="main-content">
+        <main role="main" class="my-4" id="main-content">
             @RenderBody()
         </main>
     </div>

@@ -32,7 +32,7 @@ namespace ETicaret.Models
                 Lines = cart.Lines.Select(l => new CartLineDto
                 {
                     ProductId = l.ProductId,
-                    ProductName = l.ProductName,
+                    ProductName = l.ProductName ?? "",
                     ImageUrl = l.ImageUrl,
                     ActualPrice = l.ActualPrice,
                     DiscountPrice = l.DiscountPrice,
@@ -44,7 +44,7 @@ namespace ETicaret.Models
         }
 
 
-        public override void AddItem(Product product, int quantity)
+        public override void AddItem(ProductDto product, int quantity)
         {
             base.AddItem(product, quantity);
             Session?.SetJson<SessionCart>("cart", this);

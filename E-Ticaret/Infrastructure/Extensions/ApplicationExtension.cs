@@ -61,7 +61,7 @@ namespace ETicaret.Infrastructure.Extensions
                 .ServiceProvider
                 .GetRequiredService<RoleManager<IdentityRole>>();
 
-            Account user = await userManager.FindByNameAsync(adminUser);
+            Account? user = await userManager.FindByNameAsync(adminUser);
             if (user == null)
             {
                 user = new Account()
@@ -83,7 +83,7 @@ namespace ETicaret.Infrastructure.Extensions
                 var roleResult = await userManager.AddToRolesAsync(user,
                     roleManager
                     .Roles
-                    .Select(r => r.Name)
+                    .Select(r => r.Name!)
                     .ToList()
                 );
 

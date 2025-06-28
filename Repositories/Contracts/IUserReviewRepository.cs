@@ -4,13 +4,14 @@ namespace Repositories.Contracts
 {
     public interface IUserReviewRepository : IRepositoryBase<UserReview>
     {
-        IQueryable<UserReview> GetAllUserReviews(bool trackChanges);
-        IQueryable<UserReview> GetAllUserReviewsOfOneProduct(int id, bool trackChanges);
-        IQueryable<UserReview> GetAllUserReviewsOfOneUser(string id, bool trackChanges);
-        UserReview? GetOneUserReview(int id, bool trackChanges);
+        Task<IEnumerable<UserReview>> GetAllUserReviewsAsync(bool trackChanges);
+        Task<int> CountAsync(bool trackChanges);
+        Task<IEnumerable<UserReview>> GetAllUserReviewsOfOneProductAsync(int id, bool trackChanges);
+        Task<IEnumerable<UserReview>> GetAllUserReviewsOfOneUserAsync(string id, bool trackChanges);
+        Task<UserReview?> GetOneUserReviewAsync(int id, bool trackChanges);
         void CreateUserReview(UserReview userReview);
         void DeleteOneUserReview(UserReview userReview);
         void UpdateOneUserReview(UserReview entity);
-        IQueryable<int> GetAllRatingsForProduct(int id, bool trackChanges);
+        Task<IEnumerable<int>> GetAllRatingsForProductAsync(int id, bool trackChanges);
     }
 }

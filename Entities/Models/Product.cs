@@ -12,7 +12,7 @@
         public decimal? DiscountPrice { get; set; } = 0;
         public decimal ActualPrice { get; set; }
         public String? Summary { get; set; } = String.Empty;
-        public int Rating { get; set; } = 0;
+        public double AverageRating { get; set; } = 0;
         public int Discount => DiscountPrice.HasValue && DiscountPrice.Value > 0
            ? (int)((1 - (DiscountPrice.Value / ActualPrice)) * 100)
            : 0;

@@ -1,11 +1,11 @@
-﻿@model double
+﻿@model double?
 
 @{
-    var averageRating = Model > 0 ? Model : 0;
+    var averageRating = Model != null ? Model : 0;
 }
 @for (int i = 1; i <= 5; i++)
 {
-    if (i <= Math.Floor(averageRating))
+    if (i <= Math.Floor(averageRating ?? 0))
     {
         <i class="fas fa-star"></i>
     }

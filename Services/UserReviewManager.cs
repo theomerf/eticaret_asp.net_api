@@ -17,57 +17,99 @@ namespace Services
             _mapper = mapper;
         }
 
-        public void CreateUserReview(UserReviewDtoForInsertion userReviewDto)
+        public async Task CreateUserReviewAsync(UserReviewDtoForInsertion userReviewDto)
         {
             UserReview userReview = _mapper.Map<UserReview>(userReviewDto);
+            var ratings = await GetAllRatingsForProductAsync(userReview.ProductId, false);
+            var product = await _manager.Product.GetOneProductAsync(userReview.ProductId, false);
+            var ratingsList = ratings?.ToList();
+            if (ratingsList != null && product != null)
+            {
+                ratingsList.Add(userReview.Rating);
+                product.AverageRating = ratingsList.Average();
+                _manager.Product.UpdateOneProduct(product);
+            }
+
             _manager.UserReview.CreateUserReview(userReview);
-            _manager.Save();
+            await _manager.SaveAsync();
         }
 
-        public void DeleteOneUserReview(int id)
+        public async Task DeleteOneUserReviewAsync(int id)
         {
-            var userReview = GetOneUserReview(id, false);
+            var userReview = await GetOneUserReviewAsync(id, false);
             if (userReview != null)
             {
-                _manager.UserReview.DeleteOneUserReview(userReview);
-                _manager.Save();
+                var ratings = await GetAllRatingsForProductAsync(userReview.ProductId, false);
+                var product = await _manager.Product.GetOneProductAsync(userReview.ProductId, false);
+                var ratingsList = ratings?.ToList();
+                if (ratingsList != null && product != null)
+                {
+                    ratingsList.Remove(userReview.Rating);
+                    product.AverageRating = ratingsList.Average();
+                    _manager.Product.UpdateOneProduct(product);
+                }
+                _manager.UserReview.DeleteOneUserReview(_mapper.Map<UserReview>(userReview));
+                await _manager.SaveAsync();
             }
         }
 
-        public IEnumerable<UserReview> GetAllUserReviews(bool trackChanges)
+        public async Task<IEnumerable<UserReviewDto>> GetAllUserReviewsAsync(bool trackChanges)
         {
-            return _manager.UserReview.GetAllUserReviews(trackChanges);
+            var reviews = await _manager.UserReview.GetAllUserReviewsAsync(trackChanges);
+            return _mapper.Map<IEnumerable<UserReviewDto>>(reviews);
         }
 
-        public IEnumerable<UserReview> GetAllUserReviewsOfOneProduct(int id, bool trackChanges)
+        public async Task<IEnumerable<UserReviewDto>> GetAllUserReviewsOfOneProductAsync(int id, bool trackChanges)
         {
-            return _manager.UserReview.GetAllUserReviewsOfOneProduct(id, trackChanges);
+            var reviews = await _manager.UserReview.GetAllUserReviewsOfOneProductAsync(id, trackChanges);
+            return _mapper.Map<IEnumerable<UserReviewDto>>(reviews);
         }
 
-        public IEnumerable<UserReview> GetAllUserReviewsOfOneUser(string id, bool trackChanges)
+        public async Task<IEnumerable<UserReviewDto>> GetAllUserReviewsOfOneUserAsync(string? id, bool trackChanges)
         {
-            return _manager.UserReview.GetAllUserReviewsOfOneUser(id, trackChanges);
+            if(id != null)
+            {
+                var reviews = await _manager.UserReview.GetAllUserReviewsOfOneUserAsync(id, trackChanges);
+                return _mapper.Map<IEnumerable<UserReviewDto>>(reviews);
+            }
+            else
+            {
+                throw new ArgumentNullException(nameof(id), "User ID null olamaz.");
+            }
         }
 
-        public IQueryable<int> GetAllRatingsForProduct(int id, bool trackChanges)
+        public async Task<IEnumerable<int>> GetAllRatingsForProductAsync(int id, bool trackChanges)
         {
-            return _manager.UserReview.GetAllRatingsForProduct(id, trackChanges);
+            return await _manager.UserReview.GetAllRatingsForProductAsync(id, trackChanges);
         }
 
-        public UserReview? GetOneUserReview(int id, bool trackChanges)
+        public async Task<UserReviewDto?> GetOneUserReviewAsync(int id, bool trackChanges)
         {
-            var userReview = _manager.UserReview.GetOneUserReview(id, trackChanges);
+            var userReview = await _manager.UserReview.GetOneUserReviewAsync(id, trackChanges);
             if (userReview == null)
                 throw new Exception($"{id} numaralı yorum yok.");
-            return userReview;
+            return _mapper.Map<UserReviewDto>(userReview);
         }
 
-        public void UpdateOneUserReview(UserReviewDtoForUpdate userReviewDto)
+        public async Task UpdateOneUserReviewAsync(UserReviewDtoForUpdate userReviewDto)
         {
-            var userReview = GetOneUserReview(userReviewDto.UserReviewId, true);
-            _mapper.Map(userReviewDto, userReview);
-            _manager.UserReview.UpdateOneUserReview(userReview);
-            _manager.Save();
+            var userReview = _mapper.Map<UserReview>(userReviewDto);
+            var ratings = await GetAllRatingsForProductAsync(userReview.ProductId, false);
+            var product = await _manager.Product.GetOneProductAsync(userReview.ProductId, false);
+            var ratingsList = ratings?.ToList();
+            if (ratingsList != null && product != null)
+            {
+                ratingsList.Add(userReview.Rating);
+                product.AverageRating = ratingsList.Average();
+                _manager.Product.UpdateOneProduct(product);
+            }
+            _manager.UserReview.UpdateOneUserReview(_mapper.Map<UserReview>(userReview));
+            await _manager.SaveAsync();
+        }
+
+        public async Task<int> GetCountAsync(bool trackChanges)
+        {
+            return await _manager.UserReview.CountAsync(trackChanges);
         }
     }
 }

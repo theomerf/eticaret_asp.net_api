@@ -1,5 +1,4 @@
-﻿
-@model Cart
+﻿@model CartDto
 
 <div class="cart-container my-5">
     <div class="container">
@@ -95,7 +94,7 @@
                     </div>
 
                     <!-- Kargo ve Kupon Kodları -->
-                    <div class="cart-options mt-4">
+                    <div class="cart-options">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="cart-shipping-options">
@@ -183,7 +182,7 @@
                     <div class="cart-summary-content">
                         <div class="cart-summary-items">
                             <div class="cart-summary-item">
-                                <span>Ürünler (@Model.Lines.Count.ToString())</span>
+                                <span>Ürünler (@Model.Lines?.Count.ToString())</span>
                                 <span>@Model.ComputeTotalValue().ToString("c2")</span>
                             </div>
                             <div class="cart-summary-item">

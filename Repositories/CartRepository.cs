@@ -2,6 +2,7 @@
 using Repositories.Contracts;
 using System;
 using Microsoft.EntityFrameworkCore;
+using Entities.Dtos;
 
 namespace Repositories
 {
@@ -21,11 +22,12 @@ namespace Repositories
             Update(cart);
         }
 
-        public Cart GetCartByUserId(string userId)
+        public async Task<Cart?> GetCartByUserIdAsync(string? userId)
         {
-            return _context.Carts
+            return await FindByCondition(c => c.UserId == userId, false)
+                .OfType<Cart>()
                 .Include(c => c.Lines)
-                .FirstOrDefault(c => c.UserId == userId);
+                .SingleOrDefaultAsync();
         }
     }
 }

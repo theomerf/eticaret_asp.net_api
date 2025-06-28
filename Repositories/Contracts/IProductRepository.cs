@@ -5,16 +5,18 @@ using Entities.RequestParameters;
 namespace Repositories.Contracts{
     public interface IProductRepository : IRepositoryBase<Product>
     {
-        IQueryable<Product> GetAllProducts(bool trackChanges);
-        int GetCount(bool trackChanges);
-        IQueryable<ProductWithRatingDto> GetFavouriteProducts(ICollection<int> favouriteProductIds, bool trackChanges);
-        IQueryable<ProductWithRatingDto> GetAllProductsWithDetails(ProductRequestParameters p);
-        IQueryable<Product> GetShowcaseProducts(bool trackChanges);
-        Product? GetOneProduct(int id, bool trackChanges);
+        Task<IEnumerable<Product>> GetAllProductsAsync(bool trackChanges);
+        Task<int> GetCountAsync(bool trackChanges);
+        Task<IEnumerable<Product>> GetFavouriteProductsAsync(ICollection<int> favouriteProductIds, bool trackChanges);
+        Task<int> GetAllProductsCountWithDetailsAsync(ProductRequestParameters p);
+        Task<IEnumerable<Product>> GetAllProductsWithDetailsAsync(ProductRequestParameters p);
+        Task<IEnumerable<Product>> GetShowcaseProductsAsync(bool trackChanges);
+        Task<Product?> GetOneProductAsync(int id, bool trackChanges);
         void CreateProduct(Product product);
         void DeleteOneProduct(Product product);
         void UpdateOneProduct(Product entity);
-        IQueryable<Product> GetAllProductsWithDetailsAdmin(ProductRequestParameters p);
-        IQueryable<ProductWithRatingDto> GetShowcaseProductsWithRatings(bool trackChanges);
+        Task<IEnumerable<Product>> GetAllProductsWithDetailsAdminAsync(ProductRequestParameters p);
+        Task<IEnumerable<Product>> GetShowcaseProductsWithRatingsAsync(bool trackChanges);
+        Task<IEnumerable<Product>> GetLastestProductsAsync(int n, bool trackChanges);
     }
 }

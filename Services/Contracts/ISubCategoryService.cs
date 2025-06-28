@@ -5,10 +5,10 @@ namespace Services.Contracts
 {
     public interface ISubCategoryService
     {
-        IEnumerable<SubCategory> GetAllCategories(bool trackChanges);
-        void CreateCategory(SubCategoryDtoForInsertion categoryDto);
-        void UpdateCategory(SubCategoryDtoForUpdate categoryDto);
-        SubCategoryDtoForUpdate GetOneCategoryForUpdate(int id, bool trackChanges);
-        void DeleteOneCategory(int id);
+        Task<IEnumerable<SubCategoryDto>> GetAllCategoriesAsync(bool trackChanges);
+        Task CreateCategoryAsync(SubCategoryDtoForInsertion categoryDto);
+        Task UpdateCategoryAsync(SubCategoryDtoForUpdate categoryDto);
+        Task<SubCategoryDtoForUpdate> GetOneCategoryForUpdateAsync(int id, bool trackChanges);
+        Task DeleteOneCategoryAsync(int id);
     }
 }

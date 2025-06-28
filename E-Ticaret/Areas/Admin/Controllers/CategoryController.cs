@@ -20,24 +20,24 @@ namespace ETicaret.Areas.Admin.Controllers
             _manager = manager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var model = _manager.MainCategoryService.GetAllCategories(false).ToList();
+            var model = await _manager.MainCategoryService.GetAllCategoriesAsync(false);
             return View(model);
         }
 
-        public async Task<IActionResult> MainCategoryCreate()
+        public IActionResult MainCategoryCreate()
         {
             return View(new MainCategoryDtoForInsertion());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult MainCategoryCreate([FromForm] MainCategoryDtoForInsertion categoryDto)
+        public async Task<IActionResult> MainCategoryCreate([FromForm] MainCategoryDtoForInsertion categoryDto)
         {
             if (ModelState.IsValid)
             {
-                _manager.MainCategoryService.CreateCategory(categoryDto);
+                await _manager.MainCategoryService.CreateCategoryAsync(categoryDto);
                 TempData["success"] = $"{categoryDto.CategoryName} adlı kategori başarıyla oluşturuldu.";
                 return RedirectToAction("Index");
             }
@@ -48,9 +48,9 @@ namespace ETicaret.Areas.Admin.Controllers
             }
         }
 
-        public IActionResult MainCategoryUpdate([FromRoute(Name = "id")] int id)
+        public async Task<IActionResult> MainCategoryUpdate([FromRoute(Name = "id")] int id)
         {
-            var model = _manager.MainCategoryService.GetOneCategoryForUpdate(id, false);
+            var model = await _manager.MainCategoryService.GetOneCategoryForUpdateAsync(id, false);
             ViewData["Title"] = model?.CategoryName;
             return View(model);
         }
@@ -61,7 +61,7 @@ namespace ETicaret.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _manager.MainCategoryService.UpdateCategory(categoryDto);
+                await _manager.MainCategoryService.UpdateCategoryAsync(categoryDto);
                 TempData["success"] = $"{categoryDto.CategoryName} adlı kategori başarıyla güncellendi.";
                 return RedirectToAction("Index");
             }
@@ -72,14 +72,14 @@ namespace ETicaret.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult MainCategoryDelete([FromRoute(Name = "id")] int id)
+        public async Task<IActionResult> MainCategoryDelete([FromRoute(Name = "id")] int id)
         {
-            _manager.MainCategoryService.DeleteOneCategory(id);
+            await _manager.MainCategoryService.DeleteOneCategoryAsync(id);
             TempData["success"] = "Kategori başarıyla silindi.";
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> SubCategoryCreate([FromQuery(Name = "mainCategoryId")] int mainCategoryId)
+        public IActionResult SubCategoryCreate([FromQuery(Name = "mainCategoryId")] int mainCategoryId)
         {
             var model = new SubCategoryDtoForInsertion
             {
@@ -90,11 +90,11 @@ namespace ETicaret.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult SubCategoryCreate([FromForm] SubCategoryDtoForInsertion categoryDto)
+        public async Task<IActionResult> SubCategoryCreate([FromForm] SubCategoryDtoForInsertion categoryDto)
         {
             if (ModelState.IsValid)
             {
-                _manager.SubCategoryService.CreateCategory(categoryDto);
+                await _manager.SubCategoryService.CreateCategoryAsync(categoryDto);
                 TempData["success"] = $"{categoryDto.CategoryName} adlı kategori başarıyla oluşturuldu.";
                 return RedirectToAction("Index");
             }
@@ -105,9 +105,9 @@ namespace ETicaret.Areas.Admin.Controllers
             }
         }
 
-        public IActionResult SubCategoryUpdate([FromRoute(Name = "id")] int id)
+        public async Task<IActionResult> SubCategoryUpdate([FromRoute(Name = "id")] int id)
         {
-            var model = _manager.SubCategoryService.GetOneCategoryForUpdate(id, false);
+            var model = await _manager.SubCategoryService.GetOneCategoryForUpdateAsync(id, false);
             ViewData["Title"] = model?.CategoryName;
             return View(model);
         }
@@ -118,7 +118,7 @@ namespace ETicaret.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _manager.SubCategoryService.UpdateCategory(categoryDto);
+                await _manager.SubCategoryService.UpdateCategoryAsync(categoryDto);
                 TempData["success"] = $"{categoryDto.CategoryName} adlı kategori başarıyla güncellendi.";
                 return RedirectToAction("Index");
             }
@@ -129,9 +129,9 @@ namespace ETicaret.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult SubCategoryDelete([FromRoute(Name = "id")] int id)
+        public async Task<IActionResult> SubCategoryDelete([FromRoute(Name = "id")] int id)
         {
-            _manager.SubCategoryService.DeleteOneCategory(id);
+            await _manager.SubCategoryService.DeleteOneCategoryAsync(id);
             TempData["success"] = "Kategori başarıyla silindi.";
             return RedirectToAction("Index");
         }

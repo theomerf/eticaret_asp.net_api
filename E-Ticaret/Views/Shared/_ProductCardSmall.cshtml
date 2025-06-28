@@ -2,9 +2,12 @@
 @using Services.Contracts
 @model ProductWithRatingDto
 
+@{
+    var favouriteIds = ViewBag.FavouriteIds as List<int>;
+}
+
 <div class="col-sm-12 col-md-3 my-3 product-wrapper">
     <div class="product-card">
-        <!-- Bu kısım ürün bilgisi ve resmi için ajax-link ile sarmalı -->
         <div class="product-info-container">
             <a asp-action="Get" asp-controller="Product" asp-route-id="@Model?.ProductId" class="ajax-link product-link">
                 @if (Model?.Discount > 0)
@@ -23,7 +26,7 @@
                     <h5 class="product-name">@Model?.ProductName</h5>
 
                     <div class="product-rating">
-                        @await Component.InvokeAsync("RatingStars", new { productId = Model.ProductId, averageRating = Model.AverageRating, Mode = "stars" })
+                        @await Component.InvokeAsync("RatingStars", new { userReviews = Model?.UserReviews, Mode = "starsForCard" })
                     </div>
 
                     <div class="price-info">
@@ -37,15 +40,14 @@
             </a>
         </div>
 
-        <!-- Butonlar kısmı a etiketinin dışına çıkartılmış -->
         <div class="quick-actions">
-            @if (User.Identity.IsAuthenticated && Context.User.FindFirstValue(ClaimTypes.NameIdentifier) != null)
+            @if (User.Identity != null && User.Identity.IsAuthenticated && Context.User.FindFirstValue(ClaimTypes.NameIdentifier) != null)
             {
-                if (Model.isFavourite)
+                if (favouriteIds != null && Model != null && favouriteIds.Contains(Model.ProductId))
                 {
                     <button type="button"
                             class="action-btn favorite-btn remove-btn"
-                            data-product-id="@Model.ProductId"
+                            data-product-id="@Model?.ProductId"
                             title="Favorilerden Kaldır">
                         <i class="fas fa-heart"></i>
                     </button>
@@ -54,7 +56,7 @@
                 {
                     <button type="button"
                             class="action-btn favorite-btn add-btn"
-                            data-product-id="@Model.ProductId"
+                            data-product-id="@Model?.ProductId"
                             title="Favorilere Ekle">
                         <i class="far fa-heart"></i>
                     </button>
@@ -64,36 +66,34 @@
             {
                 <button type="button"
                         class="action-btn favorite-btn"
-                        data-product-id="@Model.ProductId"
+                        data-product-id="@Model?.ProductId"
                         title="Favorilere Ekle">
                     <i class="far fa-heart"></i>
                 </button>
             }
 
             <form asp-controller="Account" asp-action="AddToCompare" method="post">
-                <input type="hidden" name="id" value="@Model.ProductId" />
+                <input type="hidden" name="id" value="@Model?.ProductId" />
                 <button type="submit" class="action-btn compare-btn" title="Karşılaştır">
                     <i class="fa fa-exchange-alt"></i>
                 </button>
             </form>
         </div>
 
-        <!-- Sepet butonları -->
         <div class="cart-action">
             @{
-                // Check if product is already in cart
-                var isInCart = Context.RequestServices.GetRequiredService<Cart>()?.Lines?.Any(l => l.ProductId == Model.ProductId) ?? false;
+                var isInCart = Context.RequestServices.GetRequiredService<Cart>()?.Lines?.Any(l => l.ProductId == Model?.ProductId) ?? false;
 
                 if (isInCart)
                 {
-                    <button type="button" class="remove-from-cart-btn" data-product-id="@Model.ProductId">
+                    <button type="button" class="remove-from-cart-btn" data-product-id="@Model?.ProductId">
                         <span class="btn-text">Sepetten Çıkar</span>
                         <span class="btn-icon"><i class="fas fa-trash-alt"></i></span>
                     </button>
                 }
                 else
                 {
-                    <button type="button" class="add-to-cart-btn" data-product-id="@Model.ProductId">
+                    <button type="button" class="add-to-cart-btn" data-product-id="@Model?.ProductId">
                         <span class="btn-text">Sepete Ekle</span>
                         <span class="btn-icon"><i class="fas fa-cart-plus"></i></span>
                     </button>

@@ -4,7 +4,7 @@ using Repositories.Contracts;
 
 namespace Repositories
 {
-    public class MainCategoryRepository
+    public sealed class MainCategoryRepository
     : RepositoryBase<MainCategory>, IMainCategoryRepository
     {
         public MainCategoryRepository(RepositoryContext context) : base(context)
@@ -22,19 +22,19 @@ namespace Repositories
             Remove(mainCategory);
         }
 
-        public IQueryable<MainCategory> GetAllCategories(bool trackChanges)
-        {
-            return FindAll(trackChanges).Include(mc => mc.SubCategories);
-        }
-
-        public MainCategory? GetOneCategory(int id, bool trackChanges)
-        {
-            return FindByCondition(p => p.MainCategoryId.Equals(id), trackChanges);
-        }
-
         public void UpdateOneCategory(MainCategory mainCategory)
         {
             Update(mainCategory);
+        }
+
+        public async Task<IEnumerable<MainCategory>> GetAllCategoriesAsync(bool trackChanges)
+        {
+            return await FindAll(trackChanges).Include(mc => mc.SubCategories).ToListAsync();
+        }
+
+        public async Task<MainCategory?> GetOneCategoryAsync(int id, bool trackChanges)
+        {
+            return await FindByCondition(p => p.MainCategoryId.Equals(id), trackChanges).SingleOrDefaultAsync();
         }
     }
 }

@@ -7,6 +7,6 @@ namespace ETicaret.Models
     {
         public LoginModel? Login { get; set; }
         public RegisterDto? Register { get; set; }
-        public bool isRegister { get; set; } = false;
+        public bool IsRegister { get; set; } = false;
     }
 }

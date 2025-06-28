@@ -10,10 +10,10 @@ namespace ETicaret.Components
         {
             _manager = manager;
         }
-        public string Invoke()
+        public async Task<string> InvokeAsync()
         {
-            var orders = _manager.OrderService.Orders;
-            return orders.ToList().Count.ToString();
+            var orders = await _manager.OrderService.GetAllOrdersAsync();
+            return orders.Count().ToString();
         }
     }
 }

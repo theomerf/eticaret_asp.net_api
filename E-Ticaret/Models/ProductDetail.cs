@@ -3,10 +3,10 @@ using Entities.Models;
 
 namespace ETicaret.Models
 {
-    public record ProductDetail : UserReviewDto
+    public record ProductDetail
     {
         public UserReviewDtoForInsertion? UserReviewDtoForInsertion { get; set; }
-        public Product? Product { get; set; }
-        public IEnumerable<UserReview>? UserReviews { get; set; } = new List<UserReview>();
+        public ProductDto? Product { get; set; }
+        public IEnumerable<UserReviewDto>? UserReviews { get; set; } = new List<UserReviewDto>();
     }
 }

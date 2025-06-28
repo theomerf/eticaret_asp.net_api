@@ -582,12 +582,6 @@
     --card-shadow: 0 10px 20px rgba(67, 97, 238, 0.1);
 }
 
-body {
-    background-color: #f4f7fe;
-    color: var(--text-color);
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-}
-
 .adminuser-container {
     max-width: 1000px;
     margin: 0 auto;

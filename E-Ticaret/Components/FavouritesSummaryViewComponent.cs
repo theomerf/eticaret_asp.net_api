@@ -6,25 +6,28 @@ namespace ETicaret.Components
 {
     public class FavouritesSummaryViewComponent : ViewComponent
     {
-        private readonly IServiceManager _manager;
-
-        public FavouritesSummaryViewComponent(IServiceManager manager)
+        public IViewComponentResult Invoke()
         {
-            _manager = manager;
-        }
+            var favouritesCookie = Request.Cookies["FavouriteProducts"];
 
-        public async Task<IViewComponentResult> InvokeAsync()
-        {
-            string? userId = (User as ClaimsPrincipal)?.FindFirstValue(ClaimTypes.NameIdentifier);
-            int favouritesCount = 0;
-
-            if (userId != null)
+            if (string.IsNullOrWhiteSpace(favouritesCookie))
             {
-                var user = await _manager.AuthService.GetOneUser(User.Identity?.Name ?? string.Empty);
-                favouritesCount = user?.FavouriteProductsId?.Count() ?? 0;
+                return View(0);
             }
 
-            return View(favouritesCount);
+            var favourites = favouritesCookie
+                .Split('|', StringSplitOptions.RemoveEmptyEntries)
+                .Select(id =>
+                {
+                    if (int.TryParse(id.Trim(), out int parsedId) && parsedId > 0)
+                        return parsedId;
+                    return (int?)null;
+                })
+                .Where(id => id.HasValue)
+                .Select(id => id!.Value)
+                .ToList();
+
+            return View(favourites.Count);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Entities.Models
         public string? ReviewDate { get; set; } = DateTime.Now.ToString("yyyy-MM-dd");
         public string? ReviewUpdateDate { get; set; } = DateTime.Now.ToString("yyyy-MM-dd");
         public string? ReviewPictureUrl { get; set; } = string.Empty;
-        public string UserId { get; set; } = string.Empty; 
+        public string? UserId { get; set; } = string.Empty; 
         public Account? User { get; set; } 
         public int ProductId { get; set; } 
         public Product? Product { get; set; }

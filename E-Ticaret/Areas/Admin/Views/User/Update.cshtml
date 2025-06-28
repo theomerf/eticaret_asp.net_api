@@ -74,10 +74,10 @@
 								<i class="fas fa-shield-alt me-2"></i>Kullanıcı Rolleri
 							</div>
 
-							@foreach (var item in Model.Roles)
+							@foreach (var item in Model.RolesList)
 							{
 								<div class="adminuser-role-item">
-									<input type="checkbox" name="Roles" value="@item" checked="@(Model.UserRoles.Contains(@item))" class="adminuser-check-input" id="role-@item" />
+									<input type="checkbox" name="Roles" value="@item" checked="@(Model.Roles.Contains(@item))" class="adminuser-check-input" id="role-@item" />
 									<label class="adminuser-check-label" for="role-@item">@item</label>
 								</div>
 							}

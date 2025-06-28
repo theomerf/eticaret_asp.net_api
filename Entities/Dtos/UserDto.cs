@@ -22,18 +22,22 @@ namespace Entities.Dtos
         public String? PhoneNumber { get; init; }
         [DataType(DataType.Text)]
         [Required(ErrorMessage = "Ad gerekli")]
-        public String FirstName { get; set; }
+        public String? FirstName { get; set; }
 
         [DataType(DataType.Text)]
         [Required(ErrorMessage = "Soyad gerekli")]
-        public String LastName { get; set; }
+        public String? LastName { get; set; }
 
         [DataType(DataType.DateTime)]
         [Required(ErrorMessage = "Doğum tarihi gerekli")]
         public DateTime BirthDate { get; set; }
-
+        public bool EmailConfirmed { get; set; } = false;
+        public DateTime MembershipDate { get; set; } = DateTime.UtcNow;
+        public DateTime? LastLoginDate { get; set; }
         public List<int> FavouriteProductsId { get; set; } = new List<int>();
 
-        public HashSet<String>? Roles { get; set; } = new HashSet<String>();
+        public HashSet<String?> Roles { get; set; } = new HashSet<String?>();
+        public string? AvatarUrl { get; set; }
+        public string? Id { get; set; }
     }
 }

@@ -16,14 +16,14 @@ namespace ETicaret.Areas.Admin.Controllers
             _manager = manager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var orders = _manager.OrderService.Orders;
+            var orders = await _manager.OrderService.GetAllOrdersAsync();
             foreach (var order in orders)
             {
                 foreach (var line in order.Lines)
                 {
-                    var product = _manager.ProductService.GetOneProduct(line.ProductId, false);
+                    var product = await _manager.ProductService.GetOneProductAsync(line.ProductId, false);
                     if (product != null)
                     {
                         line.ProductName = product.ProductName;
@@ -41,9 +41,9 @@ namespace ETicaret.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Complete([FromForm] int id)
+        public async Task<IActionResult> Complete([FromForm] int id)
         {
-            _manager.OrderService.Complete(id);
+            await _manager.OrderService.CompleteAsync(id);
             return RedirectToAction("Index");
         }
     }

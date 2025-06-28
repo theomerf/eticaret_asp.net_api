@@ -1,4 +1,6 @@
-﻿using Entities.Models;
+﻿using AutoMapper;
+using Entities.Dtos;
+using Entities.Models;
 using Repositories.Contracts;
 using Services.Contracts;
 using System;
@@ -12,35 +14,40 @@ namespace Repositories
     public class OrderManager : IOrderService
     {
         private readonly IRepositoryManager _manager;
+        private readonly IMapper _mapper;
 
-        public OrderManager(IRepositoryManager manager)
+        public OrderManager(IRepositoryManager manager, IMapper mapper)
         {
             _manager = manager;
+            _mapper = mapper;
         }
 
-        public IEnumerable<Order> Orders => _manager.Order.Orders.ToList();
+        public async Task<IEnumerable<OrderDto>> GetAllOrdersAsync() => _mapper.Map<IEnumerable<OrderDto>>(await _manager.Order.GetAllOrdersAsync());
 
-        public int NumberOfInProcess => _manager.Order.NumberOfInProcess;
+        public async Task<int> GetNumberOfInProcessAsync() => await _manager.Order.GetNumberOfInProcessAsync();
 
-        public void Complete(int id)
+        public async Task CompleteAsync(int id)
         {
-             _manager.Order.Complete(id);
-            _manager.Save();
+            await _manager.Order.CompleteAsync(id);
+            await _manager.SaveAsync();
         }
 
-        public Order? GetOneOrder(int id)
+        public async Task<OrderDto?> GetOneOrderAsync(int id)
         {
-            return _manager.Order.GetOneOrder(id);
+            var orders = await _manager.Order.GetOneOrderAsync(id);
+            return _mapper.Map<OrderDto>(orders);
         }
 
-        public void SaveOrder(Order order)
+        public async Task SaveOrderAsync(OrderDto orderDto)
         {
-            _manager.Order.SaveOrder(order);
+            var order = _mapper.Map<Order>(orderDto);
+            await _manager.Order.SaveOrderAsync(order);
         }
 
-        public IQueryable<Order> GetUserOrders(string userName)
+        public async Task<IEnumerable<OrderDto>> GetUserOrdersAsync(string? userName)
         {
-            return _manager.Order.GetUserOrders(userName);
+            var orders = await _manager.Order.GetUserOrdersAsync(userName);
+            return _mapper.Map<IEnumerable<OrderDto>>(orders);
         }
     }
 }

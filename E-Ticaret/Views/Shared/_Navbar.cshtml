@@ -38,7 +38,7 @@
             </button>
             @if (User?.Identity?.IsAuthenticated == true)
             {
-                <a class="nav-link text-white nav-icon-link position-relative me-2" href="#" title="Bildirimler">
+                <a asp-controller="Account" asp-action="Notifications" class="nav-link ajax-link text-white nav-icon-link position-relative me-2" title="Bildirimler">
                     <i class="fa-regular fa-bell"></i>
                     <span class="position-absolute start-100 translate-middle badge rounded-pill bg-danger notification-badge">2</span>
                 </a>
@@ -57,7 +57,7 @@
                     <div class="dropdown user-dropdown">
                         <a class="nav-link dropdown-toggle text-white fw-semibold d-flex align-items-center" id="navbarDropdown"
                         role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <div class="avatar-wrapper me-2">
+                            <div class="avatar-wrapper mx-2">
                                 <img src="/images/@avatarUrl"
                                 alt="Avatar" class="rounded-circle" width="32" height="32">
                             </div>
@@ -163,23 +163,23 @@
 
                <li class="nav-item">
                    <div class="category-center-items d-flex">
-                       <a class="nav-link text-white fw-semibold nav-hover-effect category-btn" href="#">
+                       <a class="nav-link text-white fw-semibold nav-hover-effect category-btn" asp-controller="Product" asp-action="Index" asp-route-mainCategoryId="2" asp-route-subCategoryId="4">
                            Kadın
                        </a>
-                       <a class="nav-link text-white fw-semibold nav-hover-effect category-btn" href="#">
+                       <a class="nav-link text-white fw-semibold nav-hover-effect category-btn" asp-controller="Product" asp-action="Index" asp-route-mainCategoryId="2" asp-route-subCategoryId="5">
                            Erkek
                        </a>
-                       <a class="nav-link text-white fw-semibold nav-hover-effect category-btn" href="#">
-                           Anne & Çocuk
+                       <a class="nav-link text-white fw-semibold nav-hover-effect category-btn" asp-controller="Product" asp-action="Index" asp-route-mainCategoryId="4">
+                           Beyaz Eşya
                        </a>
-                       <a class="nav-link text-white fw-semibold nav-hover-effect category-btn" href="#">
-                           Ev & Yaşam
+                       <a class="nav-link text-white fw-semibold nav-hover-effect category-btn" asp-controller="Product" asp-action="Index" asp-route-mainCategoryId="3">
+                           Ev Aletleri
                        </a>
-                       <a class="nav-link text-white fw-semibold nav-hover-effect category-btn" href="#">
-                           Elektronik
+                       <a class="nav-link text-white fw-semibold nav-hover-effect category-btn" asp-controller="Product" asp-action="Index" asp-route-mainCategoryId="1">
+                           Teknoloji
                        </a>
-                       <a class="nav-link text-white fw-semibold nav-hover-effect category-btn" href="#">
-                           Kozmetik
+                       <a class="nav-link text-white fw-semibold nav-hover-effect category-btn" asp-controller="Product" asp-action="Index" asp-route-mainCategoryId="5">
+                           Kitap
                        </a>
                    </div>
                </li>
@@ -187,7 +187,6 @@
                <li class="nav-item category-main-item">
                     <a class="nav-link ajax-link text-white fw-semibold nav-hover-effect" asp-controller="Product" asp-action="Index">
                        <i class="fa-solid fa-box me-1"></i> Tüm Ürünler
-                       <span class="small badge bg-light text-dark badge-pill">@await Component.InvokeAsync("ProductSummary")</span>
                    </a>
                </li>
            </ul>
@@ -241,7 +240,7 @@
         }
 
         window.addEventListener('scroll', function() {
-            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
 
             if (scrollTop > 50) {
                 topNavbar.classList.add('scrolled');

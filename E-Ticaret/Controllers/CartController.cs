@@ -20,25 +20,25 @@ namespace ETicaret.Controllers
             _cart = cartService;
         }
 
-        public IActionResult Index(string returnUrl = "/")
+        public async Task<IActionResult> Index(string returnUrl = "/")
         {
-            var cart = SessionCart.GetCart(HttpContext.RequestServices);
+            var cart = SessionCart.GetCartDto(HttpContext.RequestServices);
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (userId != null)
             {
                 var cartDto = SessionCart.GetCartDto(HttpContext.RequestServices);
                 cartDto.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                _manager.CartService.AddOrUpdateCart(cartDto,userId);
+                await _manager.CartService.AddOrUpdateCartAsync(cartDto,userId);
             }
             ViewBag.ReturnUrl = returnUrl;
             return View(cart);
         }
 
         [HttpPost]
-        public IActionResult AddToCart(int productId, string returnUrl)
+        public async Task<IActionResult> AddToCart(int productId, string returnUrl)
         {
-            Product? product = _manager.ProductService.GetOneProduct(productId, false);
+            var product = await _manager.ProductService.GetOneProductAsync(productId, false);
             if (product != null)
             {
                 _cart.AddItem(product, 1);
@@ -47,9 +47,9 @@ namespace ETicaret.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddToCartAjax(int productId)
+        public async Task<IActionResult> AddToCartAjax(int productId)
         {
-            Product? product = _manager.ProductService.GetOneProduct(productId, false);
+            var product = await _manager.ProductService.GetOneProductAsync(productId, false);
             if (product != null)
             {
                 _cart.AddItem(product, 1);
@@ -81,9 +81,9 @@ namespace ETicaret.Controllers
         }
 
         [HttpPost]
-        public IActionResult RemoveFromCartAjax(int productId)
+        public async Task<IActionResult> RemoveFromCartAjax(int productId)
         {
-            Product? product = _manager.ProductService.GetOneProduct(productId, false);
+            var product = await _manager.ProductService.GetOneProductAsync(productId, false);
             if (product != null)
             {
                 _cart.RemoveLine(productId);

@@ -4,7 +4,7 @@ using Repositories.Contracts;
 
 namespace Repositories
 {
-    public class UserReviewRepository : RepositoryBase<UserReview>, IUserReviewRepository
+    public sealed class UserReviewRepository : RepositoryBase<UserReview>, IUserReviewRepository
     {
         public UserReviewRepository(RepositoryContext context) : base(context)
         {
@@ -14,29 +14,36 @@ namespace Repositories
             Create(userReview);
         }
         public void DeleteOneUserReview(UserReview userReview) => Remove(userReview);
-        public IQueryable<UserReview> GetAllUserReviews(bool trackChanges) => FindAll(trackChanges);
-        public IQueryable<UserReview> GetAllUserReviewsOfOneProduct(int id, bool trackChanges)
+        public void UpdateOneUserReview(UserReview entity) => Update(entity);
+        public async Task<int> CountAsync(bool trackChanges)
         {
-            return FindAll(trackChanges)
-                .Where(p => p.ProductId.Equals(id));
+            return await Count(trackChanges);
         }
-        public IQueryable<int> GetAllRatingsForProduct(int id, bool trackChanges)
+        public async Task<IEnumerable<UserReview>> GetAllUserReviewsAsync(bool trackChanges) => await FindAll(trackChanges).ToListAsync();
+        public async Task<IEnumerable<UserReview>> GetAllUserReviewsOfOneProductAsync(int id, bool trackChanges)
         {
-            return FindAll(trackChanges)
+            return await FindAll(trackChanges)
                 .Where(p => p.ProductId.Equals(id))
-                .Select(p => p.Rating);
+                .ToListAsync();
         }
-        public IQueryable<UserReview> GetAllUserReviewsOfOneUser(string id, bool trackChanges)
+        public async Task<IEnumerable<int>> GetAllRatingsForProductAsync(int id, bool trackChanges)
         {
-            return FindAll(trackChanges)
-                .Where(u => u.UserId.Equals(id))
-                .Include(u => u.Product);
+            return await FindAll(trackChanges)
+                .Where(p => p.ProductId.Equals(id))
+                .Select(p => p.Rating)
+                .ToListAsync();
+        }
+        public async Task<IEnumerable<UserReview>> GetAllUserReviewsOfOneUserAsync(string id, bool trackChanges)
+        {
+            return await FindAll(trackChanges)
+                .Where(u => u.UserId != null && u.UserId.Equals(id))
+                .Include(u => u.Product)
+                .ToListAsync();
         }
 
-        public UserReview? GetOneUserReview(int id, bool trackChanges)
+        public async Task<UserReview?> GetOneUserReviewAsync(int id, bool trackChanges)
         {
-            return FindByCondition(p => p.UserReviewId.Equals(id), trackChanges);
+            return await FindByCondition(p => p.UserReviewId.Equals(id), trackChanges).SingleOrDefaultAsync();
         }
-        public void UpdateOneUserReview(UserReview entity) => Update(entity);
     }
 }

@@ -12,7 +12,7 @@ namespace Entities.Models
             Lines = new List<CartLine>();
         }
 
-        public virtual void AddItem(Product product, int quantity)
+        public virtual void AddItem(ProductDto product, int quantity)
         {
             CartLine? line = Lines.Where(l => l.ProductId.Equals(product.ProductId)).FirstOrDefault();
 
@@ -21,8 +21,8 @@ namespace Entities.Models
                 Lines.Add(new CartLine
                 {
                     ProductId = product.ProductId,
-                    ProductName = product.ProductName,
-                    ImageUrl = product.ImageUrl,
+                    ProductName = product.ProductName ?? "",
+                    ImageUrl = product.ImageUrl ?? "",
                     ActualPrice = product.ActualPrice,
                     DiscountPrice = product.DiscountPrice ?? 0,
                     CartId = CartId,
@@ -65,7 +65,7 @@ namespace Entities.Models
             Lines.Sum((Func<CartLine, decimal>)(e => (decimal)(e.ActualPrice * e.Quantity)));
 
         public decimal ComputeTotalDiscountValue() =>
-            Lines.Sum((Func<CartLine, decimal>)(e => (decimal)(e.DiscountPrice * e.Quantity)));
+            Lines.Sum((Func<CartLine, decimal>)(e => (decimal)(e.DiscountPrice ?? 0 * e.Quantity)));
 
         public virtual void Clear() => Lines.Clear();
     }

@@ -1,8 +1,11 @@
-using Microsoft.AspNetCore.Mvc;
-using Services.Contracts;
-using Entities.RequestParameters;
-using ETicaret.Models;
 using Entities.Dtos;
+using Entities.RequestParameters;
+using ETicaret.Infrastructure.CookieHelpler;
+using ETicaret.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Services.Contracts;
+using System.Security.Claims;
 
 namespace ETicaret.Controllers
 {
@@ -14,66 +17,97 @@ namespace ETicaret.Controllers
             _manager = manager;
         }
 
-        public IActionResult Index(ProductRequestParameters p)
+        public async Task<IActionResult> Index(ProductRequestParameters p)
         {
-            var products = _manager.ProductService.GetAllProductsWithDetails(p).ToList();
-            var totalCount = _manager.ProductService.GetCount(false);
+            var products = await _manager.ProductService.GetAllProductsWithDetailsAsync(p);
+            var totalCount = await _manager.ProductService.GetAllProductsCountWithDetailsAsync(p);
+            var favIds = CookieHelper.GetFavouriteProductIds(Request);
+            ViewBag.FavouriteIds = CookieHelper.GetFavouriteProductIds(Request);
 
-            var pagination = new Pagination()
+            var pagination = new Pagination
             {
                 CurrentPage = p.PageNumber,
                 ItemsPerPage = p.PageSize,
                 TotalItems = totalCount
             };
 
-            return View(new ProductListViewModel()
+            var model = new ProductListViewModel
             {
                 Products = products,
-                Pagination = pagination
-            });
+                Pagination = pagination,
+            };
+
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest" && Request.Headers["X-Filter-Request"] == "true")
+            {
+                var html = await this.RenderViewAsync("_ProductListPartial", model, true);
+                return Json(new { success = true, html = html, totalCount = totalCount });
+            }
+
+            return View(model);
         }
 
 
-        public IActionResult Get([FromRoute(Name="id")] int id){
-            var product = _manager.ProductService.GetOneProduct(id, false);
+
+        public async Task<IActionResult> Get([FromRoute(Name = "id")] int id)
+        {
+            var product = await _manager.ProductService.GetOneProductAsync(id, false);
             ViewData["Title"] = product?.ProductName;
-            var reviews = _manager.UserReviewService.GetAllUserReviewsOfOneProduct(id, false).ToList();
+            var reviews = await _manager.UserReviewService.GetAllUserReviewsOfOneProductAsync(id, false);
             return View(new ProductDetail()
             {
                 Product = product,
-                UserReviews = reviews
+                UserReviews = reviews,
+                UserReviewDtoForInsertion = new UserReviewDtoForInsertion() 
             });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Get([FromForm] ProductDetail model, IFormFile file = null) { 
-            if(model.UserReviewDtoForInsertion != null)
+        public async Task<IActionResult> Get([FromForm] ProductDetail model, IFormFile? file = null) { 
+            if(model.UserReviewDtoForInsertion != null && model.Product != null)
             {
                 if (ModelState.IsValid)
                 {
+                    var reviewCount = await _manager.UserReviewService.GetCountAsync(false);
+
                     if (file != null) 
                     {
-                        string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/comments", $"{(_manager.UserReviewService.GetAllUserReviews(false).Count() + 1).ToString()}.png");
+                        string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/comments", $"{(reviewCount + 1).ToString()}.png");
                         using (var stream = new FileStream(path, FileMode.Create))
                         {
                             await file.CopyToAsync(stream);
                         }
-                    }
-                    var user = await _manager.AuthService.GetOneUser(User.Identity.Name);
-                    var review = new UserReviewDtoForInsertion
-                    {
-                        ProductId = model.Product.ProductId,
-                        UserId = user.Id,
-                        ReviewTitle = model.UserReviewDtoForInsertion.ReviewTitle,
-                        ReviewText = model.UserReviewDtoForInsertion.ReviewText,
-                        Rating = model.UserReviewDtoForInsertion.Rating,
-                        ReviewPictureUrl = $"{(_manager.UserReviewService.GetAllUserReviews(false).Count() + 1).ToString()}.png"
-                    };
 
-                    _manager.UserReviewService.CreateUserReview(review);
-                    TempData["success"] = "Yorumunuz baþarýyla eklendi.";
-                    return RedirectToAction("Get");
+                        var reviewWithPicture = new UserReviewDtoForInsertion
+                        {
+                            ProductId = model.Product.ProductId,
+                            UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                            ReviewTitle = model.UserReviewDtoForInsertion.ReviewTitle,
+                            ReviewText = model.UserReviewDtoForInsertion.ReviewText,
+                            Rating = model.UserReviewDtoForInsertion.Rating,
+                            ReviewPictureUrl = $"{(reviewCount + 1).ToString()}.png"
+                        };
+
+
+                        await _manager.UserReviewService.CreateUserReviewAsync(reviewWithPicture);
+                        TempData["success"] = "Yorumunuz baþarýyla eklendi.";
+                        return RedirectToAction("Get");
+                    }
+                    else
+                    {
+                        var review = new UserReviewDtoForInsertion
+                        {
+                            ProductId = model.Product.ProductId,
+                            UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+                            ReviewTitle = model.UserReviewDtoForInsertion.ReviewTitle,
+                            ReviewText = model.UserReviewDtoForInsertion.ReviewText,
+                            Rating = model.UserReviewDtoForInsertion.Rating,
+                        };
+
+                        await _manager.UserReviewService.CreateUserReviewAsync(review);
+                        TempData["success"] = "Yorumunuz baþarýyla eklendi.";
+                        return RedirectToAction("Get");
+                    }
 
                 }
             }

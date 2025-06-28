@@ -18,14 +18,14 @@ namespace ETicaret.Infrastructe.TagHelpers
             _manager = manager;
         }
 
-        public override void Process(TagHelperContext context, TagHelperOutput output)
+        public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             TagBuilder div = new TagBuilder("div");
             div.AddCssClass("latest-products-container");
 
-            var products = _manager.ProductService.GetLastestProducts(Number, false);
+            var products = await _manager.ProductService.GetLastestProductsAsync(Number, false);
 
-            foreach (Product product in products)
+            foreach (var product in products)
             {
                 TagBuilder itemDiv = new TagBuilder("div");
                 itemDiv.AddCssClass("latest-product-item d-flex align-items-center p-2 border-bottom");
@@ -55,7 +55,7 @@ namespace ETicaret.Infrastructe.TagHelpers
                 TagBuilder nameLink = new TagBuilder("a");
                 nameLink.Attributes.Add("href", $"/product/get/{product.ProductId}");
                 nameLink.AddCssClass("text-decoration-none text-dark");
-                nameLink.InnerHtml.Append(product.ProductName);
+                nameLink.InnerHtml.Append(product.ProductName ?? "");
 
                 nameDiv.InnerHtml.AppendHtml(nameLink);
                 infoDiv.InnerHtml.AppendHtml(nameDiv);

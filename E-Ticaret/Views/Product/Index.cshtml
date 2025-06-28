@@ -1,118 +1,11 @@
 ﻿@model ProductListViewModel
-<div class="row">
-    <div class="col-lg-3 col-md-4 mb-4">
+<div class="row ">
+    <div class="col-lg-3 col-md-4 mt-4 mb-4">
         @await Component.InvokeAsync("ProductFilterMenu")
     </div>
-    <div class="col-lg-9 col-md-8">
-        <div class="d-flex justify-content-between align-items-center mb-3 bg-light p-3 rounded-3 shadow-sm">
-            <div>
-                <h5 class="m-0">Toplam <span class="badge bg-primary">@Model.TotalCount</span> ürün bulundu</h5>
-            </div>
-            <div class="d-flex align-items-center">
-                <label class="me-2">Sırala:</label>
-                <select class="form-select form-select-sm" id="sortOptions" style="width: auto;">
-                    <option value="default">Varsayılan</option>
-                    <option value="priceLow">Fiyat: Düşükten Yükseğe</option>
-                    <option value="priceHigh">Fiyat: Yüksekten Düşüğe</option>
-                    <option value="newest">En Yeniler</option>
-                </select>
-            </div>
-        </div>
-
-        @if (!string.IsNullOrEmpty(Context.Request.Query["SearchTerm"]) ||
-        !string.IsNullOrEmpty(Context.Request.Query["MinPrice"]) ||
-        !string.IsNullOrEmpty(Context.Request.Query["MaxPrice"]) ||
-        !string.IsNullOrEmpty(Context.Request.Query["Brand"]) ||
-        Context.Request.Query["IsBestSeller"] == "true" ||
-        !string.IsNullOrEmpty(Context.Request.Query["categoryId"]))
-        {
-            <div class="active-filters mb-3 p-3 border rounded-3 bg-white shadow-sm">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <h6 class="m-0"><i class="fa-solid fa-tag me-2"></i>Aktif Filtreler</h6>
-                    <a href="@Url.Action("Index")" class="btn btn-sm btn-outline-secondary">
-                        <i class="fa-solid fa-xmark me-1"></i>Tümünü Temizle
-                    </a>
-                </div>
-                <div class="d-flex flex-wrap gap-2">
-                    @if (!string.IsNullOrEmpty(Context.Request.Query["SearchTerm"]))
-                    {
-                        <span class="badge bg-light text-dark p-2 d-flex align-items-center">
-                            Arama: @Context.Request.Query["SearchTerm"]
-                            <a href="@Url.Action("Index", new {
-                                categoryId = Context.Request.Query["categoryId"],
-                                MinPrice = Context.Request.Query["MinPrice"],
-                                MaxPrice = Context.Request.Query["MaxPrice"],
-                                Brand = Context.Request.Query["Brand"],
-                                IsBestSeller = Context.Request.Query["IsBestSeller"]
-                            })" class="ms-2 text-danger"><i class="fa-solid fa-xmark"></i></a>
-                        </span>
-                    }
-                    @if (!string.IsNullOrEmpty(Context.Request.Query["MinPrice"]) || !string.IsNullOrEmpty(Context.Request.Query["MaxPrice"]))
-                    {
-                        <span class="badge bg-light text-dark p-2 d-flex align-items-center">
-                            Fiyat: @(string.IsNullOrEmpty(Context.Request.Query["MinPrice"]) ? "0" : Context.Request.Query["MinPrice"]) - @(string.IsNullOrEmpty(Context.Request.Query["MaxPrice"]) ? "Max" : Context.Request.Query["MaxPrice"]) TL
-                            <a href="@Url.Action("Index", new {
-                                categoryId = Context.Request.Query["categoryId"],
-                                SearchTerm = Context.Request.Query["SearchTerm"],
-                                Brand = Context.Request.Query["Brand"],
-                                IsBestSeller = Context.Request.Query["IsBestSeller"]
-                            })" class="ms-2 text-danger"><i class="fa-solid fa-xmark"></i></a>
-                        </span>
-                    }
-                    @if (!string.IsNullOrEmpty(Context.Request.Query["Brand"]))
-                    {
-                        <span class="badge bg-light text-dark p-2 d-flex align-items-center">
-                            Marka: @Context.Request.Query["Brand"]
-                            <a href="@Url.Action("Index", new {
-                                categoryId = Context.Request.Query["categoryId"],
-                                SearchTerm = Context.Request.Query["SearchTerm"],
-                                MinPrice = Context.Request.Query["MinPrice"],
-                                MaxPrice = Context.Request.Query["MaxPrice"],
-                                IsBestSeller = Context.Request.Query["IsBestSeller"]
-                            })" class="ms-2 text-danger"><i class="fa-solid fa-xmark"></i></a>
-                        </span>
-                    }
-                    @if (Context.Request.Query["IsBestSeller"] == "true")
-                    {
-                        <span class="badge bg-light text-dark p-2 d-flex align-items-center">
-                            En Çok Satanlar
-                            <a href="@Url.Action("Index", new {
-                                categoryId = Context.Request.Query["categoryId"],
-                                SearchTerm = Context.Request.Query["SearchTerm"],
-                                MinPrice = Context.Request.Query["MinPrice"],
-                                MaxPrice = Context.Request.Query["MaxPrice"],
-                                Brand = Context.Request.Query["Brand"]
-                            })" class="ms-2 text-danger"><i class="fa-solid fa-xmark"></i></a>
-                        </span>
-                    }
-                </div>
-            </div>
-        }
-
-        <div class="row g-3">
-            @foreach (ProductWithRatingDto prd in Model.Products)
-            {
-                <partial name="_ProductCard" model="@prd" />
-            }
-        </div>
-
-        @if (Model.TotalCount == 0)
-        {
-            <div class="alert alert-info mt-4 text-center shadow-sm">
-                <i class="fa-solid fa-search me-2"></i>Arama kriterlerinize uygun ürün bulunamadı.
-                <a href="@Url.Action("Index")" class="alert-link">Tüm ürünleri göster</a>
-            </div>
-        }
-
-        <div class="d-flex justify-content-center mt-4">
-            <div page-model="@Model?.Pagination"
-                 page-action="Index"
-                 page-classes-enabled="true"
-                 page-class="btn"
-                 page-class-normal="btn-outline-primary"
-                 page-class-selected="btn-primary"
-                 class="btn-group shadow-sm">
-            </div>
+    <div class="col-lg-9 mt-4 col-md-8">
+        <div id="productContainer">
+            <partial name="_ProductListPartial" model="Model" />
         </div>
     </div>
 </div>
@@ -129,41 +22,6 @@
                 currentUrl.searchParams.set('sort', sortValue);
                 window.location.href = currentUrl.toString();
             });
-
-            // Range slider için
-            const rangeSlider = document.getElementById('priceRange');
-            if (rangeSlider) {
-                const minPriceDisplay = document.getElementById('minPriceDisplay');
-                const maxPriceDisplay = document.getElementById('maxPriceDisplay');
-
-                noUiSlider.create(rangeSlider, {
-                    start: [
-                        parseInt('@Context.Request.Query["MinPrice"]') || 0,
-                        parseInt('@Context.Request.Query["MaxPrice"]') || 50000
-                    ],
-                    connect: true,
-                    range: {
-                        'min': 0,
-                        'max': 50000
-                    },
-                    step: 50,
-                    format: {
-                        to: function (value) {
-                            return Math.round(value);
-                        },
-                        from: function (value) {
-                            return Number(value);
-                        }
-                    }
-                });
-
-                rangeSlider.noUiSlider.on('update', function (values, handle) {
-                    document.getElementById('minPrice').value = values[0];
-                    document.getElementById('maxPrice').value = values[1];
-                    minPriceDisplay.textContent = values[0] + ' TL';
-                    maxPriceDisplay.textContent = values[1] + ' TL';
-                });
-            }
         });
     </script>
 }

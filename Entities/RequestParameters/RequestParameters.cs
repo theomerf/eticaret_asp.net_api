@@ -2,6 +2,7 @@
 {
     public abstract class RequestParameters
     {
-        public String? SearchTerm{ get; set; }
+        public string? SearchTerm { get; set; }
+
     }
 }

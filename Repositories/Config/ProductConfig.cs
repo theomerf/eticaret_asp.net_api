@@ -21,6 +21,11 @@ namespace Repositories.Config
                 .WithMany(sc => sc.Products)
                 .HasForeignKey(p => p.SubCategoryId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasMany(c => c.UserReviews)
+                .WithOne(sc => sc.Product)
+                .HasForeignKey(sc => sc.ProductId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

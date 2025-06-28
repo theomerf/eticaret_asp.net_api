@@ -6,6 +6,6 @@ namespace Entities.Dtos
     {
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Password is required")]
-        public string Password { get; init; }
+        public string? Password { get; init; }
     }
 }

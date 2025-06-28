@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ETicaret.Infrastructure.CookieHelpler;
+using Microsoft.AspNetCore.Mvc;
 using Services.Contracts;
 
 namespace ETicaret.Components
@@ -12,17 +13,19 @@ namespace ETicaret.Components
             _manager = manager;
         }
 
-        public IViewComponentResult Invoke(string page = "default")
+        public async Task<IViewComponentResult> InvokeAsync(string page = "default")
         {
             if (page == "default")
             {
-                var products = _manager.ProductService.GetShowcaseProductsWithRatings(false).ToList();
+                var products = await _manager.ProductService.GetShowcaseProductsWithRatingsAsync(false);
+                var favIds = CookieHelper.GetFavouriteProductIds(Request);
+                ViewBag.FavouriteIds = CookieHelper.GetFavouriteProductIds(Request);
 
                 return View(products); 
             }
             else
             {
-                var products = _manager.ProductService.GetShowcaseProducts(false).ToList();
+                var products = await _manager.ProductService.GetShowcaseProductsAsync(false);
                 return View("List", products); 
             }
         }

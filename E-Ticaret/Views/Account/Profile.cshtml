@@ -1,24 +1,8 @@
-﻿
-@using Microsoft.AspNetCore.Mvc.ModelBinding
+﻿@using Microsoft.AspNetCore.Mvc.ModelBinding
 @model ProfileModel
 
-<div class="profile-page-header">
-	<div class="container">
-		<div class="row">
-			<div class="col-12 mb-3">
-				<nav aria-label="breadcrumb">
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="#" class="text-decoration-none">Ana Sayfa</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Profilim</li>
-					</ol>
-				</nav>
-				<h1 class="mb-0">Profilim</h1>
-			</div>
-		</div>
-	</div>
-</div>
-
 <div class="container py-4">
+	<h2 class="cart-section-title mb-4">Profilim</h2>
 	<div class="row g-4">
 		<!-- Sol kolon - Profil resmi ve temel bilgiler -->
 		<div class="col-lg-4 col-md-5 profile-left-column">
@@ -85,7 +69,7 @@
 					<div class="row g-3">
 						<div class="col-md-4">
 							<div class="profile-stat-card">
-								<span class="profile-stat-number">@Model.Orders.Count.ToString()</span>
+								<span class="profile-stat-number">@Model.Orders.Count().ToString()</span>
 								<span class="profile-stat-label">Toplam Sipariş</span>
 							</div>
 						</div>
@@ -588,117 +572,146 @@
 		box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
 	}
 </style>
-@section Scripts {
-	<script>
-		$(document).ready(function () {
-			var modalId = '@TempData["OpenModal"]';
-			if (modalId) {
-				var modal = new bootstrap.Modal(document.getElementById(modalId));
-				modal.show();
-			}
-		});
-	</script>
-}
+
 
 <script>
-	document.addEventListener('DOMContentLoaded', function() {
-	  // Initialize review edit buttons
-	  const editButtons = document.querySelectorAll('.profile-review-edit-btn');
+$(document).ready(function () {
+    // TempData'dan gelen modal'ı aç
+    var modalId = '@TempData["OpenModal"]';
+    if (modalId) {
+        var modal = new bootstrap.Modal(document.getElementById(modalId));
+        modal.show();
+        
+        // Modal açıldıktan sonra ilk input'a focus ver
+        setTimeout(function() {
+            $('#' + modalId).find('input:visible:first').focus();
+        }, 500);
+    }
 
-	  editButtons.forEach(btn => {
-		btn.addEventListener('click', function() {
-		  const reviewId = this.getAttribute('data-review-id');
-		  const userId = this.getAttribute('data-user-id');
-		  const productId = this.getAttribute('data-product-id');
-		  const rating = this.getAttribute('data-review-rating');
+    // Tüm modaller için focus düzeltme
+    $('.modal').on('shown.bs.modal', function() {
+        var $modal = $(this);
+        
+        // İlk görünür input/textarea'ya focus ver
+        setTimeout(function() {
+            $modal.find('input:visible:first, textarea:visible:first').focus();
+        }, 100);
+        
+        // Modal içindeki tüm inputları aktif et
+        $modal.find('input, textarea, select').prop('disabled', false);
+    });
 
-		  // Find the review card that contains this button
-		  const reviewCard = this.closest('.profile-review-card');
+    // Modal kapanma olayları
+    $('.modal').on('hidden.bs.modal', function() {
+        // Body'den modal sınıflarını temizle
+        $('body').removeClass('modal-open');
+        
+        // Backdrop kalıntılarını temizle
+        $('.modal-backdrop').remove();
+        
+        // Body scroll'u geri getir
+        $('body').css('overflow', 'auto');
+    });
 
-		  // Extract data from the review card
-		  const productName = reviewCard.querySelector('.profile-review-product').textContent.trim();
-		  const reviewTitle = reviewCard.querySelector('.profile-review-title').textContent.trim();
-		  const reviewText = reviewCard.querySelector('.profile-review-text').textContent.trim();
+    // Modal açılırken body scroll'u engelle ama input focus'unu koru
+    $('.modal').on('show.bs.modal', function() {
+        $('body').css('overflow', 'hidden');
+    });
 
-		  // Check if there's an image
-		  const imageElement = reviewCard.querySelector('.profile-review-image img');
-		  const imageSrc = imageElement ? imageElement.getAttribute('src') : '';
+    // Review edit butonları için event handler
+    $(document).on('click', '.profile-review-edit-btn', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const reviewId = this.getAttribute('data-review-id');
+        const userId = this.getAttribute('data-user-id');
+        const productId = this.getAttribute('data-product-id');
+        const rating = this.getAttribute('data-review-rating');
 
-		  // Get the image filename from the path
-		  let imageName = '';
-		  if (imageSrc) {
-			const parts = imageSrc.split('/');
-			imageName = parts[parts.length - 1];
-		  }
+        // Review card'dan veri çek
+        const reviewCard = this.closest('.profile-review-card');
+        const productName = reviewCard.querySelector('.profile-review-product').textContent.trim();
+        const reviewTitle = reviewCard.querySelector('.profile-review-title').textContent.trim();
+        const reviewText = reviewCard.querySelector('.profile-review-text').textContent.trim();
 
-		  // Populate the modal with the data
-		  document.getElementById('productNameDisplay').textContent = productName;
-		  document.getElementById('reviewId').value = reviewId;
-		  document.getElementById('userId').value = userId;
-		  document.getElementById('productId').value = productId;
-		  document.getElementById('reviewTitle').value = reviewTitle;
-		  document.getElementById('reviewText').value = reviewText;
-		  document.getElementById('existingImage').value = imageName;
+        // Image kontrolü
+        const imageElement = reviewCard.querySelector('.profile-review-image img');
+        const imageSrc = imageElement ? imageElement.getAttribute('src') : '';
+        let imageName = '';
+        if (imageSrc) {
+            const parts = imageSrc.split('/');
+            imageName = parts[parts.length - 1];
+        }
 
-		  // Set the rating
-		  document.querySelector(`#star${rating}`).checked = true;
-		  updateRatingText(rating);
+        // Modal'ı doldur
+        document.getElementById('productNameDisplay').textContent = productName;
+        document.getElementById('reviewId').value = reviewId;
+        document.getElementById('userId').value = userId;
+        document.getElementById('productId').value = productId;
+        document.getElementById('reviewTitle').value = reviewTitle;
+        document.getElementById('reviewText').value = reviewText;
+        document.getElementById('existingImage').value = imageName;
 
-		  // Show the current image if exists
-		  const currentImage = document.getElementById('currentImage');
-		  if (imageSrc) {
-			currentImage.src = imageSrc;
-			currentImage.style.display = 'block';
-		  } else {
-			currentImage.style.display = 'none';
-		  }
+        // Rating ayarla
+        document.querySelector(`#star${rating}`).checked = true;
+        updateRatingText(rating);
 
-		  // Reset file input
-		  document.getElementById('reviewImage').value = '';
+        // Mevcut resmi göster
+        const currentImage = document.getElementById('currentImage');
+        if (imageSrc) {
+            currentImage.src = imageSrc;
+            currentImage.style.display = 'block';
+        } else {
+            currentImage.style.display = 'none';
+        }
 
-		  // Show the modal
-		  const editReviewModal = new bootstrap.Modal(document.getElementById('editReviewModal'));
-		  editReviewModal.show();
-		});
-	  });
+        // File input'u temizle
+        document.getElementById('reviewImage').value = '';
 
-	  // Rating display text
-	  const ratingInputs = document.querySelectorAll('.star-rating input');
-	  const ratingText = document.querySelector('.rating-text');
+        // Modal'ı göster
+        const editReviewModal = new bootstrap.Modal(document.getElementById('editReviewModal'));
+        editReviewModal.show();
+    });
 
-	  const ratingDescriptions = {
-		1: 'Kötü',
-		2: 'Orta',
-		3: 'İyi',
-		4: 'Çok İyi',
-		5: 'Mükemmel'
-	  };
+    // Rating text güncelleme fonksiyonu
+    function updateRatingText(value) {
+        const ratingDescriptions = {
+            1: 'Kötü',
+            2: 'Orta', 
+            3: 'İyi',
+            4: 'Çok İyi',
+            5: 'Mükemmel'
+        };
+        
+        const ratingText = document.querySelector('.rating-text');
+        if (ratingText) {
+            ratingText.textContent = ratingDescriptions[value];
+        }
+    }
 
-	  function updateRatingText(value) {
-		ratingText.textContent = ratingDescriptions[value];
-	  }
+    // Rating inputları için event listener
+    $(document).on('change', '.star-rating input', function() {
+        updateRatingText(this.value);
+    });
 
-	  ratingInputs.forEach(input => {
-		input.addEventListener('change', function() {
-		  updateRatingText(this.value);
-		});
-	  });
+    // Image preview için event listener
+    $(document).on('change', '#reviewImage', function() {
+        if (this.files && this.files[0]) {
+            const reader = new FileReader();
+            const currentImage = document.getElementById('currentImage');
+            
+            reader.onload = function(e) {
+                currentImage.src = e.target.result;
+                currentImage.style.display = 'block';
+            }
+            
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
 
-	  // Image preview functionality
-	  const reviewImageInput = document.getElementById('reviewImage');
-	  const currentImage = document.getElementById('currentImage');
-
-	  reviewImageInput.addEventListener('change', function() {
-		if (this.files && this.files[0]) {
-		  const reader = new FileReader();
-
-		  reader.onload = function(e) {
-			currentImage.src = e.target.result;
-			currentImage.style.display = 'block';
-		  }
-
-		  reader.readAsDataURL(this.files[0]);
-		}
-	  });
-	});
+    // Input focus sorunlarını önle
+    $(document).on('focus', '.modal input, .modal textarea', function() {
+        $(this).removeClass('is-invalid');
+    });
+});
 </script>

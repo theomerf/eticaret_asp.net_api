@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "i4cxLJ00EYU=",
+  "dgSpecHash": "AXVK9SvwlM4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret\\eticaret_asp.net\\Entities\\Entities.csproj",
+  "projectFilePath": "C:\\Users\\omerf\\OneDrive\\Masaüstü\\Kodlama\\.net\\asp\\E-Ticaret_noapi\\eticaret_asp.net\\Entities\\Entities.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\omerf\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\9.0.3\\microsoft.aspnetcore.cryptography.internal.9.0.3.nupkg.sha512",
     "C:\\Users\\omerf\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\9.0.3\\microsoft.aspnetcore.cryptography.keyderivation.9.0.3.nupkg.sha512",

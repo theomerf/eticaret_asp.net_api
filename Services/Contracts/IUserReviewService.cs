@@ -5,13 +5,14 @@ namespace Services.Contracts
 {
     public interface IUserReviewService
     {
-        IEnumerable<UserReview> GetAllUserReviews(bool trackChanges);
-        IEnumerable<UserReview> GetAllUserReviewsOfOneProduct(int id, bool trackChanges);
-        IEnumerable<UserReview> GetAllUserReviewsOfOneUser(string id, bool trackChanges);
-        UserReview? GetOneUserReview(int id, bool trackChanges);
-        void CreateUserReview(UserReviewDtoForInsertion userReview);
-        void DeleteOneUserReview(int id);
-        void UpdateOneUserReview(UserReviewDtoForUpdate userReview);
-        IQueryable<int> GetAllRatingsForProduct(int id, bool trackChanges);
+        Task<IEnumerable<UserReviewDto>> GetAllUserReviewsAsync(bool trackChanges);
+        Task<int> GetCountAsync(bool trackChanges);
+        Task<IEnumerable<UserReviewDto>> GetAllUserReviewsOfOneProductAsync(int id, bool trackChanges);
+        Task<IEnumerable<UserReviewDto>> GetAllUserReviewsOfOneUserAsync(string? id, bool trackChanges);
+        Task<UserReviewDto?> GetOneUserReviewAsync(int id, bool trackChanges);
+        Task CreateUserReviewAsync(UserReviewDtoForInsertion userReview);
+        Task DeleteOneUserReviewAsync(int id);
+        Task UpdateOneUserReviewAsync(UserReviewDtoForUpdate userReview);
+        Task<IEnumerable<int>> GetAllRatingsForProductAsync(int id, bool trackChanges);
     }
 }

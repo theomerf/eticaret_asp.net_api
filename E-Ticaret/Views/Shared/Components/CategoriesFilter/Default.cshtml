@@ -1,53 +1,192 @@
-﻿@model IEnumerable<MainCategory>
-<div class="card filter-card border-0 mb-0">
-    <div class="card-body p-0">
-        <ul class="list-group list-group-flush category-list">
-            <li class="list-group-item border-0 @(string.IsNullOrEmpty(Context.Request.Query["categoryId"]) ? "active" : "")">
-                <a asp-action="Index" class="category-link d-flex align-items-center">
-                    <div class="category-icon">
-                        <i class="fa-solid fa-globe"></i>
-                    </div>
-                    <span class="category-name">Tüm Ürünler</span>
-                    <span class="category-badge">Tümü</span>
-                </a>
-            </li>
-            @foreach (var cat in Model)
-            {
-                <li class="list-group-item border-0 @(Context.Request.Query["categoryId"] == cat.MainCategoryId.ToString() ? "active" : "")">
-                    <a asp-action="Index" asp-route-categoryId="@cat.MainCategoryId"
-                       class="category-link d-flex align-items-center">
-                        <div class="category-icon">
-                            @if (cat.CategoryName.Contains("Telefon"))
-                            {
-                                <i class="fa-solid fa-mobile-alt"></i>
-                            }
-                            else if (cat.CategoryName.Contains("Bilgisayar"))
-                            {
-                                <i class="fa-solid fa-laptop"></i>
-                            }
-                            else if (cat.CategoryName.Contains("Tablet"))
-                            {
-                                <i class="fa-solid fa-tablet-alt"></i>
-                            }
-                            else if (cat.CategoryName.Contains("Kamera"))
-                            {
-                                <i class="fa-solid fa-camera"></i>
-                            }
-                            else if (cat.CategoryName.Contains("TV"))
-                            {
-                                <i class="fa-solid fa-tv"></i>
-                            }
-                            else
-                            {
-                                <i class="fa-solid fa-box"></i>
-                            }
-                        </div>
-                        <span class="category-name">@cat.CategoryName</span>
-                        @* İstenirse kategori sayacı eklenebilir *@
-                        @* <span class="category-badge">12</span> *@
-                    </a>
-                </li>
-            }
-        </ul>
-    </div>
+﻿@model IEnumerable<MainCategoryDto>
+
+<div class="modern-category-filter">
+	<div class="main-categories-section">
+		<div class="section-title">
+			<h3>Ana Kategoriler</h3>
+		</div>
+		<div class="main-categories-grid">
+			<div class="main-category-card @(string.IsNullOrEmpty(Context.Request.Query["MainCategoryId"]) ? "active" : "")"
+				 onclick="selectMainCategory(null, 'Tüm Ürünler')">
+				<a asp-action="Index" class="category-link">
+					<div class="category-icon">
+						<i class="fas fa-th-large"></i>
+					</div>
+					<span class="category-name">Tüm Ürünler</span>
+				</a>
+			</div>
+			@foreach (var mainCategory in Model)
+			{
+				var isActive = Context.Request.Query["MainCategoryId"] == mainCategory.MainCategoryId.ToString();
+				<div class="main-category-card @(isActive ? "active" : "")"
+					 onclick="selectMainCategory(@mainCategory.MainCategoryId, '@mainCategory.CategoryName')"
+					 data-category-id="@mainCategory.MainCategoryId"
+					 data-category-name="@mainCategory.CategoryName">
+					<a asp-action="Index" asp-route-MainCategoryId="@mainCategory.MainCategoryId" class="category-link">
+						<div class="category-icon">
+							<i class="@GetCategoryIcon(mainCategory.CategoryName)"></i>
+						</div>
+						<span class="category-name">@mainCategory.CategoryName</span>
+					</a>
+				</div>
+			}
+		</div>
+	</div>
+
+	<div class="sub-categories-section" style="display: none">
+		<div class="section-title">
+			<h3 id="subcategory-title">Alt Kategoriler</h3>
+			<span id="selected-main-category" class="selected-category-badge">
+				Tüm Kategoriler
+			</span>
+		</div>
+		<div class="sub-categories-grid" id="subcategories-container"></div>
+
+		<div id="all-subcategories" style="display: none">
+			@foreach (var main in Model)
+			{
+				<div class="subcategory-group" data-main-category-id="@main.MainCategoryId">
+					@foreach (var sub in main.SubCategories)
+					{
+						var isActive2 = Context.Request.Query["SubCategoryId"] == sub.SubCategoryId.ToString();
+						<div class="sub-category-card"
+							 onclick="selectSubCategory(@sub.SubCategoryId, @main.MainCategoryId)">
+							<a asp-action="Index" asp-route-MainCategoryId="@main.MainCategoryId" asp-route-SubCategoryId="@sub.SubCategoryId" class="category-link" data-main-category-id="@main.MainCategoryId" data-sub-category-id="@sub.SubCategoryId">
+								<div class="category-icon">
+									<i class="@GetSubCategoryIcon(sub.CategoryName)"></i>
+								</div>
+								<div class="category-info">
+									<span class="category-name">@sub.CategoryName</span>
+								</div>
+							</a>
+						</div>
+					}
+				</div>
+			}
+		</div>
+	</div>
+
+
 </div>
+
+<script>
+	function updateSubCategoriesFrontend(categoryId) {
+		const container = document.getElementById('subcategories-container');
+		container.innerHTML = '';
+		const group = document.querySelector(`.subcategory-group[data-main-category-id='${categoryId}']`);
+        document.querySelector('.sub-categories-section').style.display = 'block';
+		if (group) 
+		{
+			container.innerHTML = group.innerHTML;
+		}
+	}
+
+	function selectMainCategory(categoryId, categoryName) {
+		event.preventDefault()
+        $('#loadingOverlay').show();
+		document.getElementById('selected-main-category').textContent = categoryName || 'Tüm Kategoriler';
+		updateSubCategoriesFrontend(categoryId);
+
+		document.querySelectorAll('.main-category-card').forEach(c => c.classList.remove('active'));
+		if (categoryId) {
+			const selected = document.querySelector(`[data-category-id='${categoryId}']`);
+			if (selected) selected.classList.add('active');
+		} else {
+			document.querySelector('.main-category-card').classList.add('active');
+		}
+
+		const formData = new FormData($('#filterForm')[0] || document.createElement('form'));
+		formData.set('MainCategoryId', categoryId || '');
+		const params = new URLSearchParams();
+		for (let [k, v] of formData.entries()) {
+			if (v && v !== '' && v !== '0') {
+				params.append(k, v);
+			}
+		}
+
+		const newURL = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+		window.history.pushState({}, '', newURL);
+
+		$.ajax({
+			url: '/Product/Index',
+			type: 'GET',
+			data: params.toString(),
+			headers: { 'X-Filter-Request': 'true' },
+			success: function (res) {
+				if (res.success) {
+					$('#productContainer').html(res.html);
+					$('#loadingOverlay').hide();
+				}
+			},
+			error: () => window.location.reload()
+		});
+	}
+
+	function selectSubCategory(subCategoryId, mainCategoryId) {
+		event.preventDefault()
+		$('#loadingOverlay').show();
+
+		// ACTIVE CLASS'INI GÜNCELLE
+		document.querySelectorAll('.sub-category-card').forEach(c => c.classList.remove('active'));
+		const selectedSub = document.querySelector(`.category-link[data-sub-category-id='${subCategoryId}']`)?.closest('.sub-category-card');
+		if (selectedSub) {
+			selectedSub.classList.add('active');
+		}
+
+		const formData = new FormData($('#filterForm')[0] || document.createElement('form'));
+		formData.set('MainCategoryId', mainCategoryId || '');
+	    formData.set('SubCategoryId', subCategoryId || '');
+		const params = new URLSearchParams();
+		for (let [k, v] of formData.entries()) {
+			if (v && v !== '' && v !== '0') {
+				params.append(k, v);
+			}
+		}
+
+		const newURL = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+		window.history.pushState({}, '', newURL);
+
+		$.ajax({
+			url: '/Product/Index',
+			type: 'GET',
+			data: params.toString(),
+			headers: { 'X-Filter-Request': 'true' },
+			success: function (res) {
+				if (res.success) {
+					$('#productContainer').html(res.html);
+					$('#loadingOverlay').hide();
+				}
+			},
+			error: () => window.location.reload()
+		});
+	}
+
+</script>
+
+@functions {
+	private string GetCategoryIcon(string categoryName)
+	{
+		if (categoryName.Contains("Teknoloji") || categoryName.Contains("Phone")) return "fas fa-mobile-alt";
+		else if (categoryName.Contains("Bilgisayar") || categoryName.Contains("Computer")) return "fas fa-laptop";
+		else if (categoryName.Contains("Tablet")) return "fas fa-tablet-alt";
+		else if (categoryName.Contains("Kamera") || categoryName.Contains("Camera")) return "fas fa-camera";
+		else if (categoryName.Contains("TV") || categoryName.Contains("Televizyon")) return "fas fa-tv";
+		else if (categoryName.Contains("Oyun") || categoryName.Contains("Game")) return "fas fa-gamepad";
+		else if (categoryName.Contains("Ses") || categoryName.Contains("Audio")) return "fas fa-headphones";
+		else if (categoryName.Contains("Giyim") || categoryName.Contains("Clothing")) return "fas fa-tshirt";
+		else if (categoryName.Contains("Ev") || categoryName.Contains("Home")) return "fas fa-home";
+		else if (categoryName.Contains("Kitap") || categoryName.Contains("Sport")) return "fas fa-book";
+		else return "fas fa-cube";
+	}
+	private string GetSubCategoryIcon(string subCategoryName)
+	{
+		if (subCategoryName.Contains("iPhone") || subCategoryName.Contains("Apple")) return "fab fa-apple";
+		else if (subCategoryName.Contains("Samsung")) return "fas fa-mobile-alt";
+		else if (subCategoryName.Contains("Laptop")) return "fas fa-laptop";
+		else if (subCategoryName.Contains("Desktop")) return "fas fa-desktop";
+		else if (subCategoryName.Contains("Gaming")) return "fas fa-gamepad";
+		else if (subCategoryName.Contains("Wireless")) return "fas fa-wifi";
+		else if (subCategoryName.Contains("Cable")) return "fas fa-plug";
+		else return "fas fa-tag";
+	}
+}

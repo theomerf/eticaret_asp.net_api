@@ -10,16 +10,16 @@
 	<div class="row justify-content-center">
 		<div class="col-md-5 auth-container">
 			<div class="card login-card login-card-hover shadow-sm">
-				<div class="card-header d-flex" id="authTabs" role="tablist">
-					<button class="nav-link nav-btn @(Model.isRegister ? "" : "active")" id="loginTabBtn" data-bs-toggle="tab" data-bs-target="#loginTabPane" type="button">
+				<div class="login-card-header d-flex" id="authTabs" role="tablist">
+					<button class="nav-link nav-btn @(Model.IsRegister ? "" : "active")" id="loginTabBtn" data-bs-toggle="tab" data-bs-target="#loginTabPane" type="button">
 						Giriş Yap
 					</button>
-					<button class="nav-link nav-btn @(Model.isRegister ? "active" : "")" id="registerTabBtn" data-bs-toggle="tab" data-bs-target="#registerTabPane" type="button">
+					<button class="nav-link nav-btn @(Model.IsRegister ? "active" : "")" id="registerTabBtn" data-bs-toggle="tab" data-bs-target="#registerTabPane" type="button">
 						Üye Ol
 					</button>
 				</div>
 				<div class="tab-content" id="authTabContent">
-					<div class="tab-pane fade @(Model.isRegister ? "" : "show active") p-3" id="loginTabPane" role="tabpanel">
+					<div class="tab-pane fade @(Model.IsRegister ? "" : "show active") p-3" id="loginTabPane" role="tabpanel">
 						@await Html.PartialAsync("_Notification")
 						<div id="login-errors" class="text-danger validation-summary-errors" asp-validation-summary="All"></div>
 						<form method="post" asp-action="Login" id="loginForm">
@@ -70,7 +70,7 @@
 							</div>
 						</form>
 					</div>
-					<div class="tab-pane fade @(Model.isRegister ? "show active" : "") p-3" id="registerTabPane" role="tabpanel">
+					<div class="tab-pane fade @(Model.IsRegister ? "show active" : "") p-3" id="registerTabPane" role="tabpanel">
 						<div class="text-danger" asp-validation-summary="All"></div>
 						<form method="post" asp-action="Register" id="registerForm">
 							@Html.AntiForgeryToken()

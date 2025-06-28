@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Entities.Dtos;
+using Entities.Exceptions;
 using Entities.Models;
 using Repositories.Contracts;
 using Services.Contracts;
@@ -18,49 +19,50 @@ namespace Services
             _mapper = mapper;
         }
 
-        public void CreateCategory(SubCategoryDtoForInsertion categoryDto)
+        public async Task CreateCategoryAsync(SubCategoryDtoForInsertion categoryDto)
         {
             SubCategory category = _mapper.Map<SubCategory>(categoryDto);
             _manager.SubCategory.CreateCategory(category);
-            _manager.Save();
+            await _manager.SaveAsync();
         }
 
-        public IEnumerable<SubCategory> GetAllCategories(bool trackChanges)
+        public async Task<IEnumerable<SubCategoryDto>> GetAllCategoriesAsync(bool trackChanges)
         {
-            return _manager.SubCategory.GetAllCategories(trackChanges);
+            var categories = await _manager.SubCategory.GetAllCategoriesAsync(trackChanges);
+            return _mapper.Map<IEnumerable<SubCategoryDto>>(categories);
         }
 
-        public void UpdateCategory(SubCategoryDtoForUpdate categoryDto)
+        public async Task UpdateCategoryAsync(SubCategoryDtoForUpdate categoryDto)
         {
             var category = _mapper.Map<SubCategory>(categoryDto);
             _manager.SubCategory.UpdateOneCategory(category);
-            _manager.Save();
+            await _manager.SaveAsync();
         }
 
-        public SubCategory? GetOneCategory(int id, bool trackChanges)
+        public async Task<SubCategoryDto?> GetOneCategoryAsync(int id, bool trackChanges)
         {
-            var category = _manager.SubCategory.GetOneCategory(id, trackChanges);
+            var category = await _manager.SubCategory.GetOneCategoryAsync(id, trackChanges);
             if (category == null)
             {
-                throw new Exception("Category not found");
+                throw new CategoryNotFoundException(id);
             }
-            return category;
+            return _mapper.Map<SubCategoryDto>(category);
         }
 
-        public SubCategoryDtoForUpdate GetOneCategoryForUpdate(int id, bool trackChanges)
+        public async Task<SubCategoryDtoForUpdate> GetOneCategoryForUpdateAsync(int id, bool trackChanges)
         {
-            var category = GetOneCategory(id, trackChanges);
-            var categoryDto = _mapper.Map<SubCategoryDtoForUpdate>(category);
+            var category = await GetOneCategoryAsync(id, trackChanges);
+            var categoryDto = _mapper.Map<SubCategoryDtoForUpdate>(_mapper.Map<SubCategory>(category));
             return categoryDto;
         }
 
-        public void DeleteOneCategory(int id)
+        public async Task DeleteOneCategoryAsync(int id)
         {
-            var category = GetOneCategory(id, false);
+            var category = await GetOneCategoryAsync(id, false);
             if (category != null)
             {
-                _manager.SubCategory.DeleteOneCategory(category);
-                _manager.Save();
+                _manager.SubCategory.DeleteOneCategory(_mapper.Map<SubCategory>(category));
+                await _manager.SaveAsync();
             }
         }
     }

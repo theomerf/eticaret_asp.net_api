@@ -1,191 +1,281 @@
 ﻿<div class="filter-sidebar sticky-top" style="top: 20px;">
-    <div class="accordion shadow-sm rounded-3 overflow-hidden" id="filterAccordion">
-        <!-- Categories Bölümü -->
-        <div class="accordion-item border-0">
-            <h2 class="accordion-header" id="headingCategories">
-                <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCategories" aria-expanded="true" aria-controls="collapseCategories">
-                    <i class="fa-solid fa-bars text-primary me-2"></i> Kategori Seç
-                </button>
-            </h2>
-            <div id="collapseCategories" class="accordion-collapse collapse show" aria-labelledby="headingCategories" data-bs-parent="#filterAccordion">
-                <div class="accordion-body p-0">
-                    @await Component.InvokeAsync("CategoriesFilter")
-                </div>
-            </div>
+    <div class="card shadow-lg border-0 filter-main-card">
+        <div class="card-header bg-gradient-primary text-white border-0 p-4">
+            <h5 class="card-title mb-0 d-flex align-items-center">
+                <i class="fas fa-filter me-2"></i>
+                Ürün Filtreleri
+            </h5>
         </div>
-        <!-- Filters Bölümü -->
-        <div class="accordion-item border-0">
-            <h2 class="accordion-header" id="headingFilters">
-                <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFilters" aria-expanded="true" aria-controls="collapseFilters">
-                    <i class="fa-solid fa-filter text-primary me-2"></i> Filtrele
-                </button>
-            </h2>
-            <div id="collapseFilters" class="accordion-collapse collapse show" aria-labelledby="headingFilters" data-bs-parent="#filterAccordion">
-                <div class="accordion-body p-0">
-                    <div class="card shadow-sm rounded-3 border-0 filter-card mb-0">
-                        <div class="card-body p-4">
-                            <h5 class="card-title mb-4 d-flex align-items-center">
-                                <i class="fa-solid fa-sliders text-primary me-2"></i>
-                                Ürün Filtreleri
-                            </h5>
 
-                            <form method="get" asp-action="Index" id="filterForm">
-                                <input type="hidden" name="categoryId" value="@(Context.Request.Query["categoryId"])" />
-
-                                <!-- Arama Kutusu -->
-                                <div class="mb-4">
-                                    <label for="searchTerm" class="form-label fw-semibold small text-secondary">
-                                        <i class="fa-solid fa-search me-1"></i>Ürün Ara
-                                    </label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control border-end-0" id="searchTerm" name="SearchTerm"
-                                               placeholder="Ürün adı, açıklama..."
-                                               value="@Context.Request.Query["SearchTerm"]">
-                                        <button class="btn btn-outline-secondary border-start-0 bg-transparent" type="button" id="clearSearch">
-                                            <i class="fa-solid fa-times"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="filter-section mb-4">
-                                    <div class="filter-header d-flex align-items-center justify-content-between mb-3">
-                                        <label class="form-label fw-semibold small text-secondary mb-0">
-                                            <i class="fa-solid fa-tag me-1"></i>Fiyat Aralığı
-                                        </label>
-                                        <span class="d-flex align-items-center badge bg-light text-dark rounded-pill px-3 py-2">
-                                            <span id="minPriceDisplay">@((string.IsNullOrEmpty(Context.Request.Query["MinPrice"]) ? "0" : Context.Request.Query["MinPrice"]))</span>
-                                            <span class="mx-1">-</span>
-                                            <span id="maxPriceDisplay">@((string.IsNullOrEmpty(Context.Request.Query["MaxPrice"]) ? "5000" : Context.Request.Query["MaxPrice"]))</span>
-                                            <span class="ms-1">₺</span>
-                                        </span>
-                                    </div>
-                                    <div id="priceRange" class="mb-3"></div>
-                                    <div class="row g-2">
-                                        <div class="col-6">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="form-control" id="minPrice" name="MinPrice"
-                                                       placeholder="Min" value="@Context.Request.Query["MinPrice"]">
-                                                <span class="input-group-text bg-light">₺</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="form-control" id="maxPrice" name="MaxPrice"
-                                                       placeholder="Max" value="@Context.Request.Query["MaxPrice"]">
-                                                <span class="input-group-text bg-light">₺</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="filter-section mb-4">
-                                    <label class="form-label fw-semibold small text-secondary mb-3">
-                                        <i class="fa-solid fa-building me-1"></i>Markalar
-                                    </label>
-                                    <div class="brand-list">
-                                        <div class="form-check d-flex align-items-center mb-3">
-                                            <input class="form-check-input" type="radio" name="Brand" id="brandAll" value=""
-                                            @(string.IsNullOrEmpty(Context.Request.Query["Brand"]) ? "checked" : "")>
-                                            <label class="form-check-label ms-2 w-100" for="brandAll">
-                                                Tüm Markalar
-                                            </label>
-                                        </div>
-                                        @{
-                                            // Örnek olarak marka listesi ekledim, gerçek uygulamada veritabanından çekilmelidir
-                                            var brands = new[] { "Apple", "Samsung", "Xiaomi", "Huawei", "Lenovo" };
-                                            foreach (var brand in brands)
-                                            {
-                                                <div class="form-check d-flex align-items-center mb-3">
-                                                    <input class="form-check-input" type="radio" name="Brand" id="brand@(brand)" value="@brand"
-                                                    @(Context.Request.Query["Brand"] == brand ? "checked" : "")>
-                                                    <label class="form-check-label ms-2 w-100 d-flex justify-content-between" for="brand@(brand)">
-                                                        @brand
-                                                        <span class="badge rounded-pill bg-light text-dark">24</span>
-                                                    </label>
-                                                </div>
-                                            }
-                                        }
-                                    </div>
-                                </div>
-
-                                <div class="filter-section mb-4">
-                                    <label class="form-label fw-semibold small text-secondary mb-3">
-                                        <i class="fa-solid fa-star me-1"></i>Özellikler
-                                    </label>
-                                    <div class="features-list">
-                                        <div class="form-check form-switch mb-3">
-                                            <input class="form-check-input" type="checkbox" id="bestSellers" name="IsBestSeller" value="true"
-                                            @(Context.Request.Query["IsBestSeller"] == "true" ? "checked" : "")>
-                                            <label class="form-check-label ms-2" for="bestSellers">
-                                                En Çok Satanlar
-                                            </label>
-                                        </div>
-                                        <div class="form-check form-switch mb-3">
-                                            <input class="form-check-input" type="checkbox" id="newArrivals" name="IsNewArrival" value="true"
-                                            @(Context.Request.Query["IsNewArrival"] == "true" ? "checked" : "")>
-                                            <label class="form-check-label ms-2" for="newArrivals">
-                                                Yeni Gelenler
-                                            </label>
-                                        </div>
-                                        <div class="form-check form-switch mb-3">
-                                            <input class="form-check-input" type="checkbox" id="discountedItems" name="HasDiscount" value="true"
-                                            @(Context.Request.Query["HasDiscount"] == "true" ? "checked" : "")>
-                                            <label class="form-check-label ms-2" for="discountedItems">
-                                                İndirimli Ürünler
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="d-grid gap-2">
-                                    <button type="submit" class="btn btn-primary fw-medium">
-                                        <i class="fa-solid fa-filter me-2"></i>Filtreleri Uygula
-                                    </button>
-                                    <a href="@Url.Action("Index")" class="btn btn-link text-secondary">
-                                        <i class="fa-solid fa-rotate me-1"></i>Filtreleri Temizle
-                                    </a>
-                                </div>
-                            </form>
-                        </div>
+        <div class="accordion accordion-flush" id="filterAccordion">
+            <!-- Kategoriler Bölümü -->
+            <div class="accordion-item border-0">
+                <h2 class="accordion-header" id="headingCategories">
+                    <button class="accordion-button fw-semibold py-3" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseCategories" aria-expanded="true" aria-controls="collapseCategories">
+                        <i class="fas fa-layer-group text-primary me-3"></i>
+                        <span>Kategoriler</span>
+                        <span class="badge bg-primary ms-auto me-2">12</span>
+                    </button>
+                </h2>
+                <div id="collapseCategories" class="accordion-collapse collapse show"
+                     aria-labelledby="headingCategories" data-bs-parent="#filterAccordion">
+                    <div class="accordion-body cat-acord">
+                        @await Component.InvokeAsync("CategoriesFilter")
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Latest Products Bölümü -->
-        <div class="accordion-item border-0">
-            <h2 class="accordion-header" id="headingLatest">
-                <button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLatest" aria-expanded="false" aria-controls="collapseLatest">
-                    <i class="fa fa-box text-primary me-2"></i> Son Eklenen Ürünler
-                </button>
-            </h2>
-            <div id="collapseLatest" class="accordion-collapse collapse" aria-labelledby="headingLatest" data-bs-parent="#filterAccordion">
-                <div class="accordion-body p-0">
-                    <div products="" number="3"></div>
+
+            <!-- Ürün Filtreleri Bölümü -->
+            <div class="accordion-item border-0">
+                <h2 class="accordion-header" id="headingProductFilters">
+                    <button class="accordion-button fw-semibold py-3" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseProductFilters" aria-expanded="true" aria-controls="collapseProductFilters">
+                        <i class="fas fa-sliders-h text-primary me-3"></i>
+                        <span>Ürün Filtreleri</span>
+                    </button>
+                </h2>
+                <div id="collapseProductFilters" class="accordion-collapse collapse show"
+                     aria-labelledby="headingProductFilters" data-bs-parent="#filterAccordion">
+                    <div class="accordion-body px-4 pb-4">
+                        <form id="filterForm">
+                            @if (!string.IsNullOrEmpty(Context.Request.Query["MainCategoryId"]))
+                            {
+                                <input type="hidden" name="MainCategoryId" id="mainCat" value="@Context.Request.Query["MainCategoryId"]" />
+                            }
+                            @if (!string.IsNullOrEmpty(Context.Request.Query["SubCategoryId"]))
+                            {
+                                <input type="hidden" name="SubCategoryId" id="subCat" value="@Context.Request.Query["SubCategoryId"]" />
+                            }
+
+                            <!-- Ürün Ara -->
+                            <div class="filter-section mb-4">
+                                <label for="searchTerm" class="form-label fw-semibold text-dark mb-3">
+                                    <i class="fas fa-search text-primary me-2"></i>Ürün Ara
+                                </label>
+                                <div class="search-container position-relative">
+                                    <input type="text" class="form-control form-control-lg border-2 pe-5 filter-input"
+                                           id="searchTerm" name="SearchTerm"
+                                           placeholder="Ürün adı veya açıklama yazın..."
+                                           value="@Context.Request.Query["SearchTerm"]">
+                                    <button class="btn search-clear-btn position-absolute top-50 end-0 translate-middle-y me-2"
+                                            type="button" id="clearSearch" style="display: none;">
+                                        <i class="fas fa-times text-muted"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Fiyat Aralığı -->
+                            <div class="filter-section mb-4">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <label class="form-label fw-semibold text-dark mb-0">
+                                        <i class="fas fa-tag text-primary me-2"></i>Fiyat Aralığı
+                                    </label>
+                                    <div class="price-display bg-light rounded-pill px-3 py-1">
+                                        <span id="minPriceDisplay" class="fw-bold text-primary">0</span>
+                                        <span class="text-muted mx-1">-</span>
+                                        <span id="maxPriceDisplay" class="fw-bold text-primary">100000</span>
+                                    </div>
+                                </div>
+                                <div id="priceRange" class="mb-3"></div>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light border-end-0">₺</span>
+                                            <input type="number" class="form-control border-start-0 filter-input" id="minPrice" name="MinPrice"
+                                                   placeholder="Min" value="@Context.Request.Query["MinPrice"]" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light border-end-0">₺</span>
+                                            <input type="number" class="form-control border-start-0 filter-input" id="maxPrice" name="MaxPrice"
+                                                   placeholder="Max" value="@Context.Request.Query["MaxPrice"]" min="0">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Markalar -->
+                            <div class="filter-section mb-4">
+                                <label class="form-label fw-semibold text-dark mb-3">
+                                    <i class="fas fa-building text-primary me-2"></i>Markalar
+                                </label>
+                                <div class="brand-search mb-3">
+                                    <input type="text" class="form-control form-control-sm" id="brandSearch"
+                                           placeholder="Marka ara...">
+                                </div>
+                                <div class="brand-list custom-scrollbar" style="max-height: 200px; overflow-y: auto;">
+                                    <div class="form-check brand-item mb-3">
+                                        <input class="form-check-input filter-input" type="radio" name="Brand" id="brandAll" value=""
+                                               @(string.IsNullOrEmpty(Context.Request.Query["Brand"]) ? "checked" : "")>
+                                        <label class="form-check-label d-flex justify-content-between align-items-center w-100" for="brandAll">
+                                            <span class="fw-medium">Tüm Markalar</span>
+                                            <span class="badge bg-secondary rounded-pill">Tümü</span>
+                                        </label>
+                                    </div>
+                                    @{
+                                        var brands = new[] {
+                                                                        new { Name = "Apple", Count = 45 },
+                                                                        new { Name = "Samsung", Count = 38 },
+                                                                        new { Name = "Sony", Count = 29 },
+                                                                        new { Name = "Huawei", Count = 22 },
+                                                                        new { Name = "Lenovo", Count = 18 },
+                                                                        new { Name = "Sony", Count = 15 },
+                                                                        new { Name = "Dell", Count = 12 },
+                                                                        new { Name = "Vestel", Count = 10 }
+                                                                        };
+                                        foreach (var brand in brands)
+                                        {
+                                            <div class="form-check brand-item mb-3" data-brand="@brand.Name.ToLower()">
+                                                <input class="form-check-input filter-input" type="radio" name="Brand" id="brand@(brand.Name)" value="@brand.Name"
+                                                       @(Context.Request.Query["Brand"] == brand.Name ? "checked" : "")>
+                                                <label class="form-check-label d-flex justify-content-between align-items-center w-100" for="brand@(brand.Name)">
+                                                    <span>@brand.Name</span>
+                                                    <span class="badge bg-light text-dark rounded-pill">@brand.Count</span>
+                                                </label>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Özel Filtreler -->
+                            <div class="filter-section mb-4">
+                                <label class="form-label fw-semibold text-dark mb-3">
+                                    <i class="fas fa-star text-primary me-2"></i>Özel Filtreler
+                                </label>
+                                <div class="special-filters">
+                                    <div class="form-check form-switch mb-3 p-0">
+                                        <div class="custom-switch-card d-flex align-items-center justify-content-between p-3 rounded-3 border">
+                                            <div class="d-flex align-items-center">
+                                                <i class="fas fa-fire text-danger me-3"></i>
+                                                <div>
+                                                    <div class="fw-medium">En Çok Satanlar</div>
+                                                    <small class="text-muted">Popüler ürünler</small>
+                                                </div>
+                                            </div>
+                                            <input class="form-check-input ms-0 filter-input" type="checkbox" id="bestSellers" name="IsShowCase" value="true"
+                                                   @(Context.Request.Query["IsShowCase"] == "true" ? "checked" : "")>
+                                        </div>
+                                    </div>
+                                    <div class="form-check form-switch mb-3 p-0">
+                                        <div class="custom-switch-card d-flex align-items-center justify-content-between p-3 rounded-3 border">
+                                            <div class="d-flex align-items-center">
+                                                <i class="fas fa-percentage text-success me-3"></i>
+                                                <div>
+                                                    <div class="fw-medium">İndirimli Ürünler</div>
+                                                    <small class="text-muted">Özel fiyatlar</small>
+                                                </div>
+                                            </div>
+                                            <input class="form-check-input ms-0 filter-input" type="checkbox" id="discountedItems" name="IsDiscount" value="true"
+                                                   @(Context.Request.Query["IsDiscount"] == "true" ? "checked" : "")>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="PageNumber" value="1" id="pageNumber">
+                            <input type="hidden" name="PageSize" value="6" id="pageSize">
+
+                            <div class="d-grid gap-2 mt-4">
+                                <button type="button" class="btn btn-primary btn-lg fw-semibold py-3 filter-apply-btn" id="applyFilters">
+                                    <i class="fas fa-search me-2"></i>Filtreleri Uygula
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary" id="resetAllFilters">
+                                    <i class="fas fa-undo me-2"></i>Tüm Filtreleri Temizle
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
+
+            <!-- Son Eklenen Ürünler 
+            <div class="accordion-item border-0">
+                <h2 class="accordion-header" id="headingLatest">
+                    <button class="accordion-button collapsed fw-semibold py-3" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseLatest" aria-expanded="false" aria-controls="collapseLatest">
+                        <i class="fas fa-clock text-primary me-3"></i>
+                        <span>Son Eklenen Ürünler</span>
+                    </button>
+                </h2>
+                <div id="collapseLatest" class="accordion-collapse collapse"
+                     aria-labelledby="headingLatest" data-bs-parent="#filterAccordion">
+                    <div class="accordion-body px-4 pb-4">
+                        <div products="" number="3"></div>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+    </div>
+</div> 
+
+<div id="loadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 9999;">
+    <div class="d-flex justify-content-center align-items-center h-100">
+        <div class="bg-white rounded p-4 text-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Yükleniyor...</span>
+            </div>
+            <div class="mt-2">Filtreler uygulanıyor...</div>
         </div>
     </div>
 </div>
 
+<script>
+    $(document).ready(function() {
+        let priceSlider = null;
+        let isInitialized = false;
+        let debounceTimer = null;
 
-@section Scripts {
-    <script>
-        $(document).ready(function() {
-            // Fiyat aralık çubuğunu ayarla
-            const minPrice = parseInt('@(string.IsNullOrEmpty(Context.Request.Query["MinPrice"]) ? "0" : Context.Request.Query["MinPrice"])');
-            const maxPrice = parseInt('@(string.IsNullOrEmpty(Context.Request.Query["MaxPrice"]) ? "5000" : Context.Request.Query["MaxPrice"])');
+        let currentFilters = {
+            searchTerm: '',
+            minPrice: 0,
+            maxPrice: 100000,
+            brand: '',
+            isShowCase: false,
+            isDiscount: false
+        };
 
-            // NoUiSlider gibi bir kütüphane kullanılabilir, burada örnek kod:
-            if (typeof noUiSlider !== 'undefined') {
-                const priceRangeSlider = document.getElementById('priceRange');
+        function initializeFiltersFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
 
-                noUiSlider.create(priceRangeSlider, {
-                    start: [minPrice, maxPrice],
+            currentFilters.searchTerm = urlParams.get('SearchTerm') || '';
+            currentFilters.minPrice = parseInt(urlParams.get('MinPrice')) || 0;
+            currentFilters.maxPrice = parseInt(urlParams.get('MaxPrice')) || 100000;
+            currentFilters.brand = urlParams.get('Brand') || '';
+            currentFilters.isShowCase = urlParams.get('IsShowCase') === 'true';
+            currentFilters.isDiscount = urlParams.get('IsDiscount') === 'true';
+
+            $('#searchTerm').val(currentFilters.searchTerm);
+            $('#minPrice').val(currentFilters.minPrice === 0 ? '' : currentFilters.minPrice);
+            $('#maxPrice').val(currentFilters.maxPrice === 100000 ? '' : currentFilters.maxPrice);
+
+            if (currentFilters.brand) {
+                $(`input[name="Brand"][value="${currentFilters.brand}"]`).prop('checked', true);
+            } else {
+                $('#brandAll').prop('checked', true);
+            }
+
+            $('#bestSellers').prop('checked', currentFilters.isShowCase);
+            $('#discountedItems').prop('checked', currentFilters.isDiscount);
+        }
+
+        function initializePriceSlider() {
+            const priceRangeElement = document.getElementById('priceRange');
+
+            if (priceRangeElement && typeof noUiSlider !== 'undefined') {
+                if (priceSlider) {
+                    priceSlider.destroy();
+                }
+
+                priceSlider = noUiSlider.create(priceRangeElement, {
+                    start: [currentFilters.minPrice, currentFilters.maxPrice],
                     connect: true,
                     step: 50,
                     range: {
                         'min': 0,
-                        'max': 10000
+                        'max': 100000
                     },
                     format: {
                         to: function (value) {
@@ -194,108 +284,186 @@
                         from: function (value) {
                             return Number(value);
                         }
+                    },
+                    behaviour: 'tap-drag',
+                });
+
+                priceSlider.on('update', function (values, handle) {
+                    const minVal = Math.round(values[0]);
+                    const maxVal = Math.round(values[1]);
+
+                    $('#minPriceDisplay').text(minVal);
+                    $('#maxPriceDisplay').text(maxVal);
+
+                    if (isInitialized) {
+                        $('#minPrice').val(minVal === 0 ? '' : minVal);
+                        $('#maxPrice').val(maxVal === 100000 ? '' : maxVal);
                     }
+
                 });
 
-                priceRangeSlider.noUiSlider.on('update', function (values, handle) {
-                    document.getElementById('minPriceDisplay').innerHTML = values[0];
-                    document.getElementById('maxPriceDisplay').innerHTML = values[1];
-                    document.getElementById('minPrice').value = values[0];
-                    document.getElementById('maxPrice').value = values[1];
+                priceSlider.on('change', function (values, handle) {
+                    debouncedApplyFilters();
                 });
             }
 
-            // Arama kutusunu temizleme butonu
-            $('#clearSearch').click(function() {
-                $('#searchTerm').val('');
-            });
+            $('#minPriceDisplay').text(currentFilters.minPrice);
+            $('#maxPriceDisplay').text(currentFilters.maxPrice);
+        }
 
-            // Fiyat input alanları değiştiğinde
-            $('#minPrice, #maxPrice').on('change', function() {
-                updatePriceDisplay();
-            });
+        function debouncedApplyFilters() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(function() {
+                applyFiltersAjax();
+            }, 500);
+        }
 
-            function updatePriceDisplay() {
-                const min = $('#minPrice').val() || 0;
-                const max = $('#maxPrice').val() || 5000;
-                $('#minPriceDisplay').text(min);
-                $('#maxPriceDisplay').text(max);
+        function applyFiltersAjax() {
+            $('#loadingOverlay').show();
 
-                // Eğer slider varsa, onu da güncelle
-                if (typeof noUiSlider !== 'undefined' && $('#priceRange')[0].noUiSlider) {
-                    $('#priceRange')[0].noUiSlider.set([min, max]);
+            const formData = new FormData($('#filterForm')[0]);
+            const params = new URLSearchParams();
+
+            // MainCategoryId ve SubCategoryId query string'de varsa, formData'da olmasa bile ekle
+            const urlParams = new URLSearchParams(window.location.search);
+            const mainCategoryId = urlParams.get('MainCategoryId');
+            const subCategoryId = urlParams.get('SubCategoryId');
+
+            if (mainCategoryId && !formData.has('MainCategoryId')) {
+                params.append('MainCategoryId', mainCategoryId);
+            }
+            if (subCategoryId && !formData.has('SubCategoryId')) {
+                params.append('SubCategoryId', subCategoryId);
+            }
+
+            for (let [key, value] of formData.entries()) {
+                if (value && value !== '' && value !== '0') {
+                    params.append(key, value);
                 }
             }
 
-            // Hover efektleri
-            $('.form-check-label').hover(
-                function() {
-                    $(this).addClass('text-primary');
+            const newURL = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+            window.history.pushState({}, '', newURL);
+
+            $.ajax({
+                url: '@Url.Action("Index")',
+                type: 'GET',
+                headers: {
+                    'X-Filter-Request': 'true'
                 },
-                function() {
-                    $(this).removeClass('text-primary');
+                data: params.toString(),
+                success: function(response) {
+                    if (response.success) {
+                        $('#productContainer').html(response.html);
+                    } else {
+                        console.error('Filter error:', response.message);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX error:', error);
+                    window.location.reload();
+                },
+                complete: function() {
+                    $('#loadingOverlay').hide();
+                    $('.filter-apply-btn').html('<i class="fas fa-search me-2"></i>Filtreleri Uygula');
                 }
-            );
+            });
+        }
+
+        $('#minPrice, #maxPrice').on('input', function() {
+            const minVal = parseInt($('#minPrice').val()) || 0;
+            const maxVal = parseInt($('#maxPrice').val()) || 100000;
+
+            if (minVal > maxVal && $(this).attr('id') === 'minPrice') {
+                $(this).val(maxVal);
+                return;
+            }
+            if (maxVal < minVal && $(this).attr('id') === 'maxPrice') {
+                $(this).val(minVal);
+                return;
+            }
+
+            isInitialized = true;
+            if (priceSlider) {
+                priceSlider.set([minVal, maxVal]);
+            }
+            isInitialized = false;
+
         });
-    </script>
 
-    <style>
-        .filter-section {
-            position: relative;
-            padding-bottom: 1rem;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+        $('#minPrice, #maxPrice').on('change', function() {
+            debouncedApplyFilters();
+        });
+
+        $('#searchTerm').on('input', function() {
+            toggleSearchClear();
+            debouncedApplyFilters();
+        });
+
+        function toggleSearchClear() {
+            const searchInput = $('#searchTerm');
+            const clearBtn = $('#clearSearch');
+
+            if (searchInput.val().length > 0) {
+                clearBtn.show();
+            } else {
+                clearBtn.hide();
+            }
         }
 
-            .filter-section:last-of-type {
-                border-bottom: none;
+        $('#clearSearch').click(function() {
+            $('#searchTerm').val('').trigger('input');
+        });
+
+        $('#brandSearch').on('input', function() {
+            const searchTerm = $(this).val().toLowerCase();
+            $('.brand-item').each(function() {
+                const brandText = $(this).find('label span').first().text().toLowerCase();
+                if (brandText.includes(searchTerm) || searchTerm === '') {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+
+        $('.filter-input').on('change', function() {
+            debouncedApplyFilters();
+        });
+
+        $('#applyFilters').click(function() {
+            $(this).html('<i class="fas fa-spinner fa-spin me-2"></i>Filtreleniyor...');
+            applyFiltersAjax();
+        });
+
+        $('#clearAllFilters, #resetAllFilters').click(function() {
+            $('#searchTerm').val('');
+            $('#minPrice, #maxPrice').val('');
+            $('#brandAll').prop('checked', true);
+            $('#bestSellers, #discountedItems').prop('checked', false);
+            $('#brandSearch').val('');
+
+            if (priceSlider) {
+                priceSlider.set([0, 100000]);
             }
 
-        .form-check-input:checked {
-            background-color: var(--bs-primary);
-            border-color: var(--bs-primary);
-        }
+            $('.brand-item').show();
+            toggleSearchClear();
+            applyFiltersAjax();
+        });
 
-        /* noUiSlider özelleştirmeleri - eğer kullanılırsa */
-        .noUi-connect {
-            background: var(--bs-primary);
-        }
-
-        .noUi-handle {
-            border-radius: 50%;
-            background: white;
-            box-shadow: 0 0 0 2px var(--bs-primary);
-            border: none;
-        }
-
-            .noUi-handle:before,
-            .noUi-handle:after {
-                display: none;
+        $('.custom-switch-card').hover(
+            function() {
+                $(this).addClass('shadow-sm border-primary');
+            },
+            function() {
+                $(this).removeClass('shadow-sm border-primary');
             }
+        );
 
-        /* Hover efektleri */
-        .form-check:hover {
-            cursor: pointer;
-        }
-
-            .form-check:hover .form-check-label {
-                color: var(--bs-primary);
-            }
-
-        /* Ek yuvarlak köşeler */
-        .input-group, .form-control, .btn {
-            border-radius: 0.5rem;
-        }
-
-            .input-group > .form-control {
-                border-top-right-radius: 0;
-                border-bottom-right-radius: 0;
-            }
-
-            .input-group > .input-group-text,
-            .input-group > .btn {
-                border-top-left-radius: 0;
-                border-bottom-left-radius: 0;
-            }
-    </style>
-}
+        initializeFiltersFromURL();
+        initializePriceSlider();
+        toggleSearchClear();
+        isInitialized = true;
+    });
+</script>

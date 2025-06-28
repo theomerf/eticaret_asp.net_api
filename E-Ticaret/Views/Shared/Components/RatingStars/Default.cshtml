@@ -1,22 +1,31 @@
-﻿@model IEnumerable<int>
+﻿@model IEnumerable<UserReviewDto>
 
+@{
+	var ratings = Model?.ToList() ?? new List<UserReviewDto>();
+	var totalReviews = ratings.Count;
+	var averageRating = totalReviews > 0 ? ratings.Average(r => r.Rating) : 0.0;
 
-	@{
-		var totalReviews = Model.Count();
-		var averageRating = totalReviews > 0 ? Model.Average() : 0;
-		var ratingCounts = Enumerable.Range(1, 5)
-			.Select(star => new
-			{
-				Star = star,
-				Count = Model.Count(r => r == star),
-				Percentage = totalReviews > 0 ? (Model.Count(r => r == star) * 100.0 / totalReviews) : 0
-			})
-			.OrderByDescending(r => r.Star);
-	}
+	var ratingCounts = Enumerable.Range(1, 5)
+		.Select(star => new
+		{
+			Star = star,
+			Count = ratings.Count(r => r.Rating == star),
+			Percentage = totalReviews > 0 ? (ratings.Count(r => r.Rating == star) * 100.0 / totalReviews) : 0
+		})
+		.OrderByDescending(r => r.Star);
+}
 
+@if (totalReviews == 0)
+{
+	<div class="no-reviews-message">
+		<p>Bu ürüne henüz yorum yapılmamış. İlk değerlendirmeyi sen yap!</p>
+	</div>
+}
+else
+{
 	<div class="review-stats">
 		<div class="overall-rating">
-			<div class="rating-number">@averageRating.ToString()</div>
+			<div class="rating-number">@averageRating.ToString("0.0")</div>
 			<div class="rating-stars">
 				@for (int i = 1; i <= 5; i++)
 				{
@@ -34,7 +43,7 @@
 					}
 				}
 			</div>
-			<div class="rating-count">@totalReviews.ToString() Değerlendirme</div>
+			<div class="rating-count">@totalReviews Değerlendirme</div>
 		</div>
 
 		<div class="rating-bars">
@@ -42,11 +51,12 @@
 			{
 				<div class="rating-bar-item">
 					<div class="rating-label">@rating.Star Yıldız</div>
-					<div class="progress">
-						<div class="progress-bar" style="width: @rating.Percentage%"></div>
+					<div class="progress" style="width: 100%; background-color: #eee; height: 16px; border-radius: 4px; overflow: hidden;">
+						<div class="progress-bar" style="width: @(rating.Percentage.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture))%;"></div>
 					</div>
 					<div class="rating-percent">@rating.Percentage.ToString("0")%</div>
 				</div>
 			}
 		</div>
 	</div>
+}

@@ -21,17 +21,14 @@ namespace Repositories
         }
 
         public void DeleteOneProduct(Product product) => Remove(product);
-        public IQueryable<Product> GetAllProducts(bool trackChanges) => FindAll(trackChanges);
+        public async Task<IEnumerable<Product>> GetAllProductsAsync(bool trackChanges) => await FindAll(trackChanges).ToListAsync();
 
-        public int GetCount(bool trackChanges)
-        {
-            return Count(trackChanges);
-        }
+        public async Task<int> GetCountAsync(bool trackChanges) => await Count(trackChanges);
 
-        public IQueryable<ProductWithRatingDto> GetFavouriteProducts(ICollection<int> favouriteProductIds, bool trackChanges)
+        public async Task<IEnumerable<Product>> GetFavouriteProductsAsync(ICollection<int> favouriteProductIds, bool trackChanges)
         {
-            return FindAllByCondition(p => favouriteProductIds.Contains(p.ProductId), trackChanges)
-                .Select(p => new ProductWithRatingDto
+            return await FindAllByCondition(p => favouriteProductIds.Contains(p.ProductId), trackChanges)
+                .Select(p => new Product
                 {
                     ProductId = p.ProductId,
                     ProductName = p.ProductName,
@@ -42,61 +39,77 @@ namespace Repositories
                         .Where(r => r.ProductId == p.ProductId)
                         .Average(r => (double?)r.Rating) ?? 0
                 })
-                .OrderBy(p => p.ProductId);
-        }
-
-        public IQueryable<Product> GetAllProductsWithDetailsAdmin(ProductRequestParameters p)
-        {
-            return _context
-                .Products
                 .OrderBy(p => p.ProductId)
-                .FilteredByCategoryId(p.CategoryId)
-                .FilteredBySearchTerm(p.SearchTerm)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetAllProductsWithDetailsAdminAsync(ProductRequestParameters p)
+        {
+            return await FindAll(false).
+                OrderBy(p => p.ProductId)
+                .ToListAsync();
+        }
+
+        public async Task<int> GetAllProductsCountWithDetailsAsync(ProductRequestParameters p)
+        {
+            var totalCount = await FindAll(false)
+                .FilteredByCategoryId(p.MainCategoryId, p.SubCategoryId)
+                .FilteredBySearchTerm(p.SearchTerm ?? "")
                 .FilteredByPrice(p.MinPrice, p.MaxPrice, p.IsValidPrice)
-                .ToPaginate(p.PageNumber, p.PageSize);
+                .FilteredByShowcase(p.IsShowCase)
+                .FilteredByDiscount(p.IsDiscount)
+                .CountAsync();
+
+            return totalCount;
         }
 
-        public IQueryable<ProductWithRatingDto> GetAllProductsWithDetails(ProductRequestParameters p)
+        public async Task<IEnumerable<Product>> GetAllProductsWithDetailsAsync(ProductRequestParameters p)
         {
-            var filteredProducts = FindAllByCondition(prd =>
-                (string.IsNullOrEmpty(p.SearchTerm) || prd.ProductName.ToLower().Contains(p.SearchTerm.ToLower())) &&
-                (!p.CategoryId.HasValue || prd.MainCategoryId == p.CategoryId || prd.SubCategoryId == p.CategoryId) &&
-                (!p.IsValidPrice || (prd.DiscountPrice >= p.MinPrice && prd.DiscountPrice <= p.MaxPrice))
-            , trackChanges: false)
-            .OrderBy(prd => prd.ProductId)
-            .Skip((p.PageNumber - 1) * p.PageSize)
-            .Take(p.PageSize);
+            var filteredProducts = await FindAll(false)
+                .FilteredByCategoryId(p.MainCategoryId, p.SubCategoryId)
+                .FilteredBySearchTerm(p.SearchTerm ?? "")
+                .FilteredByPrice(p.MinPrice, p.MaxPrice, p.IsValidPrice)
+                .FilteredByShowcase(p.IsShowCase)
+                .FilteredByDiscount(p.IsDiscount)
+                .Include(p => p.UserReviews)
+                .Select(p => new Product
+                {
+                    ProductId = p.ProductId,
+                    ProductName = p.ProductName,
+                    ImageUrl = p.ImageUrl,
+                    ActualPrice = p.ActualPrice,
+                    DiscountPrice = p.DiscountPrice,
+                    ShowCase = p.ShowCase,
+                    AverageRating = _context.UserReviews
+                        .Where(r => r.ProductId == p.ProductId)
+                        .Average(r => (double?)r.Rating) ?? 0,
+                    UserReviews = p.UserReviews.Select(r => new UserReview
+                    {
+                       Rating = r.Rating
+                    }).ToList()
+                })
+                .OrderBy(prd => prd.ProductId)
+                .ToPaginate(p.PageNumber, p.PageSize)
+                .ToListAsync();
 
-            return filteredProducts.Select(p => new ProductWithRatingDto
-            {
-                ProductId = p.ProductId,
-                ProductName = p.ProductName,
-                ImageUrl = p.ImageUrl,
-                ShowCase = p.ShowCase,
-                DiscountPrice = p.DiscountPrice,
-                ActualPrice = p.ActualPrice,
-                AverageRating = _context.UserReviews
-                    .Where(r => r.ProductId == p.ProductId)
-                    .Average(r => (double?)r.Rating) ?? 0
-            });
+            return filteredProducts;
         }
 
-        public Product? GetOneProduct(int id, bool trackChanges)
-        {
-            return FindByCondition(p => p.ProductId.Equals(id), trackChanges);
-        }
+        public async Task<Product?> GetOneProductAsync(int id, bool trackChanges) => await FindByCondition(p => p.ProductId.Equals(id), trackChanges).SingleOrDefaultAsync();
 
-        public IQueryable<Product> GetShowcaseProducts(bool trackChanges)
+        public async Task<IEnumerable<Product>> GetShowcaseProductsAsync(bool trackChanges)
         {
-            return FindAll(trackChanges)
+            return await FindAll(trackChanges)
                .Where(p => p.ShowCase.Equals(true))
-               .OrderBy(p => p.ProductId);
+               .OrderBy(p => p.ProductId)
+               .ToListAsync();
         }
 
-        public IQueryable<ProductWithRatingDto> GetShowcaseProductsWithRatings(bool trackChanges)
+        public async Task<IEnumerable<Product>> GetShowcaseProductsWithRatingsAsync(bool trackChanges)
         {
-            return FindAllByCondition(p => p.ShowCase == true, trackChanges)
-                .Select(p => new ProductWithRatingDto
+            return await FindAllByCondition(p => p.ShowCase == true, trackChanges)
+                .Include(p => p.UserReviews)
+                .Select(p => new Product
                 {
                     ProductId = p.ProductId,
                     ProductName = p.ProductName,
@@ -105,11 +118,24 @@ namespace Repositories
                     ActualPrice = p.ActualPrice,
                     AverageRating = _context.UserReviews
                         .Where(r => r.ProductId == p.ProductId)
-                        .Average(r => (double?)r.Rating) ?? 0
+                        .Average(r => (double?)r.Rating) ?? 0,
+                    UserReviews = p.UserReviews.Select(r => new UserReview
+                    {
+                        Rating = r.Rating
+                    }).ToList()
                 })
-                .OrderBy(p => p.ProductId);
+                .OrderBy(p => p.ProductId)
+                .ToListAsync();
         }
 
         public void UpdateOneProduct(Product entity) => Update(entity);
+
+        public async Task<IEnumerable<Product>> GetLastestProductsAsync(int n, bool trackChanges)
+        {
+            return await FindAll(trackChanges)
+                .OrderByDescending(prd => prd.ProductId)
+                .Take(n)
+                .ToListAsync();
+        }
     }
 }

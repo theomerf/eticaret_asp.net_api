@@ -7,18 +7,19 @@ namespace Services.Contracts
 {
     public interface IProductService
     {
-        IEnumerable<Product> GetAllProducts(bool trackChanges);
-        int GetCount(bool trackChanges);
-        IEnumerable<Product> GetLastestProducts(int n, bool trackChanges);
-        IEnumerable<ProductWithRatingDto> GetFavouriteProducts(ICollection<int> user, bool trackChanges);
-        IEnumerable<ProductWithRatingDto> GetAllProductsWithDetails(ProductRequestParameters p);
-        IEnumerable<Product> GetAllProductsWithDetailsAdmin(ProductRequestParameters p);
-        IEnumerable<Product> GetShowcaseProducts(bool trackChanges);
-        Product? GetOneProduct(int id, bool trackChanges);
-        void CreateProduct(ProductDtoForInsertion productDto);
-        void UpdateOneProduct(ProductDtoForUpdate productDto);
-        void DeleteOneProduct(int id);
-        ProductDtoForUpdate GetOneProductForUpdate(int id, bool trackChanges);
-        IEnumerable<ProductWithRatingDto> GetShowcaseProductsWithRatings(bool trackChanges);
+        Task<IEnumerable<ProductDto>> GetAllProductsAsync(bool trackChanges);
+        Task<int> GetCountAsync(bool trackChanges);
+        Task<IEnumerable<ProductDto>> GetLastestProductsAsync(int n, bool trackChanges);
+        Task<IEnumerable<ProductWithRatingDto>> GetFavouriteProductsAsync(UserDtoForFavourites favouritesDto, bool trackChanges);
+        Task<int> GetAllProductsCountWithDetailsAsync(ProductRequestParameters p);
+        Task<IEnumerable<ProductWithRatingDto>> GetAllProductsWithDetailsAsync(ProductRequestParameters p);
+        Task<IEnumerable<ProductDto>> GetAllProductsWithDetailsAdminAsync(ProductRequestParameters p);
+        Task<IEnumerable<ProductDto>> GetShowcaseProductsAsync(bool trackChanges);
+        Task<ProductDto> GetOneProductAsync(int id, bool trackChanges);
+        Task CreateProductAsync(ProductDtoForInsertion productDto);
+        Task UpdateOneProductAsync(ProductDtoForUpdate productDto);
+        Task DeleteOneProductAsync(int id);
+        Task<ProductDtoForUpdate> GetOneProductForUpdateAsync(int id, bool trackChanges);
+        Task<IEnumerable<ProductWithRatingDto>> GetShowcaseProductsWithRatingsAsync(bool trackChanges);
     }
 }

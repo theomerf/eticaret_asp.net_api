@@ -23,7 +23,7 @@ namespace ETicaret.Infrastructure.TagHelpers
         
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
-            var user = await _userManager.FindByNameAsync(UserName);
+            var user = await _userManager.FindByNameAsync(UserName ?? "");
             
             // Root container for roles
             TagBuilder container = new TagBuilder("div");
@@ -38,6 +38,10 @@ namespace ETicaret.Infrastructure.TagHelpers
             
             foreach (var role in roles)
             {
+                if (user == null || role == null)
+                {
+                 continue;
+                }
                 var result = await _userManager.IsInRoleAsync(user, role);
                 
                 TagBuilder roleItem = new TagBuilder("div");

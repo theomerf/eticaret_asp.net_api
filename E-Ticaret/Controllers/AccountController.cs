@@ -43,10 +43,10 @@ namespace ETicaret.Controllers
         {
             // AJAX isteği olup olmadığını kontrol eden yardımcı metot
             bool isAjaxRequest = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && model?.Login?.Name != null)
             {
                 var user = await _userManager.FindByNameAsync(model.Login.Name);
-                if (user != null)
+                if (user != null && user.UserName != null && model.Login.Password != null)
                 {
                     await _signInManager.SignOutAsync();
                     var result = await _signInManager.PasswordSignInAsync(
@@ -159,10 +159,10 @@ namespace ETicaret.Controllers
                 if (isAjaxRequest)
                 {
                     var errors = ModelState
-                        .Where(x => x.Value.Errors.Count > 0)
+                        .Where(x => x.Value?.Errors.Count > 0)
                         .Select(x => new {
                             Key = x.Key,
-                            Errors = x.Value.Errors.Select(e => e.ErrorMessage).ToList()
+                            Errors = x.Value?.Errors.Select(e => e.ErrorMessage).ToList()
                         })
                         .ToList();
 
@@ -176,7 +176,11 @@ namespace ETicaret.Controllers
             }
 
             // AJAX isteği değilse ve başarısızsa - normal akışa devam et
-            model.Login.ReturnUrl = model.Login.ReturnUrl ?? "/";
+            // Null kontrolü eklenerek warning giderildi
+            if (model?.Login != null)
+            {
+                model.Login.ReturnUrl = model.Login.ReturnUrl ?? "/";
+            }
             return View(model);
         }
 
@@ -207,16 +211,33 @@ namespace ETicaret.Controllers
         public async Task<IActionResult> Register([FromForm] UserModel model)
         {
             bool isAjaxRequest = Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+            var birthDate = model.Register?.BirthDate ?? DateTime.Now;
 
             var user = new Account
             {
-                UserName = model.Register.UserName,
-                FirstName = model.Register.FirstName,
-                LastName = model.Register.LastName,
-                PhoneNumber = model.Register.PhoneNumber,
-                BirthDate = DateTime.SpecifyKind(model.Register.BirthDate, DateTimeKind.Utc),
-                Email = model.Register.Email
+                UserName = model.Register?.UserName,
+                FirstName = model.Register?.FirstName,
+                LastName = model.Register?.LastName,
+                PhoneNumber = model.Register?.PhoneNumber,
+                BirthDate = DateTime.SpecifyKind(birthDate, DateTimeKind.Utc),
+                Email = model.Register?.Email
             };
+
+            if(model.Register?.Password == null)
+            {
+                if (isAjaxRequest)
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Şifre alanı boş bırakılamaz.",
+                        errors = new List<object> { new { Key = "Register.Password", Errors = new List<string> { "Şifre alanı boş bırakılamaz." } } }
+                    });
+                }
+                ModelState.AddModelError("Register.Password", "Şifre alanı boş bırakılamaz.");
+                model.IsRegister = true;
+                return View("Login", model);
+            }
 
             var result = await _userManager.CreateAsync(user, model.Register.Password);
             if (result.Succeeded)
@@ -266,10 +287,10 @@ namespace ETicaret.Controllers
             if (isAjaxRequest)
             {
                 var modelErrors = ModelState
-                    .Where(x => x.Value.Errors.Count > 0)
+                    .Where(x => x.Value?.Errors.Count > 0)
                     .Select(x => new {
                         Key = x.Key,
-                        Errors = x.Value.Errors.Select(e => e.ErrorMessage).ToList()
+                        Errors = x.Value?.Errors.Select(e => e.ErrorMessage).ToList()
                     })
                     .ToList();
 
@@ -281,7 +302,7 @@ namespace ETicaret.Controllers
                 });
             }
 
-            model.isRegister = true;
+            model.IsRegister = true;
             return View("Login", model);
         }
 
@@ -292,16 +313,17 @@ namespace ETicaret.Controllers
         }
 
         [Authorize]
-        public IActionResult Profile()
+        public async Task<IActionResult> Profile()
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = _manager.AuthService.GetOneUserForUpdate(User.Identity.Name).Result;
-            var orders = _manager.OrderService.GetUserOrders(User.Identity.Name).ToList();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userName = User.FindFirstValue(ClaimTypes.Name);
+            var user = await _manager.AuthService.GetOneUserForUpdateAsync(userName);
+            var orders = await _manager.OrderService.GetUserOrdersAsync(userName);
             foreach (var order in orders)
             {
                 foreach (var line in order.Lines)
                 {
-                    var product = _manager.ProductService.GetOneProduct(line.ProductId, false);
+                    var product = await _manager.ProductService.GetOneProductAsync(line.ProductId, false);
                     if (product != null)
                     {
                         line.ProductName = product.ProductName;
@@ -317,23 +339,23 @@ namespace ETicaret.Controllers
 
             return View(new ProfileModel()
             {
-                User = _userManager.FindByNameAsync(User.Identity.Name).Result,
+                User = await _manager.AuthService.GetOneUserAsync(userName),
                 Orders = orders,
-                UserReviews = _manager.UserReviewService.GetAllUserReviewsOfOneUser(userId, false),
+                UserReviews = await _manager.UserReviewService.GetAllUserReviewsOfOneUserAsync(userId, false),
                 UserDtoForUpdate = user
             });
         }
-        public IActionResult DeleteComment([FromRoute(Name = "id")] int id)
+        public async Task<IActionResult> DeleteComment([FromRoute(Name = "id")] int id)
         {
-            string userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            var userReviews = _manager.UserReviewService.GetAllUserReviews(false);
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userReviews = await _manager.UserReviewService.GetAllUserReviewsAsync(false);
 
             if (userReviews.Where(x => x.UserId == userId && x.UserReviewId == id).Any())
             {
-                var userReview = _manager.UserReviewService.GetOneUserReview(id, false);
+                var userReview = await _manager.UserReviewService.GetOneUserReviewAsync(id, false);
                 if (userReview != null)
                 {
-                    _manager.UserReviewService.DeleteOneUserReview(id);
+                    await _manager.UserReviewService.DeleteOneUserReviewAsync(id);
                     return RedirectToAction("Profile");
                 }
             }
@@ -343,9 +365,10 @@ namespace ETicaret.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateComment([FromForm] UserReviewDtoForUpdate userReviewDto, IFormFile? file = null)
         {
-            string userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            var review = _manager.UserReviewService.GetAllUserReviews(false)
-                .FirstOrDefault(x => x.UserId == userId && x.UserReviewId == userReviewDto.UserReviewId);
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var reviews = await _manager.UserReviewService.GetAllUserReviewsAsync(false);
+            var review = reviews.FirstOrDefault(x => x.UserId == userId && x.UserReviewId == userReviewDto.UserReviewId);
+
             if (review == null)
             {
                 return RedirectToAction("Profile");
@@ -366,7 +389,7 @@ namespace ETicaret.Controllers
                 userReviewDto.ReviewPictureUrl = review.ReviewPictureUrl;
             }
 
-            _manager.UserReviewService.UpdateOneUserReview(userReviewDto);
+            await _manager.UserReviewService.UpdateOneUserReviewAsync(userReviewDto);
             TempData["success"] = "Yorumunuz başarıyla güncellendi.";
             return RedirectToAction("Profile");
         }
@@ -374,26 +397,19 @@ namespace ETicaret.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateAvatar(IFormFile? file = null)
         {
-            string userName = User.Identity.Name;
-            Account user = await _manager.AuthService.GetOneUser(userName);
-            user.AvatarUrl = $"avatars/{User.Identity.Name}.png";
-            UserDtoForUpdate userDto = new UserDtoForUpdate()
-            {
-                UserName = user.UserName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                AvatarUrl = user.AvatarUrl,
-            };
-
+            string? userName = User.FindFirstValue(ClaimTypes.Name);
+            var userDto = await _manager.AuthService.GetOneUserForUpdateAsync(userName);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            userDto.AvatarUrl = $"avatars/{userId}.png";
 
             if (file != null)
             {
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/avatars", $"{User.Identity.Name}.png");
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/avatars", $"{userId}.png");
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
                     await file.CopyToAsync(stream);
                 }
-                await _manager.AuthService.UpdateAvatar(userDto);
+                await _manager.AuthService.UpdateAvatarAsync(userDto);
                 TempData["success"] = "Avatarınız başarıyla güncellendi.";
 
             }
@@ -410,7 +426,7 @@ namespace ETicaret.Controllers
                 return RedirectToAction("Profile");
             }
 
-            var result = await _manager.AuthService.Update(userDto);
+            var result = await _manager.AuthService.UpdateAsync(userDto);
             if (!result.Succeeded)
             {
 
@@ -430,8 +446,9 @@ namespace ETicaret.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordDto model)
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = _manager.AuthService.GetOneUserForUpdate(User.Identity.Name).Result;
+            string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string? userName = User.FindFirstValue(ClaimTypes.Name);
+            var user = await _manager.AuthService.GetOneUserForUpdateAsync(userName);
 
             if (!ModelState.IsValid)
             {
@@ -439,9 +456,9 @@ namespace ETicaret.Controllers
                 TempData["OpenModal"] = "editPasswordModal"; // modal tekrar açılsın
                 return View("Profile", new ProfileModel()
                 {
-                    User = _userManager.FindByNameAsync(User.Identity.Name).Result,
-                    Orders = _manager.OrderService.GetUserOrders(User.Identity.Name).ToList(),
-                    UserReviews = _manager.UserReviewService.GetAllUserReviewsOfOneUser(userId, false),
+                    User = await _manager.AuthService.GetOneUserAsync(userName),
+                    Orders = await _manager.OrderService.GetUserOrdersAsync(userName),
+                    UserReviews = await _manager.UserReviewService.GetAllUserReviewsOfOneUserAsync(userId, false),
                     UserDtoForUpdate = user,
                     ChangePasswordDto = model
                 });
@@ -449,7 +466,7 @@ namespace ETicaret.Controllers
 
             try
             {
-                var result = await _manager.AuthService.ChangePassword(model);
+                var result = await _manager.AuthService.ChangePasswordAsync(model);
 
                 if (result.Succeeded)
                 {
@@ -466,9 +483,9 @@ namespace ETicaret.Controllers
                 TempData["OpenModal"] = "editPasswordModal";
                 return View("Profile", new ProfileModel()
                 {
-                    User = _userManager.FindByNameAsync(User.Identity.Name).Result,
-                    Orders = _manager.OrderService.GetUserOrders(User.Identity.Name).ToList(),
-                    UserReviews = _manager.UserReviewService.GetAllUserReviewsOfOneUser(userId, false),
+                    User = await _manager.AuthService.GetOneUserAsync(userName),
+                    Orders = await _manager.OrderService.GetUserOrdersAsync(userName),
+                    UserReviews = await _manager.UserReviewService.GetAllUserReviewsOfOneUserAsync(userId, false),
                     UserDtoForUpdate = user,
                     ChangePasswordDto = model
                 });
@@ -484,6 +501,7 @@ namespace ETicaret.Controllers
         {
             // Kullanıcı giriş yapmış mı kontrol et
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string? userName = User.FindFirstValue(ClaimTypes.Name);
             if (userId == null)
             {
                 TempData["error"] = "Kullanıcı oturumu bulunamadı.";
@@ -491,7 +509,7 @@ namespace ETicaret.Controllers
             }
 
             // Kullanıcı bilgilerini veritabanından al
-            var user = await _manager.AuthService.GetOneUsersFavourites(User.Identity?.Name ?? string.Empty);
+            var user = await _manager.AuthService.GetOneUsersFavouritesAsync(userName);
             if (user == null)
             {
                 TempData["error"] = "Kullanıcı bilgileri alınamadı.";
@@ -532,20 +550,24 @@ namespace ETicaret.Controllers
             if (favouriteProductIds.Any())
             {
                 // Kullanıcının veritabanındaki favori ürünlerini al
-                var dbFavorites = user.ToList() ?? new List<int>();
+                var dbFavorites = user.FavouriteProductsId ?? new List<int>();
 
                 // Cookie'deki verilerle veritabanındakiler aynı değilse güncelle
                 if (!favouriteProductIds.OrderBy(id => id).SequenceEqual(dbFavorites.OrderBy(id => id)))
                 {
-                    await _manager.AuthService.UpdateUserFavourites(favouriteProductIds, User.Identity.Name);
+                    var favouriteProductsDto = new UserDtoForFavourites
+                    {
+                        FavouriteProductsId = favouriteProductIds
+                    };
+                    await _manager.AuthService.UpdateUserFavouritesAsync(favouriteProductsDto, userName);
 
                     // Güncellenmiş kullanıcı bilgilerini tekrar al
-                    user = await _manager.AuthService.GetOneUsersFavourites(User.Identity?.Name ?? string.Empty);
+                    user = await _manager.AuthService.GetOneUsersFavouritesAsync(userName);
                 }
             }
 
             // Kullanıcının favori ürünlerini göster
-            var favouriteProducts = _manager.ProductService.GetFavouriteProducts(user, false);
+            var favouriteProducts = await _manager.ProductService.GetFavouriteProductsAsync(user, false);
             return View(favouriteProducts);
         }
 
@@ -554,12 +576,13 @@ namespace ETicaret.Controllers
         public async Task<IActionResult> AddToFavourites(int id)
         {
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string? userName = User.FindFirstValue(ClaimTypes.Name);
             if (userId == null)
             {
                 return Json(new { success = false, message = "Kullanıcı oturumu bulunamadı.", type = "warning" });
             }
 
-            var user = await _manager.AuthService.GetOneUserForUpdate(User.Identity?.Name ?? string.Empty);
+            var user = await _manager.AuthService.GetOneUserForUpdateAsync(userName);
             if (user == null)
             {
                 return Json(new { success = false, message = "Kullanıcı bilgileri alınamadı.", type = "danger" });
@@ -568,7 +591,7 @@ namespace ETicaret.Controllers
             if (!user.FavouriteProductsId.Contains(id))
             {
                 user.FavouriteProductsId.Add(id);
-                await _manager.AuthService.Update(user);
+                await _manager.AuthService.UpdateAsync(user);
                 return Json(new { success = true, message = "Ürün favorilere eklendi.", type = "success" });
             }
             else
@@ -581,12 +604,13 @@ namespace ETicaret.Controllers
         public async Task<IActionResult> RemoveFromFavourites(int id)
         {
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string? userName = User.FindFirstValue(ClaimTypes.Name);
             if (userId == null)
             {
                 return Json(new { success = false, message = "Kullanıcı oturumu bulunamadı.", type = "warning" });
             }
 
-            var user = await _manager.AuthService.GetOneUserForUpdate(User.Identity?.Name ?? string.Empty);
+            var user = await _manager.AuthService.GetOneUserForUpdateAsync(userName);
             if (user == null)
             {
                 return Json(new { success = false, message = "Kullanıcı bilgileri alınamadı.", type = "danger" });
@@ -595,7 +619,7 @@ namespace ETicaret.Controllers
             if (user.FavouriteProductsId.Contains(id))
             {
                 user.FavouriteProductsId.Remove(id);
-                await _manager.AuthService.Update(user);
+                await _manager.AuthService.UpdateAsync(user);
                 return Json(new { success = true, message = "Ürün favorilerden kaldırıldı.", type = "success" });
             }
             else
@@ -603,7 +627,7 @@ namespace ETicaret.Controllers
                 return Json(new { success = false, message = "Ürün favorilerde yok.", type = "info" });
             }
         }
-        public IActionResult Summary()
+        public async Task<IActionResult> Summary()
         {
             // Eğer AJAX isteği değilse 404 döndür
             if (!Request.Headers["X-Requested-With"].Equals("XMLHttpRequest"))
@@ -612,21 +636,22 @@ namespace ETicaret.Controllers
             }
 
             string? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string? userName = User.FindFirstValue(ClaimTypes.Name);
             int favouritesCount = 0;
 
             if (userId != null)
             {
-                var user = _manager.AuthService.GetOneUsersFavourites(User.Identity?.Name ?? string.Empty).Result;
-                favouritesCount = user?.Count() ?? 0;
+                var user = await _manager.AuthService.GetOneUsersFavouritesAsync(userName);
+                favouritesCount = user.FavouriteProductsId.Count();
             }
 
             return Json(favouritesCount);
         }
 
-
-
-
-
+        public IActionResult Notifications()
+        {
+            return View();
+        }
 
     }
 }

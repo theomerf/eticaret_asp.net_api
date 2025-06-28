@@ -4,7 +4,7 @@ using Repositories.Contracts;
 
 namespace Repositories
 {
-    public class SubCategoryRepository
+    public sealed class SubCategoryRepository
     : RepositoryBase<SubCategory>, ISubCategoryRepository
     {
         public SubCategoryRepository(RepositoryContext context) : base(context)
@@ -22,19 +22,19 @@ namespace Repositories
             Remove(subCategory);
         }
 
-        public IQueryable<SubCategory> GetAllCategories(bool trackChanges)
-        {
-            return FindAll(trackChanges);
-        }
-
-        public SubCategory? GetOneCategory(int id, bool trackChanges)
-        {
-            return FindByCondition(p => p.SubCategoryId.Equals(id), trackChanges);
-        }
-
         public void UpdateOneCategory(SubCategory subCategory)
         {
             Update(subCategory);
+        }
+
+        public async Task<IEnumerable<SubCategory>> GetAllCategoriesAsync(bool trackChanges)
+        {
+            return await FindAll(trackChanges).ToListAsync();
+        }
+
+        public async Task<SubCategory?> GetOneCategoryAsync(int id, bool trackChanges)
+        {
+            return await FindByCondition(p => p.SubCategoryId.Equals(id), trackChanges).SingleOrDefaultAsync();
         }
 
     }

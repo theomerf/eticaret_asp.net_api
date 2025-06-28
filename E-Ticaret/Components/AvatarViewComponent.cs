@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Entities.Dtos;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Services.Contracts;
 
 namespace ETicaret.Components
@@ -6,16 +8,31 @@ namespace ETicaret.Components
     public class AvatarViewComponent : ViewComponent
     {
         private readonly IServiceManager _manager;
+        private readonly IMemoryCache _cache;
 
-        public AvatarViewComponent(IServiceManager manager)
+        public AvatarViewComponent(IServiceManager manager, IMemoryCache cache)
         {
             _manager = manager;
+            _cache = cache;
         }
 
         public async Task<string> InvokeAsync()
         {
-            var user = await _manager.AuthService.GetOneUser(User.Identity.Name);
-            if (user != null)
+            string cacheKey = "user";
+
+            if (_cache.TryGetValue(cacheKey, out UserDto? cachedUser))
+            {
+                return cachedUser?.AvatarUrl!;
+            }
+
+            var user = await _manager.AuthService.GetOneUserAsync(User.Identity?.Name);
+
+            var cacheOptions = new MemoryCacheEntryOptions()
+                 .SetSlidingExpiration(TimeSpan.FromMinutes(30));
+
+            _cache.Set(cacheKey, user, cacheOptions);
+
+            if (user != null && user.AvatarUrl != null)
             {
                 return user.AvatarUrl;
             }

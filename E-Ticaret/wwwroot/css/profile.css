@@ -1,6 +1,6 @@
 ﻿:root {
-    --primary-color: #6a11cb;
-    --secondary-color: #2575fc;
+    --primary-color: #0ea5e9;
+    --secondary-color: #2563eb;
     --light-bg: #f8faff;
     --card-border-radius: 20px;
     --box-shadow: 0 8px 20px rgba(106, 17, 203, 0.08);
@@ -8,45 +8,17 @@
     --text-light: #777;
 }
 
-body {
-    background-color: var(--light-bg);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #444;
+.modal {
+    z-index: 1060 !important;
+}
+
+.modal-backdrop {
+    z-index: 1050 !important;
 }
 
 .profile-gradient-bg {
     background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
 }
-
-.profile-page-header {
-    background: radial-gradient(circle at top right, rgba(37, 117, 252, 0.1), rgba(106, 17, 203, 0.05));
-    padding: 30px 0 40px;
-    border-radius: 0 0 40px 40px;
-    margin-bottom: -20px;
-    position: relative;
-    overflow: hidden;
-}
-
-    .profile-page-header::before {
-        content: "";
-        position: absolute;
-        right: -50px;
-        top: -50px;
-        width: 200px;
-        height: 200px;
-        background: radial-gradient(circle, rgba(37, 117, 252, 0.1), rgba(37, 117, 252, 0));
-        border-radius: 50%;
-        z-index: 0;
-    }
-
-    .profile-page-header h1 {
-        position: relative;
-        z-index: 1;
-        font-weight: 800;
-        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
 
 .scroll-box {
     max-height: 500px;
@@ -92,7 +64,7 @@ body {
     }
 
 .profile-card-header {
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(135deg, #0ea5e9, #2563eb);
     color: white;
     font-weight: 600;
     padding: 18px 25px;
@@ -142,7 +114,7 @@ body {
     position: absolute;
     bottom: 30px;
     right: 30px;
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(135deg, #06b6d4, #3b82f6);
     width: 45px;
     height: 45px;
     border-radius: 50%;
@@ -161,7 +133,7 @@ body {
     }
 
 .profile-btn {
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(135deg, #06b6d4, #3b82f6);
     color: white;
     border: none;
     padding: 10px 20px;

@@ -22,7 +22,7 @@ namespace Entities.Dtos
                 Lines.Add(new CartLineDto
                 {
                     ProductId = product.ProductId,
-                    ProductName = product.ProductName,
+                    ProductName = product.ProductName ?? "",
                     ImageUrl = product.ImageUrl,
                     ActualPrice = product.ActualPrice,
                     DiscountPrice = product.DiscountPrice ?? 0,
@@ -66,7 +66,7 @@ namespace Entities.Dtos
             Lines.Sum((Func<CartLineDto, decimal>)(e => (decimal)(e.ActualPrice * e.Quantity)));
 
         public decimal ComputeTotalDiscountValue() =>
-            Lines.Sum((Func<CartLineDto, decimal>)(e => (decimal)(e.DiscountPrice * e.Quantity)));
+            Lines.Sum((Func<CartLineDto, decimal>)(e => (decimal)(e.DiscountPrice  ?? 0 * e.Quantity)));
 
         public virtual void Clear() => Lines.Clear();
     }

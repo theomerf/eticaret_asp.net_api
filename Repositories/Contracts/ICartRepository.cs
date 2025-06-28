@@ -12,6 +12,6 @@ namespace Repositories.Contracts
     {
         void CreateCart(Cart cart);
         void UpdateCart(Cart cart);
-        Cart GetCartByUserId(string userId);
+        Task<Cart?> GetCartByUserIdAsync(string? userId);
     }
 }

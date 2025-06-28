@@ -21,15 +21,15 @@ namespace ETicaret.Areas.Admin.Controllers
             _manager = manager;
         }
 
-        public IActionResult Index([FromQuery] ProductRequestParameters p)
+        public async Task<IActionResult> Index([FromQuery] ProductRequestParameters p)
         {
             ViewData["Title"] = "Products";
-            var products = _manager.ProductService.GetAllProductsWithDetailsAdmin(p);
+            var products =  await _manager.ProductService.GetAllProductsWithDetailsAdminAsync(p);
             var paginaton = new Pagination()
             {
                 CurrentPage = p.PageNumber,
                 ItemsPerPage = p.PageSize,
-                TotalItems = _manager.ProductService.GetAllProducts(false).Count()
+                TotalItems = products.Count()
             };
             var productlist = new ProductListViewModelAdmin()
             {
@@ -48,8 +48,8 @@ namespace ETicaret.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _manager.ProductService.UpdateOneProduct(productDto);
-                if (productDto.Showcase) 
+                await _manager.ProductService.UpdateOneProductAsync(productDto);
+                if (productDto.ShowCase) 
                 {
                     TempData["success"] = $"{productDto.ProductName} adlı ürün başarıyla vitrine eklendi.";
                 }
@@ -67,21 +67,23 @@ namespace ETicaret.Areas.Admin.Controllers
             }
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewBag.MainCategories = GetMainCategoriesSelectList();
-            ViewBag.SubCategories = GetSubCategoriesSelectList();
+            ViewBag.MainCategories = await GetMainCategoriesSelectList();
+            ViewBag.SubCategories = await GetSubCategoriesSelectList();
             return View();
         }
 
-        public SelectList GetMainCategoriesSelectList()
+        public async Task<SelectList> GetMainCategoriesSelectList()
         {
-            return new SelectList(_manager.MainCategoryService.GetAllCategories(false).ToList(), "MainCategoryId", "CategoryName", "1");
+            var categories = await _manager.MainCategoryService.GetAllCategoriesAsync(false);
+            return new SelectList(categories, "MainCategoryId", "CategoryName", "1");
 
         }
-        public SelectList GetSubCategoriesSelectList()
+        public async Task<SelectList> GetSubCategoriesSelectList()
         {
-            return new SelectList(_manager.SubCategoryService.GetAllCategories(false).ToList(), "SubCategoryId", "CategoryName", "1");
+            var categories = await _manager.SubCategoryService.GetAllCategoriesAsync(false);
+            return new SelectList(categories, "SubCategoryId", "CategoryName", "1");
 
         }
 
@@ -91,15 +93,18 @@ namespace ETicaret.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images",$"{(_manager.ProductService.GetAllProducts(false).Count()+1).ToString()}.png");
+                var products = await _manager.ProductService.GetAllProductsAsync(false);
+
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images",$"{(products.Count()+1).ToString()}.png");
 
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
                     await file.CopyToAsync(stream);
                 }
 
-                productDto.ImageUrl = (_manager.ProductService.GetAllProducts(false).Count() + 1).ToString() + ".png";
-                _manager.ProductService.CreateProduct(productDto);
+
+                productDto.ImageUrl = (products.Count() + 1).ToString() + ".png";
+                await _manager.ProductService.CreateProductAsync(productDto);
                 TempData["success"] = $"{productDto.ProductName} adlı ürün başarıyla oluşturuldu.";
                 return RedirectToAction("Index");
             }
@@ -112,11 +117,11 @@ namespace ETicaret.Areas.Admin.Controllers
 
         }
 
-        public IActionResult Update([FromRoute(Name = "id")] int id)
+        public async Task<IActionResult> Update([FromRoute(Name = "id")] int id)
         {
-            ViewBag.MainCategories = GetMainCategoriesSelectList();
-            ViewBag.SubCategories = GetSubCategoriesSelectList();
-            var model = _manager.ProductService.GetOneProductForUpdate(id, false);
+            ViewBag.MainCategories = await GetMainCategoriesSelectList();
+            ViewBag.SubCategories = await GetSubCategoriesSelectList();
+            var model = await _manager.ProductService.GetOneProductForUpdateAsync(id, true);
             ViewData["Title"] = model?.ProductName;
             return View(model);
         }
@@ -138,7 +143,7 @@ namespace ETicaret.Areas.Admin.Controllers
                     productDto.ImageUrl = file.FileName;
                 }
 
-                _manager.ProductService.UpdateOneProduct(productDto);
+                await _manager.ProductService.UpdateOneProductAsync(productDto);
                 TempData["success"] = $"{productDto.ProductName} adlı ürün başarıyla güncellendi.";
                 return RedirectToAction("Index");
             }
@@ -149,9 +154,9 @@ namespace ETicaret.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete([FromRoute(Name ="id")] int id)
+        public async Task<IActionResult> Delete([FromRoute(Name ="id")] int id)
         {
-            _manager.ProductService.DeleteOneProduct(id);
+            await _manager.ProductService.DeleteOneProductAsync(id);
             TempData["success"] = "Ürün başarıyla silindi.";
             return RedirectToAction("Index");
         }

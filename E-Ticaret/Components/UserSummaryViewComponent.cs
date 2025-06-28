@@ -12,9 +12,10 @@ namespace ETicaret.Components
             _manager = manager;
         }
 
-        public string Invoke()
+        public async Task<string> InvokeAsync()
         {
-            return _manager.AuthService.GetAllUsers().Count().ToString();
+            var users = await _manager.AuthService.GetAllUsersAsync();
+            return users.Count().ToString();
         }
     }
 }

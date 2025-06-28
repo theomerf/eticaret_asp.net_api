@@ -22,7 +22,7 @@
 							<i class="fas fa-box"></i>
 						</div>
 						<div class="admin-stats-title">Toplam Ürün</div>
-						<div class="admin-stats-value">@Model.ProductList.Products.Count()</div>
+						<div class="admin-stats-value">@Model.ProductList?.Products?.Count()</div>
 						<div class="admin-stats-trend admin-stats-up">
 							<i class="fas fa-arrow-up me-1"></i> %8.2
 						</div>
@@ -34,7 +34,7 @@
 							<i class="fas fa-star"></i>
 						</div>
 						<div class="admin-stats-title">Vitrindeki Ürünler</div>
-						<div class="admin-stats-value">@Model.ProductList.Products.Count(p => p.ShowCase)</div>
+						<div class="admin-stats-value">@Model.ProductList?.Products?.Count(p => p.ShowCase)</div>
 						<div class="admin-stats-trend admin-stats-up">
 							<i class="fas fa-arrow-up me-1"></i> %12.5
 						</div>
@@ -121,54 +121,54 @@
 								</tr>
 							</thead>
 							<tbody>
-								@foreach (Product prd in Model.ProductList.Products)
+								@foreach (var prd in Model.ProductList?.Products ?? new List<ProductDto>())
 								{
 									<tr>
-										<td data-label="ID">@prd.ProductId</td>
+										<td data-label="ID">@prd?.ProductId</td>
 										<td data-label="Görsel">
 											<img class="admin-product-image" src="/images/@prd?.ImageUrl" alt="@prd?.ProductName" />
 										</td>
 										<td data-label="Ürün Adı">
-											<div class="fw-bold">@prd.ProductName</div>
+											<div class="fw-bold">@prd?.ProductName</div>
 											<small class="text-muted">Kategori: Elektronik</small>
 										</td>
 										<td data-label="Fiyat">
-											<span class="fw-bold">@prd.ActualPrice.ToString("c")</span>
-											@if (prd.DiscountPrice < prd.ActualPrice)
+											<span class="fw-bold">@prd?.ActualPrice.ToString("c")</span>
+											@if (prd?.DiscountPrice < prd?.ActualPrice)
 											{
 												<small class="text-muted text-decoration-line-through d-block">@prd.DiscountPrice?.ToString("c")</small>
 											}
 										</td>
 										<td data-label="Vitrin">
 											<form method="post" asp-action="Index">
-												<input type="hidden" asp-for="ProductName" value="@prd.ProductName" />
-												<input type="hidden" asp-for="ProductId" value="@prd.ProductId" />
-												<input type="hidden" asp-for="Summary" value="@prd.Summary" />
-												<input type="hidden" asp-for="ActualPrice" value="@prd.ActualPrice" />
-												<input type="hidden" asp-for="DiscountPrice" value="@prd.DiscountPrice" />
-												<input type="hidden" asp-for="ImageUrl" value="@prd.ImageUrl" />
-												<input type="hidden" asp-for="MainCategoryId" value="@prd.MainCategoryId" />
-												<input type="hidden" asp-for="SubCategoryId" value="@prd.SubCategoryId"/>
+												<input type="hidden" asp-for="ProductName" value="@prd?.ProductName" />
+												<input type="hidden" asp-for="ProductId" value="@prd?.ProductId" />
+												<input type="hidden" asp-for="Summary" value="@prd?.Summary" />
+												<input type="hidden" asp-for="ActualPrice" value="@prd?.ActualPrice" />
+												<input type="hidden" asp-for="DiscountPrice" value="@prd?.DiscountPrice" />
+												<input type="hidden" asp-for="ImageUrl" value="@prd?.ImageUrl" />
+												<input type="hidden" asp-for="MainCategoryId" value="@prd?.MainCategoryId" />
+												<input type="hidden" asp-for="SubCategoryId" value="@prd?.SubCategoryId" />
 												<label class="admin-switch">
-													<input type="checkbox" name="Showcase" value="true" @(prd.ShowCase ? "checked" : "") onchange="this.form.submit()">
+													<input type="checkbox" name="Showcase" value="true" @(prd != null && prd.ShowCase ? "checked" : "") onchange="this.form.submit()">
 													<span class="admin-switch-slider"></span>
 												</label>
 											</form>
 										</td>
 
 										<td data-label="Stok">
-											<span class="admin-badge @(prd.ProductId % 2 == 0 ? "admin-badge-success" : "admin-badge-warning")">
-												@(prd.ProductId % 2 == 0 ? "Stokta" : "Az")
+											<span class="admin-badge @(prd?.ProductId % 2 == 0 ? "admin-badge-success" : "admin-badge-warning")">
+												@(prd?.ProductId % 2 == 0 ? "Stokta" : "Az")
 											</span>
 										</td>
 										<td data-label="İşlemler">
-											<a class="admin-action-btn admin-btn-edit" data-bs-toggle="tooltip" title="Düzenle" asp-action="Update" asp-route-id="@prd.ProductId">
+											<a class="admin-action-btn admin-btn-edit" data-bs-toggle="tooltip" title="Düzenle" asp-action="Update" asp-route-id="@prd?.ProductId">
 												<i class="fas fa-edit"></i>
 											</a>
-											<a class="admin-action-btn admin-btn-delete" data-bs-toggle="tooltip" title="Sil" asp-action="Delete" asp-route-id="@prd.ProductId">
+											<a class="admin-action-btn admin-btn-delete" data-bs-toggle="tooltip" title="Sil" asp-action="Delete" asp-route-id="@prd?.ProductId">
 												<i class="fas fa-trash"></i>
 											</a>
-											<a class="admin-action-btn admin-btn-info" data-bs-toggle="tooltip" title="Görüntüle" target="_blank" asp-area="" asp-action="Get" asp-route-id="@prd.ProductId">
+											<a class="admin-action-btn admin-btn-info" data-bs-toggle="tooltip" title="Görüntüle" target="_blank" asp-area="" asp-action="Get" asp-route-id="@prd?.ProductId">
 												<i class="fas fa-eye"></i>
 											</a>
 										</td>
@@ -181,7 +181,7 @@
 					<!-- Sayfalama -->
 					<div class="text-center mt-4">
 						<div class="admin-pagination"
-							 page-model="@Model?.ProductList.Pagination"
+							 page-model="@Model.ProductList?.Pagination ?? new Pagination()"
 							 page-action="Index"
 							 page-classes-enabled="true"
 							 page-class="btn"

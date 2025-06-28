@@ -31,7 +31,6 @@ namespace E_Ticaret.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("AvatarUrl")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("BirthDate")
@@ -53,14 +52,12 @@ namespace E_Ticaret.Migrations
                         .HasColumnType("integer[]");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("LastLoginDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<bool>("LockoutEnabled")
@@ -145,14 +142,12 @@ namespace E_Ticaret.Migrations
                         .HasColumnType("numeric");
 
                     b.Property<string>("ImageUrl")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
                     b.Property<string>("ProductName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Quantity")
@@ -271,6 +266,9 @@ namespace E_Ticaret.Migrations
                     b.Property<decimal>("ActualPrice")
                         .HasColumnType("numeric");
 
+                    b.Property<double>("AverageRating")
+                        .HasColumnType("double precision");
+
                     b.Property<decimal?>("DiscountPrice")
                         .HasColumnType("numeric");
 
@@ -283,9 +281,6 @@ namespace E_Ticaret.Migrations
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("integer");
 
                     b.Property<bool>("ShowCase")
                         .HasColumnType("boolean");
@@ -357,7 +352,6 @@ namespace E_Ticaret.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("UserReviewId");
@@ -580,8 +574,7 @@ namespace E_Ticaret.Migrations
                     b.HasOne("Entities.Models.Account", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Product");
 

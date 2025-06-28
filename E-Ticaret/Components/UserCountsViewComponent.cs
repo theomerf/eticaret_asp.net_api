@@ -20,7 +20,7 @@ namespace ETicaret.Components
         {
             if (mode == "users")
             {
-                var users = _manager.AuthService.GetAllUsers();
+                var users = await _manager.AuthService.GetAllUsersAsync();
                 return Content(users.Count().ToString());
             }
             else if (mode == "admin")
@@ -30,13 +30,13 @@ namespace ETicaret.Components
             }
             else if (mode == "active")
             {
-                var users = _manager.AuthService.GetAllUsers();
+                var users = await _manager.AuthService.GetAllUsersAsync();
                 var activeCount = users.Count(u => u.EmailConfirmed);
                 return Content(activeCount.ToString());
             }
             else if (mode == "passive")
             {
-                var users = _manager.AuthService.GetAllUsers();
+                var users = await _manager.AuthService.GetAllUsersAsync();
                 var passiveCount = users.Count(u => !u.EmailConfirmed);
                 return Content(passiveCount.ToString());
             }

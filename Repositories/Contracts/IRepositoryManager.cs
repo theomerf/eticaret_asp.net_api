@@ -7,5 +7,6 @@ namespace Repositories.Contracts{
         IUserReviewRepository UserReview { get; }
         ICartRepository Cart { get; }
         void Save();
+        Task SaveAsync();
     }
 }

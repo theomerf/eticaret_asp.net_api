@@ -1,97 +1,432 @@
-﻿.favorites-container {
-    min-height: 400px;
+﻿@keyframes backgroundFloat {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33% { transform: translateY(-10px) rotate(1deg); }
+    66% { transform: translateY(5px) rotate(-1deg); }
+}
+
+.favorites-container .container {
+    position: relative;
+    z-index: 2;
+}
+
+.favorites-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+    animation: slideInDown 0.8s ease-out;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .favorites-title {
-    font-weight: 600;
-    color: #333;
+    font-weight: 700;
+    color: #ffffff;
     margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(45deg, #fff, #f0f0f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+}
+
+.favorites-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #28a745, #20c997);
+    border-radius: 2px;
+    animation: titleUnderline 1s ease-out 0.5s both;
+}
+
+@keyframes titleUnderline {
+    from {
+        width: 0;
+    }
+    to {
+        width: 60px;
+    }
 }
 
 .favorites-subtitle {
-    color: #666;
-    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
     margin-bottom: 1.5rem;
+    font-weight: 300;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    animation: fadeInUp 0.8s ease-out 0.3s both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .favorites-empty {
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    padding: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    animation: scaleIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
 }
 
-    .favorites-empty i {
-        color: #ccc;
-    }
+.favorites-empty::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: shimmer 2s infinite;
+}
 
-    .favorites-empty h4 {
-        color: #333;
-        margin-bottom: 0.5rem;
-    }
+@keyframes shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
 
-    .favorites-empty p {
-        color: #666;
-        margin-bottom: 1.5rem;
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
     }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.favorites-empty i {
+    color: #dc3545;
+    animation: heartBeat 2s ease-in-out infinite;
+    filter: drop-shadow(0 4px 8px rgba(220, 53, 69, 0.3));
+}
+
+@keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.favorites-empty h4 {
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.favorites-empty p {
+    color: #666;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
 
 .favorites-shop-btn {
-    background-color: #28a745;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
     color: white;
-    padding: 0.5rem 1.5rem;
-    border-radius: 4px;
-    transition: all 0.3s ease;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    border: none;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+    position: relative;
+    overflow: hidden;
 }
 
-    .favorites-shop-btn:hover {
-        background-color: #218838;
-        color: white;
-        transform: translateY(-2px);
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
+.favorites-shop-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.favorites-shop-btn:hover {
+    background: linear-gradient(135deg, #218838 0%, #1ea085 100%);
+    color: white;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 35px rgba(40, 167, 69, 0.4);
+    text-decoration: none;
+}
+
+.favorites-shop-btn:hover::before {
+    left: 100%;
+}
+
+.favorites-shop-btn i {
+    transition: transform 0.3s ease;
+}
+
+.favorites-shop-btn:hover i {
+    transform: scale(1.2);
+}
 
 .favorites-products-wrapper {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.05);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    animation: slideInUp 0.8s ease-out;
+    position: relative;
+    overflow: hidden;
 }
 
-/* Animasyon için ek stiller */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.favorites-products-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #28a745, #20c997, #17a2b8, #6f42c1);
+    background-size: 200% 100%;
+    animation: gradientMove 3s ease-in-out infinite;
+}
+
+@keyframes gradientMove {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Ürün kartları için animasyonlar */
 .product-wrapper {
-    transition: all 0.5s ease;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    animation: fadeInScale 0.6s ease-out both;
+}
+
+.product-wrapper:nth-child(odd) {
+    animation-delay: 0.1s;
+}
+
+.product-wrapper:nth-child(even) {
+    animation-delay: 0.2s;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
 .animate__fadeOut {
-    animation-duration: 0.5s !important;
+    animation: fadeOutScale 0.5s ease-in both !important;
 }
 
-/* Favori butonları için hover efekti */
+@keyframes fadeOutScale {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+/* Favori butonları için gelişmiş hover efekti */
 .favorite-btn {
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
 }
 
-    .favorite-btn:hover {
-        transform: scale(1.1);
-    }
+.favorite-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(220, 53, 69, 0.1);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s ease;
+}
 
-    .favorite-btn i.fas {
-        color: #dc3545; /* Kalp dolu olunca kırmızı olsun */
-    }
+.favorite-btn:hover {
+    transform: scale(1.15) rotate(5deg);
+}
 
-    .favorite-btn i.far:hover {
-        color: #dc3545; /* Kalp boş olunca hover'da kırmızı olsun */
-    }
+.favorite-btn:hover::before {
+    width: 40px;
+    height: 40px;
+}
 
-/* Responsive Adjustments */
+.favorite-btn i.fas {
+    color: #dc3545;
+    filter: drop-shadow(0 2px 4px rgba(220, 53, 69, 0.3));
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.favorite-btn i.far {
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.favorite-btn i.far:hover {
+    color: #dc3545;
+    transform: scale(1.1);
+}
+
+/* Yükleme animasyonu */
+@keyframes loading {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: loading 1s ease-in-out infinite;
+}
+
+@media (max-width: 1199.98px) {
+    .favorites-title {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .favorites-title {
+        font-size: 2rem;
+    }
+    
+    .favorites-subtitle {
+        font-size: 1rem;
+    }
+    
+    .favorites-header {
+        padding: 1.5rem 0;
+        margin-bottom: 2rem;
+    }
+}
+
 @media (max-width: 767.98px) {
     .favorites-title {
         font-size: 1.8rem;
     }
-
+    
     .favorites-subtitle {
         font-size: 0.9rem;
     }
-
+    
     .favorites-products-wrapper {
-        padding: 0.5rem;
+        padding: 1rem;
+        border-radius: 15px;
+    }
+    
+    .favorites-empty {
+        padding: 2rem 1.5rem;
+        border-radius: 15px;
+    }
+    
+    .favorites-shop-btn {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .favorites-container {
+        padding: 1rem 0;
+    }
+    
+    .favorites-header {
+        padding: 1rem 0;
+        margin-bottom: 1.5rem;
+    }
+    
+    .favorites-title {
+        font-size: 1.6rem;
+    }
+    
+    .favorites-empty {
+        padding: 1.5rem 1rem;
+    }
+    
+    .favorites-empty i {
+        font-size: 2rem !important;
+    }
+    
+    .favorites-empty h4 {
+        font-size: 1.2rem;
+    }
+}
+
+/* Scroll animasyonu */
+@media (prefers-reduced-motion: no-preference) {
+    .favorites-container {
+        animation: fadeIn 1s ease-out;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }

@@ -6,11 +6,10 @@ namespace ETicaret.Models
 {
     public class ProfileModel
     {
-        public Account User { get; set; }
-        public List<Order> Orders { get; set; } = new List<Order>();
-        public IEnumerable<UserReview> UserReviews { get; set; } = new List<UserReview>();
-        public UserReviewDtoForUpdate UserReviewDtoForUpdate { get; set; }
-        public UserDtoForUpdate UserDtoForUpdate { get; set;}
-        public ChangePasswordDto ChangePasswordDto { get; set; }
+        public required UserDto User { get; set; }
+        public IEnumerable<OrderDto> Orders { get; set; } = new List<OrderDto>();
+        public IEnumerable<UserReviewDto> UserReviews { get; set; } = new List<UserReviewDto>();
+        public required UserDtoForUpdate UserDtoForUpdate { get; set;}
+        public ChangePasswordDto? ChangePasswordDto { get; set; }
     }
 }

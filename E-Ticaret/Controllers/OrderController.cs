@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using Entities.Dtos;
+using Entities.Models;
 using ETicaret.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,16 +12,12 @@ namespace ETicaret.Controllers
     public class OrderController : Controller
     {
         private readonly IServiceManager _manager;
-
-        private readonly UserManager<Entities.Models.Account> _userManager;
-
         private readonly Cart _cart;
 
-        public OrderController(IServiceManager manager, Cart cart, UserManager<Entities.Models.Account> userManager)
+        public OrderController(IServiceManager manager, Cart cart)
         {
             _manager = manager;
             _cart = cart;
-            _userManager = userManager;
         }
 
         [Authorize]
@@ -31,11 +28,11 @@ namespace ETicaret.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Checkout([FromForm] Order order)
+        public async Task<IActionResult> Checkout([FromForm] OrderDto order)
         {
             if (_cart.Lines.Count() == 0)
             {
-                ModelState.AddModelError("", "Sorry, your cart is empty!");
+                ModelState.AddModelError("", "Üzgünüm, sepetiniz boş.");
             }
             if (ModelState.IsValid) 
             {
@@ -47,11 +44,11 @@ namespace ETicaret.Controllers
                         Quantity = line.Quantity
                     });
                 }
-                order.UserName = User.Identity.Name;
-                _manager.OrderService.SaveOrder(order);
+                order.UserName = User.FindFirstValue(ClaimTypes.Name);
+                await _manager.OrderService.SaveOrderAsync(order);
                 var cartDto = SessionCart.GetCartDto(HttpContext.RequestServices);
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                _manager.CartService.AddOrUpdateCart(cartDto, userId);
+                await _manager.CartService.AddOrUpdateCartAsync(cartDto, userId);
                 _cart.Clear();
                 return RedirectToAction("Complete", new { orderId = order.OrderId });
 

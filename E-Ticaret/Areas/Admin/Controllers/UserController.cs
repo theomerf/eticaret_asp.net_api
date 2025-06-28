@@ -16,9 +16,9 @@ namespace ETicaret.Areas.Admin.Controllers
             _manager = manager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var users = _manager.AuthService.GetAllUsers().ToList();
+            var users = await _manager.AuthService.GetAllUsersAsync();
             return View(users);
         }
 
@@ -26,7 +26,7 @@ namespace ETicaret.Areas.Admin.Controllers
         {
             return View(new UserDtoForCreation()
             {
-                Roles = new HashSet<string>(_manager
+                Roles = new HashSet<string?>(_manager
                 .AuthService
                 .Roles
                 .Select(r => r.Name)
@@ -38,7 +38,7 @@ namespace ETicaret.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([FromForm] UserDtoForCreation userDto)
         {
-            var result = await _manager.AuthService.CreateUser(userDto);
+            var result = await _manager.AuthService.CreateUserAsync(userDto);
             if (result.Succeeded)
             {
                 TempData["success"] = "Kullanıcı başarıyla oluşturuldu.";
@@ -53,7 +53,7 @@ namespace ETicaret.Areas.Admin.Controllers
 
         public async Task<IActionResult> Update([FromRoute(Name = "id")] string id)
         {
-            var user = await _manager.AuthService.GetOneUserForUpdate(id);
+            var user = await _manager.AuthService.GetOneUserForUpdateAsync(id);
             return View(user);
         }
 
@@ -67,7 +67,7 @@ namespace ETicaret.Areas.Admin.Controllers
                 return View(userDto);
             }
 
-            var result = await _manager.AuthService.Update(userDto);
+            var result = await _manager.AuthService.UpdateAsync(userDto);
             if (!result.Succeeded)
             {
                 foreach (var error in result.Errors)
@@ -82,7 +82,7 @@ namespace ETicaret.Areas.Admin.Controllers
         }
 
 
-        public async Task<IActionResult> ResetPassword([FromRoute(Name = "id")] string id)
+        public IActionResult ResetPassword([FromRoute(Name = "id")] string id)
         {
             return View(new ResetPasswordDto() { UserName = id });
         }
@@ -97,7 +97,7 @@ namespace ETicaret.Areas.Admin.Controllers
                 return View(model);
             }
 
-            var result = await _manager.AuthService.ResetPassword(model);
+            var result = await _manager.AuthService.ResetPasswordAsync(model);
             if (result.Succeeded)
             {
                 TempData["success"] = "Kullanıcı şifresi başarıyla değiştirildi.";
@@ -119,7 +119,7 @@ namespace ETicaret.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteOneUser([FromForm] UserDto userDto)
         {
-            var result = await _manager.AuthService.DeleteOneUser(userDto.UserName);
+            var result = await _manager.AuthService.DeleteOneUserAsync(userDto.UserName);
 
             if (result.Succeeded)
             {

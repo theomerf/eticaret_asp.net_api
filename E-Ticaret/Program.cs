@@ -12,7 +12,8 @@ builder.Services.ConfigureRepositoryRegistration();
 builder.Services.ConfigureServiceRegistration();
 builder.Services.ConfigureRouting();
 builder.Services.ConfigureApplicationCookie();
-builder.Services.ConfigureCsv(); 
+builder.Services.AddMemoryCache();
+builder.Services.ConfigureCsv();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
@@ -28,22 +29,34 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapAreaControllerRoute(
-        name: "Admin",
-        areaName: "Admin",
-        pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
-    endpoints.MapRazorPages();
-    endpoints.MapControllers();
-});
+// Eski kodu kaldýrýn:
+// app.UseEndpoints(endpoints =>
+// {
+//     endpoints.MapAreaControllerRoute(
+//         name: "Admin",
+//         areaName: "Admin",
+//         pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
+//     endpoints.MapControllerRoute(
+//         name: "default",
+//         pattern: "{controller=Home}/{action=Index}/{id?}");
+//     endpoints.MapRazorPages();
+//     endpoints.MapControllers();
+// });
+
+// Yeni top-level route registration kodunu ekleyin:
+app.MapAreaControllerRoute(
+    name: "Admin",
+    areaName: "Admin",
+    pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapRazorPages();
+app.MapControllers();
 
 app.ConfigureAndCheckMigration();
 app.ConfigureCsv();
 app.ConfigureLocalization();
-app.ConfigureDefaultAdminUser();
+await app.ConfigureDefaultAdminUser();
 
 app.Run();

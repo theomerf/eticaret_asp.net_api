@@ -6,8 +6,8 @@ namespace Entities.Models
     {
         public int CartLineId { get; set; }
         public int ProductId { get; set; }
-        public string ProductName { get; set; } = string.Empty;
-        public string ImageUrl { get; set; }
+        public string? ProductName { get; set; } = string.Empty;
+        public string? ImageUrl { get; set; }
         public decimal ActualPrice { get; set; }
         public decimal? DiscountPrice { get; set; }
         public int Quantity { get; set; }

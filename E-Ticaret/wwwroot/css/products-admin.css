@@ -12,11 +12,6 @@
     --transition: all 0.3s ease;
 }
 
-body {
-    background-color: #f5f7fb;
-    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-}
-
 .admin-header {
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;

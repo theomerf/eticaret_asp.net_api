@@ -4,12 +4,12 @@ namespace Repositories.Contracts
 {
     public interface IOrderRepository
     {
-        IQueryable<Order> Orders { get; }
-        Order? GetOneOrder(int id);
-        void Complete(int id);
-        void SaveOrder(Order order);
-        int NumberOfInProcess { get; }
-        IQueryable<Order> GetUserOrders(string userName);   
+        Task<IEnumerable<Order>> GetAllOrdersAsync();
+        Task<Order?> GetOneOrderAsync(int id);
+        Task CompleteAsync(int id);
+        Task SaveOrderAsync(Order order);
+        Task<int> GetNumberOfInProcessAsync();
+        Task<IEnumerable<Order>> GetUserOrdersAsync(string? userName);
     }
 
 }

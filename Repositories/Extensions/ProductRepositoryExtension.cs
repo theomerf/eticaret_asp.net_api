@@ -9,15 +9,23 @@ namespace Repositories.Extensions
 {
     public static class ProductRepositoryExtension
     {
-        public static IQueryable<Product> FilteredByCategoryId(this IQueryable<Product> products, int? categoryId)
+        public static IQueryable<Product> FilteredByCategoryId(this IQueryable<Product> products, int? mainCategoryId, int? subCategoryId)
         {
-            if (categoryId is null)
+            if (mainCategoryId is null && subCategoryId is null)
             {
                 return products;
             }
+            else if (subCategoryId is not null && mainCategoryId is null)
+            {
+                return products.Where(p => p.SubCategoryId == subCategoryId);
+            }
+            else if (mainCategoryId is not null && subCategoryId is not null)
+            {
+                return products.Where(p => p.MainCategoryId == mainCategoryId && p.SubCategoryId == subCategoryId);
+            }
             else
             {
-                return products.Where(p => p.MainCategoryId == categoryId);
+                return products.Where(p => p.MainCategoryId == mainCategoryId);
             }
         }
 
@@ -39,6 +47,30 @@ namespace Repositories.Extensions
             if (isValidPrice)
             {
                 return products.Where(prd => prd.ActualPrice >= minPrice && prd.ActualPrice <= maxPrice);
+            }
+            else
+            {
+                return products;
+            }
+        }
+
+        public static IQueryable<Product> FilteredByShowcase(this IQueryable<Product> products, bool? isShowCase)
+        {
+            if (isShowCase != null && isShowCase == true)
+            {
+                return products.Where(prd => prd.ShowCase == true);
+            }
+            else
+            {
+                return products;
+            }
+        }
+
+        public static IQueryable<Product> FilteredByDiscount(this IQueryable<Product> products, bool? isDiscount)
+        {
+            if (isDiscount != null && isDiscount == true) 
+            {
+                return products.Where(prd => prd.DiscountPrice != null);
             }
             else
             {

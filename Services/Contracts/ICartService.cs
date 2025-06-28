@@ -9,6 +9,6 @@ namespace Services.Contracts
 {
     public interface ICartService
     {
-        void AddOrUpdateCart(CartDto cartDto, string userId);
+        Task AddOrUpdateCartAsync(CartDto cartDto, string? userId);
     }
 }

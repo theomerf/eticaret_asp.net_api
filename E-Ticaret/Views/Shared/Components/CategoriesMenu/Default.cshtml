@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MainCategory>
+﻿@model IEnumerable<MainCategoryDto>
 
 <div class="categoriesmenu-container">
 	<div class="card filter-card border-0 mb-0">
@@ -14,7 +14,7 @@
 				{
 					<li class="list-group-item border-0 @(Context.Request.Query["categoryId"] == cat.MainCategoryId.ToString() ? "active" : "")"
 						data-category="@cat.MainCategoryId">
-						<a asp-action="Index" asp-route-categoryId="@cat.MainCategoryId"
+						<a asp-controller="Product" asp-action="Index" asp-route-MainCategoryId="@cat.MainCategoryId"
 						   class="category-link d-flex justify-content-between align-items-center">
 							<span>
 								@* Kategori simgeleri özelleştirilebilir *@
@@ -91,7 +91,7 @@
 					@foreach (var sub in cat.SubCategories)
 					{
 						<div class="categoriesmenu-subcategory-item">
-							<a asp-action="Index" asp-route-subCategoryId="@sub.SubCategoryId">
+							<a asp-controller="Product" asp-action="Index" asp-route-MainCategoryId="@cat.MainCategoryId" asp-route-SubCategoryId="@sub.SubCategoryId">
 								<div class="categoriesmenu-subcategory-icon">
 									<i class="fa-solid fa-box"></i>
 								</div>
